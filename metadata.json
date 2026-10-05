@@ -1,0 +1,6 @@
+{
+  "name": "Gusto - Sistema de Gestión de Recetas",
+  "description": "Plataforma integral de recetas culinarias, planificación de cocina, foros de debate, compras de ingredientes y herramientas avanzadas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
