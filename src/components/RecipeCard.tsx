@@ -1,25 +1,6 @@
 import React, { useState } from 'react';
 import { Recipe } from '../types';
 import { useApp } from '../context/AppContext';
-import {
-  Clock,
-  Users,
-  Flame,
-  ThumbsUp,
-  ThumbsDown,
-  Bookmark,
-  Scale,
-  ShoppingCart,
-  Pin,
-  Video,
-  MoreVertical,
-  Printer,
-  Download,
-  AlertCircle,
-  Eye,
-  Calendar,
-  Sparkles
-} from 'lucide-react';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -43,10 +24,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
     togglePinRecipe,
     setPrintableRecipe,
     exportRecipeText,
-    publishScheduledNow
+    publishScheduledNow,
   } = useApp();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartSuccess, setCartSuccess] = useState(false);
 
   const isLiked = recipe.likedUserIds.includes(currentUser.id);
   const isDisliked = recipe.dislikedUserIds.includes(currentUser.id);
@@ -57,299 +39,306 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
 
   const totalTime = recipe.prepTimeMin + recipe.cookTimeMin;
 
-  const getDifficultyColor = (diff: Recipe['difficulty']) => {
-    switch (diff) {
-      case 'facil': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'media': return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'dificil': return 'bg-rose-100 text-rose-800 border-rose-200';
-      default: return 'bg-stone-100 text-stone-700 border-stone-200';
-    }
-  };
-
-  const getTagBadge = (tag: string) => {
-    switch (tag) {
-      case 'celiaco': return { label: 'Sin TACC', color: 'bg-amber-100 text-amber-900 border-amber-300' };
-      case 'vegano': return { label: 'Vegano', color: 'bg-emerald-100 text-emerald-900 border-emerald-300' };
-      case 'vegetariano': return { label: 'Vegetariano', color: 'bg-green-100 text-green-900 border-green-300' };
-      case 'diabetico': return { label: 'Diabéticos', color: 'bg-blue-100 text-blue-900 border-blue-300' };
-      case 'keto': return { label: 'Keto Low-Carb', color: 'bg-purple-100 text-purple-900 border-purple-300' };
-      case 'sin_lactosa': return { label: 'Sin Lactosa', color: 'bg-sky-100 text-sky-900 border-sky-300' };
-      case 'bajo_sodio': return { label: 'Bajo Sodio', color: 'bg-teal-100 text-teal-900 border-teal-300' };
-      default: return { label: tag, color: 'bg-stone-100 text-stone-800 border-stone-300' };
-    }
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addRecipeIngredientsToCart(recipe);
+    setCartSuccess(true);
+    setTimeout(() => setCartSuccess(false), 1500);
   };
 
   return (
-    <div className="group relative bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden">
-      {/* Top Image Section */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
+    <article className="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+      {/* Top Image & Floating Badges */}
+      <div className="relative w-full h-52 overflow-hidden bg-stone-100 cursor-pointer" onClick={() => onOpenDetail(recipe)}>
         <img
           src={recipe.coverImage}
           alt={recipe.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
-          onClick={() => onOpenDetail(recipe)}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+        
+        {/* Floating Time Badge */}
+        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+          <span className="material-symbols-outlined text-[14px] text-[#835500]">timer</span>
+          {totalTime} min
+        </span>
 
-        {/* Top badges */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-auto">
-          <div className="flex flex-wrap gap-1.5 items-center">
-            {recipe.isPinned && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-stone-900 shadow-md">
-                <Pin className="w-3 h-3 fill-stone-900" />
-                Fijada
-              </span>
-            )}
-            {recipe.status === 'scheduled' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-600 text-white shadow-md">
-                <Calendar className="w-3 h-3" />
-                Programada
-              </span>
-            )}
-            {recipe.status === 'draft' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-stone-700 text-white shadow-md">
-                Borrador
-              </span>
-            )}
-            {recipe.isFeaturedDay && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-400 text-stone-950 shadow-md">
-                <Sparkles className="w-3 h-3" />
-                Top Día
-              </span>
-            )}
-            {recipe.videoUrl && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-600/95 text-white shadow-xs">
-                <Video className="w-3 h-3" />
-                Con Video
-              </span>
-            )}
-          </div>
+        {/* Floating Difficulty Badge */}
+        <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs text-[#835500] font-bold shadow-sm capitalize">
+          {recipe.difficulty === 'facil' ? 'Fácil' : recipe.difficulty === 'media' ? 'Intermedia' : 'Maestro'}
+        </span>
 
-          <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1 rounded-full">
-            <button
-              onClick={() => toggleWishlist(recipe.id)}
-              title={isInWishlist ? 'Quitar de lista de deseos' : 'Guardar en lista de deseos (RF-24)'}
-              className={`p-1.5 rounded-full transition-colors ${
-                isInWishlist ? 'bg-amber-500 text-white' : 'text-white/90 hover:text-white hover:bg-white/20'
-              }`}
-            >
-              <Bookmark className={`w-4 h-4 ${isInWishlist ? 'fill-current' : ''}`} />
-            </button>
-
-            <button
-              onClick={() => toggleCompareRecipe(recipe.id)}
-              title={isComparing ? 'Remover del comparador' : 'Comparar con otras recetas (RF-18)'}
-              className={`p-1.5 rounded-full transition-colors ${
-                isComparing ? 'bg-sky-500 text-white' : 'text-white/90 hover:text-white hover:bg-white/20'
-              }`}
-            >
-              <Scale className="w-4 h-4" />
-            </button>
-          </div>
+        {/* Pinned / Status Badges on image if applicable */}
+        <div className="absolute bottom-3 left-3 flex flex-wrap gap-1">
+          {recipe.isPinned && (
+            <span className="bg-[#E09F3E] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+              <span className="material-symbols-outlined text-[12px]">push_pin</span>
+              Fijada
+            </span>
+          )}
+          {recipe.status === 'draft' && (
+            <span className="bg-stone-800/90 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
+              Borrador
+            </span>
+          )}
+          {recipe.status === 'scheduled' && (
+            <span className="bg-[#835500] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
+              Programada
+            </span>
+          )}
         </div>
 
-        {/* Bottom meta over image */}
-        <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white text-xs">
-          <div className="flex items-center gap-2">
-            <img
-              src={recipe.authorAvatar}
-              alt={recipe.authorName}
-              className="w-6 h-6 rounded-full border border-white/60 object-cover"
-            />
-            <span className="font-medium drop-shadow-sm truncate max-w-[130px]">
-              {recipe.authorName}
-            </span>
-            {recipe.coAuthors.length > 0 && (
-              <span className="text-[10px] text-amber-200 bg-black/40 px-1.5 py-0.5 rounded-md drop-shadow-xs">
-                +{recipe.coAuthors.length} co-autor
-              </span>
-            )}
-          </div>
-
-          <div className="flex items-center gap-3 drop-shadow-sm font-medium">
-            <span className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-amber-300" />
-              {totalTime} min
-            </span>
-            <span className="flex items-center gap-1">
-              <Users className="w-3.5 h-3.5 text-amber-300" />
-              {recipe.servings} raciones
-            </span>
-          </div>
-        </div>
+        {/* Wishlist Bookmark Button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleWishlist(recipe.id);
+          }}
+          aria-label="Guardar en favoritos"
+          title="Guardar en lista de deseos"
+          className={`absolute bottom-3 right-3 w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center shadow-sm transition-all cursor-pointer ${
+            isInWishlist
+              ? 'bg-[#AB3333] text-white'
+              : 'bg-white/80 text-[#333333] hover:text-[#AB3333] hover:bg-white'
+          }`}
+        >
+          <span
+            className="material-symbols-outlined text-[18px]"
+            style={isInWishlist ? { fontVariationSettings: "'FILL' 1" } : {}}
+          >
+            bookmark
+          </span>
+        </button>
       </div>
 
-      {/* Card Body */}
-      <div className="p-4 flex-1 flex flex-col justify-between">
+      {/* Card Content */}
+      <div className="p-5 flex flex-col flex-1 justify-between">
         <div>
-          {/* Dietary tags */}
-          <div className="flex flex-wrap gap-1 mb-2">
-            {recipe.tags.slice(0, 3).map((tag) => {
-              const badge = getTagBadge(tag);
-              return (
-                <span
-                  key={tag}
-                  className={`text-[10px] font-semibold px-2 py-0.5 rounded-md border ${badge.color}`}
-                >
-                  {badge.label}
-                </span>
-              );
-            })}
-            <span
-              className={`text-[10px] font-semibold px-2 py-0.5 rounded-md border capitalize ${getDifficultyColor(
-                recipe.difficulty
-              )}`}
-            >
-              {recipe.difficulty}
-            </span>
+          {/* Author info & Dietary tags */}
+          <div className="flex items-center justify-between text-xs text-[#714500] mb-1.5 font-medium">
+            <span className="truncate">Por {recipe.authorName}</span>
+            <span className="text-[#837564] text-[11px]">{recipe.category.toUpperCase()}</span>
           </div>
 
-          {/* Title */}
-          <h3
+          <h2
             onClick={() => onOpenDetail(recipe)}
-            className="font-serif-display font-bold text-lg text-stone-900 group-hover:text-amber-800 transition-colors cursor-pointer line-clamp-2 leading-snug mb-1.5"
+            className="font-display text-lg sm:text-xl font-bold text-[#000000] tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight cursor-pointer line-clamp-1"
           >
             {recipe.title}
-          </h3>
+          </h2>
 
-          <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mb-3">
+          <p className="text-xs sm:text-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
             {recipe.description}
           </p>
+
+          {/* Dietary tags row */}
+          {recipe.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-3">
+              {recipe.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#FFDDB9] text-[#714500]"
+                >
+                  #{tag}
+                </span>
+              ))}
+              {recipe.tags.length > 3 && (
+                <span className="px-1.5 py-0.5 rounded-full text-[10px] text-stone-400">
+                  +{recipe.tags.length - 3}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Scheduled Info Alert */}
-        {recipe.status === 'scheduled' && (
-          <div className="mb-3 p-2 bg-sky-50 border border-sky-200 rounded-xl text-xs text-sky-800 flex items-center justify-between">
-            <span className="truncate">
-              Publicación programada: {new Date(recipe.scheduledPublishDate || '').toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
-            </span>
-            {(isAuthor || currentUser.role === 'admin' || currentUser.role === 'editor') && (
+        {/* Footer with Likes/Dislikes, Calories and Actions */}
+        <div className="pt-3 border-t border-stone-100 flex flex-col gap-3">
+          <div className="flex items-center justify-between text-[#333333]">
+            {/* Likes & Dislikes */}
+            <div className="flex items-center gap-3">
               <button
-                onClick={() => publishScheduledNow(recipe.id)}
-                className="shrink-0 ml-2 px-2 py-0.5 bg-sky-600 text-white font-medium rounded-lg hover:bg-sky-700 transition-colors"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleLikeRecipe(recipe.id);
+                }}
+                title="Me gusta"
+                className={`flex items-center gap-1 transition-colors cursor-pointer select-none ${
+                  isLiked ? 'text-[#835500] font-bold' : 'hover:text-[#835500]'
+                }`}
               >
-                Publicar ya
+                <span
+                  className="material-symbols-outlined text-[18px]"
+                  style={isLiked ? { fontVariationSettings: "'FILL' 1" } : {}}
+                >
+                  thumb_up
+                </span>
+                <span className="text-xs font-semibold">{recipe.likesCount}</span>
               </button>
-            )}
-          </div>
-        )}
 
-        {/* Card Footer: Likes, Dislikes, Cart, Menu */}
-        <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {/* Like */}
-            <button
-              onClick={() => toggleLikeRecipe(recipe.id)}
-              className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all ${
-                isLiked
-                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                  : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100'
-              }`}
-            >
-              <ThumbsUp className={`w-3.5 h-3.5 ${isLiked ? 'fill-current' : ''}`} />
-              <span>{recipe.likesCount}</span>
-            </button>
-
-            {/* Dislike */}
-            <button
-              onClick={() => toggleDislikeRecipe(recipe.id)}
-              className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all ${
-                isDisliked
-                  ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                  : 'text-stone-400 hover:text-stone-700 hover:bg-stone-100'
-              }`}
-            >
-              <ThumbsDown className={`w-3.5 h-3.5 ${isDisliked ? 'fill-current' : ''}`} />
-              <span>{recipe.dislikesCount}</span>
-            </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleDislikeRecipe(recipe.id);
+                }}
+                title="No me gusta"
+                className={`flex items-center gap-1 transition-colors cursor-pointer select-none ${
+                  isDisliked ? 'text-[#AB3333] font-bold' : 'hover:text-[#AB3333]'
+                }`}
+              >
+                <span
+                  className="material-symbols-outlined text-[18px]"
+                  style={isDisliked ? { fontVariationSettings: "'FILL' 1" } : {}}
+                >
+                  thumb_down
+                </span>
+                <span className="text-xs font-semibold">{recipe.dislikesCount}</span>
+              </button>
+            </div>
 
             {/* Calories badge */}
-            <span className="hidden sm:inline-flex items-center gap-0.5 text-[11px] font-medium text-stone-500 ml-1">
-              <Flame className="w-3 h-3 text-orange-500" />
+            <span className="inline-flex items-center gap-1 bg-[#F0EDED] px-2.5 py-0.5 rounded-full text-[#333333] text-xs font-medium">
+              <span className="material-symbols-outlined text-[14px] text-[#E09F3E]">
+                local_fire_department
+              </span>
               {recipe.nutrition.calories} kcal
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 relative">
-            {/* Add Ingredients to cart direct button */}
-            <button
-              onClick={() => addRecipeIngredientsToCart(recipe)}
-              title="Añadir ingredientes de esta receta al carrito (RF-22 / RF-23)"
-              className="p-1.5 rounded-xl bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200/80 transition-colors"
-            >
-              <ShoppingCart className="w-4 h-4" />
-            </button>
+          {/* Action Row */}
+          <div className="flex items-center justify-between gap-1.5 pt-1">
+            <div className="flex items-center gap-1.5">
+              {/* Add Ingredients to Cart */}
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                aria-label="Añadir ingredientes al carrito"
+                title="Añadir ingredientes al carrito"
+                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm cursor-pointer ${
+                  cartSuccess
+                    ? 'bg-[#E09F3E] text-white'
+                    : 'bg-[#FFDDB9] text-[#835500] hover:bg-[#E09F3E] hover:text-white'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[19px]">
+                  {cartSuccess ? 'check' : 'shopping_cart'}
+                </span>
+              </button>
 
-            <button
-              onClick={() => onOpenDetail(recipe)}
-              className="px-3 py-1.5 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 transition-colors flex items-center gap-1"
-            >
-              <Eye className="w-3.5 h-3.5" />
-              Ver
-            </button>
+              {/* Ver Receta Button */}
+              <button
+                type="button"
+                onClick={() => onOpenDetail(recipe)}
+                className="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[16px]">visibility</span>
+                <span>Ver receta</span>
+              </button>
 
-            {/* More menu button */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg hover:bg-stone-100"
-            >
-              <MoreVertical className="w-4 h-4" />
-            </button>
+              {/* Compare Button */}
+              <button
+                type="button"
+                onClick={() => toggleCompareRecipe(recipe.id)}
+                title="Comparar recetas lado a lado"
+                className={`px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer ${
+                  isComparing
+                    ? 'bg-[#E09F3E] text-white shadow-sm font-semibold'
+                    : 'bg-[#F0EDED] text-[#333333] hover:bg-[#FFDDB9]'
+                }`}
+              >
+                {isComparing ? '✓ Comparando' : 'Comparar'}
+              </button>
+            </div>
 
-            {menuOpen && (
-              <div className="absolute right-0 bottom-full mb-1 w-48 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-30 text-xs">
-                {canPin && (
+            {/* More Menu Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Más opciones"
+                title="Opciones adicionales"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[20px]">more_vert</span>
+              </button>
+
+              {menuOpen && (
+                <div
+                  className="absolute right-0 bottom-full mb-2 w-48 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-40 text-xs"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {canPin && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        togglePinRecipe(recipe.id);
+                        setMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left hover:bg-stone-50 flex items-center gap-2 text-stone-700"
+                    >
+                      <span className="material-symbols-outlined text-[16px] text-[#835500]">push_pin</span>
+                      <span>{recipe.isPinned ? 'Desfijar' : 'Fijar receta'}</span>
+                    </button>
+                  )}
+
                   <button
+                    type="button"
                     onClick={() => {
-                      togglePinRecipe(recipe.id);
+                      setPrintableRecipe(recipe);
                       setMenuOpen(false);
                     }}
                     className="w-full px-3 py-2 text-left hover:bg-stone-50 flex items-center gap-2 text-stone-700"
                   >
-                    <Pin className="w-3.5 h-3.5 text-amber-600" />
-                    {recipe.isPinned ? 'Desfijar de perfil' : 'Fijar en perfil (RF-17)'}
+                    <span className="material-symbols-outlined text-[16px] text-stone-600">print</span>
+                    <span>Imprimir receta</span>
                   </button>
-                )}
 
-                <button
-                  onClick={() => {
-                    setPrintableRecipe(recipe);
-                    setMenuOpen(false);
-                  }}
-                  className="w-full px-3 py-2 text-left hover:bg-stone-50 flex items-center gap-2 text-stone-700"
-                >
-                  <Printer className="w-3.5 h-3.5 text-stone-500" />
-                  Imprimir receta (RF-31)
-                </button>
-
-                <button
-                  onClick={() => {
-                    exportRecipeText(recipe);
-                    setMenuOpen(false);
-                  }}
-                  className="w-full px-3 py-2 text-left hover:bg-stone-50 flex items-center gap-2 text-stone-700"
-                >
-                  <Download className="w-3.5 h-3.5 text-stone-500" />
-                  Descarga rápida TXT (RF-29)
-                </button>
-
-                {onOpenReport && (
                   <button
+                    type="button"
                     onClick={() => {
-                      onOpenReport(recipe);
+                      exportRecipeText(recipe);
                       setMenuOpen(false);
                     }}
-                    className="w-full px-3 py-2 text-left hover:bg-red-50 flex items-center gap-2 text-red-600 border-t border-stone-100"
+                    className="w-full px-3 py-2 text-left hover:bg-stone-50 flex items-center gap-2 text-stone-700"
                   >
-                    <AlertCircle className="w-3.5 h-3.5" />
-                    Denunciar receta (RF-11)
+                    <span className="material-symbols-outlined text-[16px] text-stone-600">download</span>
+                    <span>Descargar texto</span>
                   </button>
-                )}
-              </div>
-            )}
+
+                  {recipe.status === 'scheduled' && isAuthor && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        publishScheduledNow(recipe.id);
+                        setMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left hover:bg-stone-50 flex items-center gap-2 text-[#835500] font-medium"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">schedule_send</span>
+                      <span>Publicar ahora</span>
+                    </button>
+                  )}
+
+                  {onOpenReport && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onOpenReport(recipe);
+                        setMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left hover:bg-red-50 flex items-center gap-2 text-[#AB3333] border-t border-stone-100"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">flag</span>
+                      <span>Denunciar</span>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
