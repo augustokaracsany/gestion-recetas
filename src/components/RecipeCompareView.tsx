@@ -36,18 +36,18 @@ export const RecipeCompareView: React.FC<RecipeCompareViewProps> = ({
   if (comparedRecipes.length === 0) {
     return (
       <div className="bg-white rounded-3xl p-12 text-center border border-stone-200/90 shadow-sm max-w-2xl mx-auto my-8">
-        <div className="w-16 h-16 bg-[#FFDDB9] text-[#835500] rounded-3xl flex items-center justify-center mx-auto mb-4">
-          <span className="material-symbols-outlined text-[32px]">balance</span>
+        <div className="w-16 h-16 bg-sky-50 text-sky-600 rounded-3xl flex items-center justify-center mx-auto mb-4">
+          <Scale className="w-8 h-8" />
         </div>
-        <h3 className="text-xl font-bold font-display text-stone-900 mb-2">
-          Comparador de Recetas Lado a Lado
+        <h3 className="text-xl font-bold font-serif-display text-stone-900 mb-2">
+          Comparador de Recetas Lado a Lado (RF-18)
         </h3>
         <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-6">
-          Selecciona dos o tres recetas haciendo clic en el botón "Comparar" en cualquier tarjeta del catálogo para contrastar sus ingredientes, macronutrientes, tiempos de cocción y costo estimado.
+          Selecciona dos o tres recetas haciendo clic en el icono de la balanza (<Scale className="w-3.5 h-3.5 inline text-sky-600" />) en cualquier tarjeta del catálogo para comparar sus ingredientes, macronutrientes, tiempos de cocción y costo estimado.
         </p>
         <button
           onClick={onExploreMore}
-          className="px-6 py-2.5 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-full text-xs sm:text-sm shadow-md transition-colors cursor-pointer"
+          className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-md transition-colors"
         >
           Explorar Catálogo de Recetas
         </button>
@@ -63,7 +63,7 @@ export const RecipeCompareView: React.FC<RecipeCompareViewProps> = ({
           <div className="flex items-center gap-2">
             <Scale className="w-6 h-6 text-sky-600" />
             <h2 className="text-xl sm:text-2xl font-bold font-serif-display text-stone-900">
-              Comparador Culinario
+              Comparador Culinario (RF-18)
             </h2>
           </div>
           <p className="text-xs text-stone-500 mt-1">

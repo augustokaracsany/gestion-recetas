@@ -28,7 +28,7 @@ export const PrintRecipeView: React.FC<PrintRecipeViewProps> = ({
         </button>
 
         <div className="text-xs text-stone-500 hidden sm:block">
-          Vista previa de impresión limpia optimizada
+          Vista previa de impresión limpia optimizada (RF-31)
         </div>
 
         <button

@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { UserRole } from '../types';
+import {
+  ChefHat,
+  Search,
+  Plus,
+  Scale,
+  ShoppingCart,
+  Bell,
+  User,
+  Shield,
+  MessageSquare,
+  Sparkles,
+  Trophy,
+  LogOut,
+  ChevronDown,
+  Check,
+  FolderHeart,
+  Crown,
+  ShieldAlert
+} from 'lucide-react';
 
 interface NavbarProps {
   activeView: string;
@@ -37,190 +56,172 @@ export const Navbar: React.FC<NavbarProps> = ({
   const getRoleBadge = (role: UserRole) => {
     switch (role) {
       case 'admin':
-        return { label: 'Admin', color: 'bg-red-100 text-red-800' };
+        return { label: 'Admin', color: 'bg-red-100 text-red-800 border-red-200' };
       case 'editor':
-        return { label: 'Editor', color: 'bg-purple-100 text-purple-800' };
+        return { label: 'Editor', color: 'bg-purple-100 text-purple-800 border-purple-200' };
       case 'premium':
-        return { label: 'Premium', color: 'bg-amber-100 text-amber-900' };
+        return { label: 'Premium', color: 'bg-amber-100 text-amber-800 border-amber-200' };
       default:
-        return { label: 'Usuario', color: 'bg-stone-100 text-stone-700' };
+        return { label: 'Usuario', color: 'bg-stone-100 text-stone-700 border-stone-200' };
     }
   };
 
   const roleBadge = getRoleBadge(currentUser.role);
 
   return (
-    <header className="sticky top-0 left-0 w-full z-50">
-      <nav className="bg-[#E09F3E] text-white shadow-[0_4px_20px_-2px_rgba(197,130,38,0.25)]">
-        <div className="h-16 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-4">
-          
-          {/* Brand Logo */}
-          <div className="flex items-center gap-6 lg:gap-8">
-            <button
-              onClick={() => setActiveView('explorar')}
-              className="flex items-center gap-2 cursor-pointer focus:outline-none"
-              type="button"
-            >
-              <span
-                className="material-symbols-outlined text-[28px] text-white"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                room_service
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/90 shadow-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
+          {/* Logo */}
+          <div
+            onClick={() => setActiveView('explorar')}
+            className="flex items-center gap-2.5 cursor-pointer shrink-0"
+          >
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-700 to-amber-500 flex items-center justify-center text-white shadow-md shadow-amber-600/20">
+              <ChefHat className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="font-serif-display font-extrabold text-2xl tracking-tight text-stone-900 block leading-none">
+                Gusto<span className="text-amber-600">.</span>
               </span>
-              <span className="font-display text-2xl font-bold tracking-tight text-white leading-none">
-                Gusto
+              <span className="text-[10px] font-semibold text-stone-400 tracking-wider uppercase">
+                Gestión de Recetas
               </span>
-            </button>
-
-            {/* Desktop Navigation Links (with geometric background shape indicating active section) */}
-            <div className="hidden lg:flex items-center gap-1.5">
-              <button
-                onClick={() => setActiveView('explorar')}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
-                  activeView === 'explorar'
-                    ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                    : 'text-white hover:bg-white/20'
-                }`}
-                type="button"
-              >
-                Explorar
-              </button>
-
-              <button
-                onClick={() => setActiveView('destacadas')}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
-                  activeView === 'destacadas'
-                    ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                    : 'text-white hover:bg-white/20'
-                }`}
-                type="button"
-              >
-                Destacadas
-              </button>
-
-              <button
-                onClick={() => setActiveView('foro')}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
-                  activeView === 'foro'
-                    ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                    : 'text-white hover:bg-white/20'
-                }`}
-                type="button"
-              >
-                Foro y comunidad
-              </button>
-
-              <button
-                onClick={() => setActiveView('comparar')}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                  activeView === 'comparar'
-                    ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                    : 'text-white hover:bg-white/20'
-                }`}
-                type="button"
-              >
-                <span>Comparar</span>
-                {comparingRecipeIds.length > 0 && (
-                  <span
-                    className={`min-w-[18px] h-[18px] px-1 rounded-full text-[11px] font-bold flex items-center justify-center ${
-                      activeView === 'comparar'
-                        ? 'bg-[#E09F3E] text-white'
-                        : 'bg-white text-[#5A3900]'
-                    }`}
-                  >
-                    {comparingRecipeIds.length}
-                  </span>
-                )}
-              </button>
-
-              <button
-                onClick={() => setActiveView('perfil')}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
-                  activeView === 'perfil'
-                    ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                    : 'text-white hover:bg-white/20'
-                }`}
-                type="button"
-              >
-                Mi espacio
-              </button>
-
-              {(currentUser.role === 'admin' || currentUser.role === 'editor') && (
-                <button
-                  onClick={() => setActiveView('moderacion')}
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
-                    activeView === 'moderacion'
-                      ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                      : 'text-white hover:bg-white/20'
-                  }`}
-                  type="button"
-                >
-                  Moderación
-                </button>
-              )}
             </div>
           </div>
 
-          {/* Right Action Icons & User Switcher */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Nueva Receta Button */}
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 text-xs font-bold text-stone-600">
             <button
-              onClick={onOpenCreateRecipe}
-              className="inline-flex items-center gap-1.5 bg-white text-[#835500] font-semibold text-sm px-4 py-2 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:bg-[#FFF8F0] hover:text-[#5A3900] transition-all cursor-pointer"
-              type="button"
+              onClick={() => setActiveView('explorar')}
+              className={`px-3 py-2 rounded-xl transition-all ${
+                activeView === 'explorar'
+                  ? 'bg-amber-50 text-amber-900 font-extrabold'
+                  : 'hover:bg-stone-100 hover:text-stone-900'
+              }`}
             >
-              <span className="material-symbols-outlined text-[18px]">add</span>
-              <span className="hidden sm:inline">Nueva receta</span>
+              🍲 Explorar
             </button>
 
-            {/* Shopping Cart Button */}
+            <button
+              onClick={() => setActiveView('destacadas')}
+              className={`flex items-center gap-1 px-3 py-2 rounded-xl transition-all ${
+                activeView === 'destacadas'
+                  ? 'bg-amber-50 text-amber-900 font-extrabold'
+                  : 'hover:bg-stone-100 hover:text-stone-900'
+              }`}
+            >
+              <Trophy className="w-3.5 h-3.5 text-amber-600" />
+              Destacadas (RF-05)
+            </button>
+
+            <button
+              onClick={() => setActiveView('foro')}
+              className={`flex items-center gap-1 px-3 py-2 rounded-xl transition-all ${
+                activeView === 'foro'
+                  ? 'bg-amber-50 text-amber-900 font-extrabold'
+                  : 'hover:bg-stone-100 hover:text-stone-900'
+              }`}
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-amber-600" />
+              Foro & Comunidad
+            </button>
+
+            <button
+              onClick={() => setActiveView('comparar')}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all ${
+                activeView === 'comparar'
+                  ? 'bg-sky-50 text-sky-900 font-extrabold'
+                  : 'hover:bg-stone-100 hover:text-stone-900'
+              }`}
+            >
+              <Scale className="w-3.5 h-3.5 text-sky-600" />
+              Comparar
+              {comparingRecipeIds.length > 0 && (
+                <span className="w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] flex items-center justify-center font-bold">
+                  {comparingRecipeIds.length}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setActiveView('perfil')}
+              className={`flex items-center gap-1 px-3 py-2 rounded-xl transition-all ${
+                activeView === 'perfil'
+                  ? 'bg-amber-50 text-amber-900 font-extrabold'
+                  : 'hover:bg-stone-100 hover:text-stone-900'
+              }`}
+            >
+              <User className="w-3.5 h-3.5 text-amber-600" />
+              Mi Espacio
+            </button>
+
+            {(currentUser.role === 'admin' || currentUser.role === 'editor') && (
+              <button
+                onClick={() => setActiveView('moderacion')}
+                className={`flex items-center gap-1 px-3 py-2 rounded-xl transition-all ${
+                  activeView === 'moderacion'
+                    ? 'bg-red-50 text-red-900 font-extrabold'
+                    : 'hover:bg-red-50 hover:text-red-700 text-stone-500'
+                }`}
+              >
+                <ShieldAlert className="w-3.5 h-3.5 text-red-600" />
+                Moderación (RF-11/20)
+              </button>
+            )}
+          </nav>
+
+          {/* Right Action Icons & User Switcher */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Create Recipe Button */}
+            <button
+              onClick={onOpenCreateRecipe}
+              className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold rounded-2xl shadow-sm transition-all shadow-amber-600/20"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Nueva Receta</span>
+            </button>
+
+            {/* Shopping Cart Drawer Trigger */}
             <button
               onClick={onOpenCart}
-              aria-label="Carrito de compras"
-              title="Carrito de compras"
-              className="relative p-2 rounded-full hover:bg-white/20 transition-colors text-white cursor-pointer"
-              type="button"
+              title="Carrito de compras de ingredientes (RF-22 / RF-23)"
+              className="relative p-2.5 rounded-2xl bg-stone-100 hover:bg-amber-50 text-stone-700 hover:text-amber-800 transition-colors"
             >
-              <span className="material-symbols-outlined text-[24px]">shopping_cart</span>
+              <ShoppingCart className="w-5 h-5" />
               {cart.length > 0 && (
-                <span className="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-white text-[#835500] text-[11px] font-bold rounded-full shadow-sm">
+                <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-600 text-white text-[11px] font-bold flex items-center justify-center shadow-xs">
                   {cart.length}
                 </span>
               )}
             </button>
 
-            {/* Notifications Button */}
+            {/* Notification Bell (RF-28) */}
             <div className="relative">
               <button
-                onClick={() => {
-                  setShowNotifMenu(!showNotifMenu);
-                  setShowRoleMenu(false);
-                }}
-                aria-label="Notificaciones"
-                title="Notificaciones"
-                className="relative p-2 rounded-full hover:bg-white/20 transition-colors text-white cursor-pointer"
-                type="button"
+                onClick={() => setShowNotifMenu(!showNotifMenu)}
+                title="Notificaciones en tiempo real (RF-28)"
+                className="relative p-2.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-700 transition-colors"
               >
-                <span className="material-symbols-outlined text-[24px]">notifications</span>
+                <Bell className="w-5 h-5" />
                 {unreadNotifs.length > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-[#FF8A84] rounded-full ring-2 ring-[#E09F3E]"></span>
+                  <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-red-500 ring-2 ring-white" />
                 )}
               </button>
 
-              {/* Notification Popover Dropdown */}
+              {/* Notification Dropdown */}
               {showNotifMenu && (
-                <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-stone-200 py-3 z-50 text-[#333333]">
+                <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-stone-200 py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                   <div className="px-4 py-2 border-b border-stone-100 flex items-center justify-between">
                     <span className="text-xs font-bold text-stone-800 uppercase tracking-wide">
-                      Notificaciones
+                      Notificaciones (RF-28)
                     </span>
                     {unreadNotifs.length > 0 && (
                       <button
                         onClick={markAllNotificationsAsRead}
-                        className="text-[11px] text-[#835500] hover:underline font-semibold"
-                        type="button"
+                        className="text-[11px] text-amber-700 hover:underline font-semibold"
                       >
-                        Marcar todas como leídas
+                        Marcar leídas
                       </button>
                     )}
                   </div>
@@ -234,8 +235,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                         <div
                           key={notif.id}
                           onClick={() => markNotificationAsRead(notif.id)}
-                          className={`p-3.5 hover:bg-[#F6F3F2] cursor-pointer transition-colors ${
-                            !notif.read ? 'bg-[#FFDDB9]/20' : ''
+                          className={`p-3.5 hover:bg-stone-50 cursor-pointer transition-colors ${
+                            !notif.read ? 'bg-amber-50/50' : ''
                           }`}
                         >
                           <div className="flex items-center justify-between mb-1">
@@ -253,44 +254,43 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            {/* Profile Avatar & Account Menu Trigger */}
+            {/* User Profile / Role Switcher Menu */}
             <div className="relative">
-              <div
-                onClick={() => {
-                  setShowRoleMenu(!showRoleMenu);
-                  setShowNotifMenu(false);
-                }}
-                className="flex items-center gap-1 pl-1 cursor-pointer group"
-                title="Cambiar cuenta o perfil"
+              <button
+                onClick={() => setShowRoleMenu(!showRoleMenu)}
+                className="flex items-center gap-2 p-1.5 pr-2.5 rounded-2xl border border-stone-200 bg-stone-50 hover:bg-stone-100 transition-colors"
               >
                 <img
                   src={currentUser.avatar}
                   alt={currentUser.name}
-                  className="w-8 h-8 rounded-full object-cover shadow-[0_0_0_2px_rgba(255,255,255,0.6)]"
+                  className="w-8 h-8 rounded-xl object-cover"
                 />
-                <span className="material-symbols-outlined text-white text-[20px] transition-transform group-hover:translate-y-0.5">
-                  keyboard_arrow_down
-                </span>
-              </div>
+                <div className="hidden sm:block text-left">
+                  <div className="text-xs font-bold text-stone-900 leading-tight truncate max-w-[100px]">
+                    {currentUser.name}
+                  </div>
+                  <div className={`text-[10px] font-semibold uppercase px-1 rounded-sm inline-block ${roleBadge.color}`}>
+                    {roleBadge.label}
+                  </div>
+                </div>
+                <ChevronDown className="w-3.5 h-3.5 text-stone-400" />
+              </button>
 
-              {/* User Account / Role Switcher Popover */}
+              {/* User / Role Switcher Dropdown */}
               {showRoleMenu && (
-                <div className="absolute right-0 mt-2 w-72 bg-white rounded-3xl shadow-2xl border border-stone-200 p-3 z-50 text-[#333333] space-y-2">
+                <div className="absolute right-0 mt-2 w-72 bg-white rounded-3xl shadow-2xl border border-stone-200 p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150 space-y-2">
                   <div className="px-3 py-2 border-b border-stone-100">
                     <div className="font-bold text-sm text-stone-900">{currentUser.name}</div>
-                    <div className="text-xs text-stone-500">{currentUser.email}</div>
-                    <div className="text-[11px] font-medium text-[#835500] mt-1 flex items-center justify-between">
-                      <span>Rol: <strong>{currentUser.role.toUpperCase()}</strong></span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${roleBadge.color}`}>
-                        {roleBadge.label}
-                      </span>
+                    <div className="text-xs text-stone-400">{currentUser.email}</div>
+                    <div className="text-[11px] font-medium text-amber-700 mt-1">
+                      Rol actual: <strong>{currentUser.role.toUpperCase()}</strong>
                     </div>
                   </div>
 
-                  {/* Switch active persona for testing functional requirements */}
+                  {/* Switch active persona for testing all functional requirements */}
                   <div className="space-y-1">
                     <span className="text-[10px] uppercase font-bold text-stone-400 px-3 block">
-                      Cambiar Cuenta de Prueba:
+                      Cambiar de Cuenta de Prueba:
                     </span>
                     {allUsers.map((u) => (
                       <button
@@ -299,25 +299,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                           selectSpecificUser(u.id);
                           setShowRoleMenu(false);
                         }}
-                        className={`w-full flex items-center justify-between p-2 rounded-xl text-left text-xs transition-colors cursor-pointer ${
+                        className={`w-full flex items-center justify-between p-2 rounded-xl text-left text-xs transition-colors ${
                           u.id === currentUser.id
-                            ? 'bg-[#FFDDB9]/50 font-bold text-[#5A3900]'
+                            ? 'bg-amber-50 font-bold text-amber-900'
                             : 'hover:bg-stone-50 text-stone-700'
                         }`}
-                        type="button"
                       >
                         <div className="flex items-center gap-2">
                           <img src={u.avatar} alt={u.name} className="w-6 h-6 rounded-full object-cover" />
                           <div className="truncate">
-                            <div className="truncate">{u.name}</div>
+                            <div>{u.name}</div>
                             <div className="text-[10px] text-stone-400 capitalize">{u.role}</div>
                           </div>
                         </div>
-                        {u.id === currentUser.id && (
-                          <span className="material-symbols-outlined text-[#835500] text-[18px]">
-                            check
-                          </span>
-                        )}
+                        {u.id === currentUser.id && <Check className="w-4 h-4 text-amber-600" />}
                       </button>
                     ))}
                   </div>
@@ -328,8 +323,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         onOpenAuth('login');
                         setShowRoleMenu(false);
                       }}
-                      className="text-[#835500] hover:text-[#5A3900] font-semibold cursor-pointer"
-                      type="button"
+                      className="text-stone-600 hover:text-stone-900 font-semibold"
                     >
                       Autenticación
                     </button>
@@ -338,10 +332,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                         logoutUser();
                         setShowRoleMenu(false);
                       }}
-                      className="text-[#AB3333] hover:text-[#801318] font-semibold flex items-center gap-1 cursor-pointer"
-                      type="button"
+                      className="text-red-600 hover:text-red-700 font-semibold flex items-center gap-1"
                     >
-                      <span className="material-symbols-outlined text-[16px]">logout</span>
+                      <LogOut className="w-3.5 h-3.5" />
                       Salir
                     </button>
                   </div>
@@ -349,81 +342,42 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
           </div>
-
         </div>
+      </div>
 
-        {/* Mobile Navigation Bar */}
-        <div className="lg:hidden flex items-center justify-around py-2 px-2 bg-[#D08F2E] text-white text-xs font-semibold overflow-x-auto">
-          <button
-            onClick={() => setActiveView('explorar')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 ${
-              activeView === 'explorar'
-                ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                : 'text-white hover:bg-white/20'
-            }`}
-            type="button"
-          >
-            Explorar
-          </button>
-          <button
-            onClick={() => setActiveView('destacadas')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 ${
-              activeView === 'destacadas'
-                ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                : 'text-white hover:bg-white/20'
-            }`}
-            type="button"
-          >
-            Destacadas
-          </button>
-          <button
-            onClick={() => setActiveView('foro')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 ${
-              activeView === 'foro'
-                ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                : 'text-white hover:bg-white/20'
-            }`}
-            type="button"
-          >
-            Foro
-          </button>
-          <button
-            onClick={() => setActiveView('comparar')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 ${
-              activeView === 'comparar'
-                ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                : 'text-white hover:bg-white/20'
-            }`}
-            type="button"
-          >
-            Comparar ({comparingRecipeIds.length})
-          </button>
-          <button
-            onClick={() => setActiveView('perfil')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 ${
-              activeView === 'perfil'
-                ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                : 'text-white hover:bg-white/20'
-            }`}
-            type="button"
-          >
-            Mi espacio
-          </button>
-          {(currentUser.role === 'admin' || currentUser.role === 'editor') && (
-            <button
-              onClick={() => setActiveView('moderacion')}
-              className={`px-3 py-1 rounded-full transition-all shrink-0 ${
-                activeView === 'moderacion'
-                  ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                  : 'text-white hover:bg-white/20'
-              }`}
-              type="button"
-            >
-              Moderación
-            </button>
-          )}
-        </div>
-      </nav>
+      {/* Mobile Submenu Bar */}
+      <div className="md:hidden flex items-center justify-around py-2.5 px-2 bg-stone-50 border-t border-stone-200 text-xs font-semibold text-stone-700">
+        <button
+          onClick={() => setActiveView('explorar')}
+          className={`px-2.5 py-1 rounded-lg ${activeView === 'explorar' ? 'bg-amber-600 text-white' : ''}`}
+        >
+          Explorar
+        </button>
+        <button
+          onClick={() => setActiveView('destacadas')}
+          className={`px-2.5 py-1 rounded-lg ${activeView === 'destacadas' ? 'bg-amber-600 text-white' : ''}`}
+        >
+          Destacadas
+        </button>
+        <button
+          onClick={() => setActiveView('foro')}
+          className={`px-2.5 py-1 rounded-lg ${activeView === 'foro' ? 'bg-amber-600 text-white' : ''}`}
+        >
+          Foros
+        </button>
+        <button
+          onClick={() => setActiveView('comparar')}
+          className={`px-2.5 py-1 rounded-lg ${activeView === 'comparar' ? 'bg-sky-600 text-white' : ''}`}
+        >
+          Comparar ({comparingRecipeIds.length})
+        </button>
+        <button
+          onClick={() => setActiveView('perfil')}
+          className={`px-2.5 py-1 rounded-lg ${activeView === 'perfil' ? 'bg-amber-600 text-white' : ''}`}
+        >
+          Perfil
+        </button>
+      </div>
     </header>
   );
 };

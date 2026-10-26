@@ -67,7 +67,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
               <h3 className="font-bold text-lg leading-tight">
                 {mode === 'login' && 'Iniciar Sesión en Gusto'}
                 {mode === 'register' && 'Crear Nueva Cuenta'}
-                {mode === 'recovery' && 'Recuperar Contraseña'}
+                {mode === 'recovery' && 'Recuperar Contraseña (RF-04)'}
               </h3>
               <p className="text-xs text-amber-100/90">
                 Sistema de Gestión & Comunidad Culinaria
@@ -259,7 +259,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                   </div>
                   <h4 className="font-bold text-stone-800 text-base">¡Correo de recuperación enviado!</h4>
                   <p className="text-xs text-stone-600 leading-relaxed px-4">
-                    Hemos enviado un enlace temporal seguro a <strong className="text-stone-900">{recoveryEmail}</strong> para que puedas restablecer tu contraseña.
+                    Hemos enviado un enlace temporal seguro a <strong className="text-stone-900">{recoveryEmail}</strong> para que puedas restablecer tu contraseña (RF-04).
                   </p>
                   <button
                     type="button"

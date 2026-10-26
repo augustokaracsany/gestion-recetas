@@ -45,7 +45,7 @@ export const ModerationAdminPanel: React.FC = () => {
             Centro de Seguridad & Políticas Comunitarias
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold font-serif-display">
-            Panel de Moderación
+            Panel de Moderación (RF-11 / RF-20)
           </h2>
           <p className="text-red-200 text-xs sm:text-sm mt-1 max-w-xl leading-relaxed">
             Revisión y auditoría de denuncias de recetas inapropiadas, plagios, y reportes de conductas en perfiles para garantizar la seguridad de la comunidad.

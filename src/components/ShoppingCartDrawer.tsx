@@ -61,12 +61,12 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs">
       <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between overflow-hidden animate-in slide-in-from-right duration-300">
         {/* Header */}
-        <div className="px-6 py-5 bg-[#E09F3E] text-white flex items-center justify-between shrink-0 shadow-sm">
+        <div className="px-6 py-5 bg-amber-600 text-white flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <span className="material-symbols-outlined text-[24px]">shopping_cart</span>
+            <ShoppingCart className="w-5 h-5" />
             <div>
-              <h3 className="font-bold text-base leading-tight font-display">
-                Carrito de Ingredientes
+              <h3 className="font-bold text-base leading-tight">
+                Carrito de Ingredientes (RF-22 / RF-23)
               </h3>
               <p className="text-xs text-amber-100">
                 {cart.length} ingredientes acumulados
@@ -75,9 +75,9 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-amber-100 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+            className="text-amber-200 hover:text-white p-1 rounded-xl hover:bg-white/10 transition-colors"
           >
-            <span className="material-symbols-outlined text-[22px]">close</span>
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -85,15 +85,15 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
         {checkoutComplete ? (
           <div className="p-8 text-center my-auto space-y-4">
             <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-              <span className="material-symbols-outlined text-[36px]">check_circle</span>
+              <PackageCheck className="w-8 h-8" />
             </div>
-            <h4 className="font-bold font-display text-xl text-stone-900">
+            <h4 className="font-bold font-serif-display text-xl text-stone-900">
               ¡Pedido Realizado con Éxito!
             </h4>
             <p className="text-xs text-stone-600 leading-relaxed">
               Tus ingredientes han sido ordenados directamente en las tiendas asociadas seleccionadas. Recibirás tu pedido de cocina en tu dirección asignada.
             </p>
-            <div className="p-4 bg-[#F6F3F2] rounded-2xl border border-stone-200 text-left text-xs space-y-1">
+            <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 text-left text-xs space-y-1">
               <div className="flex justify-between">
                 <span className="text-stone-500">Total abonado:</span>
                 <strong className="text-emerald-700">${grandTotal.toFixed(2)} USD</strong>
@@ -109,7 +109,7 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
                 setCheckoutComplete(false);
                 onClose();
               }}
-              className="w-full py-2.5 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-full text-xs transition-colors cursor-pointer"
+              className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs transition-colors"
             >
               Listo y Volver a Cocinar
             </button>
@@ -121,7 +121,7 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
             </div>
             <h4 className="font-bold text-stone-800 text-base">Tu carrito está vacío</h4>
             <p className="text-xs text-stone-500 max-w-xs mx-auto leading-relaxed">
-              Visita cualquier receta y presiona "Comprar Ingredientes" para armar tu lista de compras virtual.
+              Visita cualquier receta y presiona "Comprar Ingredientes" para armar tu lista de compras virtual (RF-22 / RF-23).
             </p>
           </div>
         ) : (
@@ -130,7 +130,7 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
             <div>
               <label className="block text-[11px] font-bold text-stone-600 uppercase mb-1.5 flex items-center gap-1">
                 <Store className="w-3.5 h-3.5 text-amber-600" />
-                Filtrar por Tienda Asociada:
+                Filtrar por Tienda Asociada (RF-22):
               </label>
               <select
                 value={selectedStoreFilter}
@@ -204,11 +204,11 @@ export const ShoppingCartDrawer: React.FC<ShoppingCartDrawerProps> = ({
                     </div>
                   </div>
 
-                  {/* Stock check indicator */}
+                  {/* Stock check indicator (RF-25) */}
                   <div className="flex items-center justify-between text-[10px] pt-1.5 border-t border-stone-100">
                     <span className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      <strong className="text-stone-600">Stock en tienda:</strong>
+                      <strong className="text-stone-600">Stock en tienda (RF-25):</strong>
                     </span>
                     <span className="font-semibold text-emerald-700 capitalize">
                       {item.ingredient.stockLevel || 'Disponible'}

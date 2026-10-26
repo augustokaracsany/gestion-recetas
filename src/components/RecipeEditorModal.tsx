@@ -231,7 +231,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             <Sparkles className="w-5 h-5 text-amber-200" />
             <div>
               <h2 className="font-bold text-lg leading-tight">
-                {recipeToEdit ? 'Editar Receta' : 'Nueva Creación Culinaria'}
+                {recipeToEdit ? 'Editar Receta (RF-13)' : 'Nueva Creación Culinaria (RF-08)'}
               </h2>
               <p className="text-xs text-amber-100">
                 Estructura ingredientes, paso a paso, etiquetas dietéticas y programación
@@ -395,7 +395,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase mb-1 flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-amber-600" />
-                  Co-autores Colaborativos
+                  Co-autores Colaborativos (RF-27)
                 </label>
                 <input
                   type="text"
@@ -412,7 +412,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase mb-1 flex items-center gap-1.5">
                   <Video className="w-3.5 h-3.5 text-red-600" />
-                  Video Explicativo YouTube / TikTok (Premium)
+                  Video Explicativo YouTube / TikTok (RF-26 - Premium)
                 </label>
                 <input
                   type="url"
@@ -425,10 +425,10 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             </div>
           </div>
 
-          {/* Dietary Tags */}
+          {/* Dietary Tags (RF-07) */}
           <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/80">
             <label className="block text-xs font-bold text-amber-950 uppercase mb-2">
-              Etiquetas Dietéticas y Alérgenos
+              Etiquetas Dietéticas y Alérgenos (Filtros RF-07)
             </label>
             <div className="flex flex-wrap gap-2">
               {[
@@ -459,12 +459,12 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             </div>
           </div>
 
-          {/* Dynamic Ingredients Section */}
+          {/* Dynamic Ingredients Section (RF-08, RF-22) */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">
-                  Ingredientes & Tiendas Asociadas
+                  Ingredientes & Tiendas Asociadas (RF-22)
                 </h3>
                 <p className="text-xs text-stone-500">
                   Especifica cantidades, precio estimado y tienda para compra directa
@@ -628,10 +628,10 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             </div>
           </div>
 
-          {/* Nutritional Info Estimation */}
+          {/* Nutritional Info Estimation (RF-18) */}
           <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
             <h4 className="text-xs font-bold text-stone-700 uppercase mb-2">
-              Información Nutricional por Porción
+              Información Nutricional por Porción (Comparador RF-18)
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
               <div>
@@ -682,11 +682,11 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             </div>
           </div>
 
-          {/* Publication Options: Draft vs Publish vs Schedule */}
+          {/* Publication Options: Draft vs Publish vs Schedule (RF-08, RF-09) */}
           <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-3">
             <h4 className="text-xs font-bold text-amber-950 uppercase flex items-center gap-1.5">
               <Calendar className="w-4 h-4 text-amber-700" />
-              Estado de Publicación & Programación
+              Estado de Publicación & Programación (RF-08 / RF-09)
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -790,7 +790,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#E09F3E] hover:bg-[#835500] text-white text-xs sm:text-sm font-bold rounded-full shadow-md transition-colors flex items-center gap-2 cursor-pointer"
+              className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-md transition-colors flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               {recipeToEdit ? 'Guardar Cambios' : 'Confirmar y Guardar Receta'}
