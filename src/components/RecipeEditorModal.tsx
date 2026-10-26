@@ -50,7 +50,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
   const [videoUrl, setVideoUrl] = useState(recipeToEdit?.videoUrl || '');
   const [coAuthorsText, setCoAuthorsText] = useState(recipeToEdit?.coAuthors.join(', ') || '');
   
-  // Publication Status & Scheduling (RF-08, RF-09)
+  // Publication Status & Scheduling
   const [status, setStatus] = useState<RecipeStatus>(recipeToEdit?.status || 'published');
   const [scheduledDate, setScheduledDate] = useState(
     recipeToEdit?.scheduledPublishDate
@@ -58,7 +58,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
       : new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 16)
   );
 
-  // Ingredients (RF-08, RF-22)
+  // Ingredients
   const [ingredients, setIngredients] = useState<Ingredient[]>(
     recipeToEdit?.ingredients || [
       {
@@ -88,7 +88,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
     ]
   );
 
-  // Steps (RF-08, RF-26)
+  // Steps
   const [steps, setSteps] = useState<Step[]>(
     recipeToEdit?.steps || [
       {
@@ -107,7 +107,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
     ]
   );
 
-  // Nutrition (RF-18)
+  // Nutrition
   const [calories, setCalories] = useState(recipeToEdit?.nutrition.calories || 320);
   const [proteinG, setProteinG] = useState(recipeToEdit?.nutrition.proteinG || 12);
   const [carbsG, setCarbsG] = useState(recipeToEdit?.nutrition.carbsG || 35);
@@ -175,6 +175,10 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentUser) {
+      showToast('Debes iniciar sesión para guardar o publicar una receta.');
+      return;
+    }
     if (!title.trim()) {
       showToast('Por favor introduce un título para la receta.');
       return;
@@ -446,7 +450,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => toggleTag(item.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border ${
                       isSelected
                         ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
                         : 'bg-white text-stone-700 border-amber-200 hover:bg-amber-100/50'
@@ -547,7 +551,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             </div>
           </div>
 
-          {/* Dynamic Steps Section (RF-08, RF-26) */}
+          {/* Dynamic Steps Section */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>

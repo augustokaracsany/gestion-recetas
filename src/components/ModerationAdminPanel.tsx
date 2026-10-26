@@ -53,7 +53,7 @@ export const ModerationAdminPanel: React.FC = () => {
         </div>
 
         <div className="px-4 py-2 bg-red-950/60 rounded-2xl border border-red-800 text-xs text-red-200">
-          <span>Administrador: <strong>{currentUser.name}</strong></span>
+          <span>Administrador: <strong>{currentUser ? currentUser.name : 'Personal Autorizado'}</strong></span>
         </div>
       </div>
 

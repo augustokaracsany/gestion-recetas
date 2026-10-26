@@ -22,6 +22,7 @@ export interface UserProfile {
   name: string;
   username: string;
   email: string;
+  password?: string;
   avatar: string;
   role: UserRole;
   bio: string;
@@ -58,7 +59,7 @@ export interface Step {
   durationMinutes: number;
   tip?: string;
   imageUrl?: string;
-  videoUrl?: string; // YouTube / TikTok / MP4 link (RF-26)
+  videoUrl?: string; // YouTube / TikTok / MP4 link
 }
 
 export interface NutritionalInfo {
@@ -91,9 +92,9 @@ export interface Recipe {
   authorId: string;
   authorName: string;
   authorAvatar: string;
-  coAuthors: string[]; // List of user display names (RF-27)
+  coAuthors: string[]; // List of user display names
   status: RecipeStatus;
-  scheduledPublishDate?: string; // ISO string (RF-09)
+  scheduledPublishDate?: string; // ISO string
   createdAt: string;
   updatedAt: string;
   prepTimeMin: number;
