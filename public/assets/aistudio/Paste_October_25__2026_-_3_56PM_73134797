@@ -1,0 +1,2103 @@
+<!-- Gusto - Explorar Recetas -->
+<!DOCTYPE html><html lang="es" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{background-color:#F3F3F3;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#801318","secondary-fixed":"#ffddb9","on-background":"#1b1c1c","on-tertiary-fixed":"#410004","inverse-surface":"#303030","on-primary-fixed":"#291800","on-secondary-container":"#714500","on-surface":"#1b1c1c","surface-container-low":"#f6f3f2","surface-variant":"#e4e2e1","primary-container":"#e09f3e","primary":"#835500","secondary":"#865300","surface-tint":"#835500","on-primary":"#ffffff","inverse-on-surface":"#f3f0f0","secondary-fixed-dim":"#ffb963","surface-dim":"#dcd9d9","on-secondary":"#ffffff","tertiary-fixed":"#ffdad7","surface-bright":"#fbf9f8","tertiary":"#ab3333","outline":"#837564","on-error":"#ffffff","secondary-container":"#fdb252","inverse-primary":"#feb956","surface-container-highest":"#e4e2e1","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#663e00","tertiary-fixed-dim":"#ffb3ae","background":"#F3F3F3","on-error-container":"#93000a","primary-fixed":"#ffddb4","error-container":"#ffdad6","on-primary-container":"#5a3900","surface-container-high":"#eae8e7","primary-fixed-dim":"#feb956","on-surface-variant":"#333333","outline-variant":"#d5c4b1","on-primary-fixed-variant":"#633f00","tertiary-container":"#ff8a84","on-secondary-fixed":"#2b1700","surface-container":"#f0eded","error":"#ba1a1a","surface":"#F3F3F3","on-tertiary-fixed-variant":"#8a1b1e","on-tertiary":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter-mobile":"1rem","space-xs":"0.25rem","space-xl":"2.5rem","space-lg":"1.5rem","space-sm":"0.5rem","margin-tablet":"2rem",gutter:"1.5rem",margin:"3rem","space-md":"1rem","margin-mobile":"1.25rem"},fontFamily:{"body-sm":["Inter"],"body-lg":["Inter"],"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],display:["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"]},fontSize:{"body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.02em",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"20px",fontWeight:"600"}],"headline-lg-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["20px",{lineHeight:"28px",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"800"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],display:["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"700"}]}}}};</script></head><body class="bg-[#F3F3F3] font-body-md text-[#333333] antialiased min-h-screen flex flex-col justify-between"><div class="sticky top-0 left-0 w-full z-50"><nav class="bg-[#E09F3E] text-white shadow-[0_4px_20px_-2px_rgba(224,159,62,0.3)]"><div class="h-16 w-full px-6 lg:px-12 flex items-center justify-between gap-4"><div class="flex items-center gap-8"><div class="flex items-center gap-2 cursor-pointer"><span class="material-symbols-outlined text-[28px] text-white">room_service</span><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-white">Gusto</span></div><nav class="hidden md:flex items-center gap-1.5"><a aria-current="page" class="px-4 py-1.5 transition-all bg-white text-[#835500] font-label-md text-label-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] font-semibold" data-path="explorar" href="#">Explorar</a><a class="px-4 py-1.5 rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="destacadas" href="#">Destacadas</a><a class="px-4 py-1.5 rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="foro-y-comunidad" href="#">Foro y comunidad</a><a class="px-4 py-1.5 rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="comparar" href="#">Comparar</a><a class="px-4 py-1.5 rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="mi-espacio" href="#">Mi espacio</a></nav></div><div class="flex items-center gap-3"><a class="inline-flex items-center gap-1.5 bg-white text-[#835500] font-label-md text-label-md px-4 py-2 rounded-full shadow-sm hover:bg-amber-50 transition-all font-semibold" data-path="nueva-receta" href="#"><span class="material-symbols-outlined text-[18px]">add</span><span class="">Nueva receta</span></a><div class="flex items-center gap-1 text-white"><button aria-label="Carrito de compras" class="relative p-2 rounded-full hover:bg-white/20 transition-colors" title="Carrito de compras" type="button"><span class="material-symbols-outlined text-[24px]">shopping_cart</span><span class="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-white text-[#835500] font-label-sm text-label-sm font-bold rounded-full shadow-sm">3</span></button><button aria-label="Notificaciones" class="relative p-2 rounded-full hover:bg-white/20 transition-colors" title="Notificaciones" type="button"><span class="material-symbols-outlined text-[24px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span></button></div><div class="flex items-center gap-1 pl-1 cursor-pointer group" title="Cambiar cuenta"><img alt="Foto de perfil" class="w-8 h-8 rounded-full object-cover shadow-[0_0_0_2px_rgba(255,255,255,0.6)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiGQ2e6lZ1GWYGfEZL3a310H0b_PKYz2qi53ISvthP8W41AOvT0aB0nWEKnzOm3BKca3Bf_zQbVr5KjxtFOsKeoN1trCwGPrO2zb5nxTeEf4wXYJlmZrsd9Ao4BrODDofP_fmeE2jgcL7DSbEkZT1pgFR2-eYdFjOAwEK9w0kP6L3tetEuIE9a0J-6pMVLMYuUCl8mhJiamC4aIKmvqdFiphORV0ppxYSjLIxcTyeg3bLVbF2eWg"><svg class="w-4 h-4 text-white transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></div></div></div></nav></div><main class="w-full flex-grow bg-[#F3F3F3] pb-16"><div class="w-full max-w-7xl mx-auto px-6 lg:px-12 pt-8">
+<!-- Hero / Title Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div class="space-y-2">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-2 h-2 rounded-full bg-[#835500] animate-pulse"></span>
+          Catálogo Culinario Vivo
+        </div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-[#000000] font-bold">
+          Explorar Recetas de Autor
+        </h1>
+<p class="font-body-lg text-body-lg text-[#333333] max-w-2xl">
+          Descubre creaciones gastronómicas minuciosamente detalladas por chefs independientes y apasionados del buen comer.
+        </p>
+</div>
+<!-- Quick Metrics Counter Badge -->
+<div class="flex items-center gap-4 bg-white px-5 py-3 rounded-2xl shadow-sm self-start md:self-auto border border-stone-200/60">
+<div class="w-10 h-10 rounded-xl bg-[#ffddb9] flex items-center justify-center text-[#835500]">
+<span class="material-symbols-outlined text-[24px]">soup_kitchen</span>
+</div>
+<div>
+<span class="block font-headline-sm text-headline-sm text-[#000000] font-bold leading-none">2,840+</span>
+<span class="font-label-md text-label-md text-[#333333]">Recetas verificadas</span>
+</div>
+</div>
+</div>
+<!-- Search & Filters Container -->
+<section class="bg-white rounded-3xl p-6 lg:p-8 shadow-[0_4px_24px_-4px_rgba(197,130,38,0.08)] mb-10 border border-stone-200/60">
+<!-- Search Bar -->
+<div class="relative w-full mb-6">
+<div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-[#835500]">
+<span class="material-symbols-outlined text-[26px]">search</span>
+</div>
+<input class="w-full h-14 pl-14 pr-12 rounded-full bg-[#f6f3f2] text-[#000000] placeholder:text-[#333333]/70 font-body-md text-body-md focus:bg-white focus:ring-2 focus:ring-[#e09f3e] outline-none transition-all shadow-inner" id="recipe-search" placeholder="Buscar recetas por nombre, ingrediente, técnica o autor..." type="text">
+<button aria-label="Limpiar búsqueda" class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#333333] hover:text-[#000000] transition-colors" onclick="document.getElementById('recipe-search').value = ''" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+</button>
+</div>
+<!-- Filter Rows -->
+<div class="space-y-4 pt-1">
+<!-- Categories Row -->
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-label-md text-label-md text-[#333333] font-semibold w-28 shrink-0 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#835500]">dinner_dining</span> Categorías:
+          </span>
+<div class="flex flex-wrap gap-2 flex-1">
+<button class="px-4 py-1.5 rounded-full font-label-md text-label-md bg-[#e09f3e] text-white shadow-sm transition-all font-semibold">
+              Todas
+            </button>
+<button class="px-4 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+              Entrantes
+            </button>
+<button class="px-4 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+              Platos fuertes
+            </button>
+<button class="px-4 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+              Postres
+            </button>
+<button class="px-4 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+              Bebidas
+            </button>
+<button class="px-4 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+              Saludable
+            </button>
+</div>
+</div>
+<!-- Time, Difficulty & Sort Row -->
+<div class="flex flex-col lg:flex-row gap-4 pt-2">
+<!-- Time -->
+<div class="flex flex-wrap items-center gap-2 lg:w-1/3">
+<span class="font-label-md text-label-md text-[#333333] font-semibold w-28 shrink-0 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#835500]">schedule</span> Tiempo:
+            </span>
+<div class="flex flex-wrap gap-2">
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                &lt; 30 min
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#fdb252] text-[#714500] font-semibold shadow-sm">
+                30 - 60 min
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                &gt; 60 min
+              </button>
+</div>
+</div>
+<!-- Difficulty -->
+<div class="flex flex-wrap items-center gap-2 lg:w-1/3">
+<span class="font-label-md text-label-md text-[#333333] font-semibold w-28 shrink-0 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#835500]">hotel_class</span> Dificultad:
+            </span>
+<div class="flex flex-wrap gap-2">
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Fácil
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Intermedia
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Maestro
+              </button>
+</div>
+</div>
+<!-- Ordenar -->
+<div class="flex items-center gap-2 lg:w-1/3">
+<span class="font-label-md text-label-md text-[#333333] font-semibold w-28 shrink-0 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#835500]">swap_vert</span> Ordenar:
+            </span>
+<select class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] border-none outline-none focus:ring-2 focus:ring-[#e09f3e] cursor-pointer">
+<option value="populares">Más populares</option>
+<option value="recientes">Más recientes</option>
+<option value="tiempo">Menor tiempo</option>
+<option value="calorias">Menor calorías</option>
+</select>
+</div>
+</div>
+<!-- Diet & Reset Action -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-label-md text-label-md text-[#333333] font-semibold w-28 shrink-0 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#835500]">eco</span> Dieta:
+            </span>
+<div class="flex flex-wrap gap-2">
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Vegetariano
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Vegano
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Sin gluten
+              </button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] transition-colors">
+                Keto
+              </button>
+</div>
+</div>
+<!-- Reset Filter Button -->
+<button class="inline-flex items-center gap-1.5 text-[#ab3333] hover:text-[#801318] font-label-md text-label-md px-3 py-1.5 rounded-full hover:bg-red-50 transition-colors ml-auto sm:ml-0 font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span class="">Limpiar filtros</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Recipes Grid (8 Cards) -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1: Risotto de Hongos -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Gourmet creamy Italian risotto al tartufo plated on a textured dark ceramic dish, garnished with shaved black truffles, aged parmesan crisps, and fresh microgreens under soft ambient kitchen lighting with warm caramel undertones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqEV3pAvlmHTnOTowsiZ4ITDQzpyhYlZo7lfPiv7TQ2uOQ66ftwBbiJswJ_OveckmHo8eysH5BseQ79ZWLpXbA4FlN_gXpXgnDvKMVEgpdPWcJDKbJHGTIgKPcQAjkEv3q7PUVrItZg1Lar2PtVHbO53w42f8Wo2wDx9oycnCbzbQG9xjJG7WNLHN4lsApGr5geqg87rsghvEcMTKVaBVEY86W4bSAZK544hEaiB7pVZlSyTyevA">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 40 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Intermedia
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Risotto de Hongos &amp; Trufa
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Arroz carnaroli con caldo de setas silvestres, mantequilla trufada de montaña y virutas frescas de trufa negra.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">1.4k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">12</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                520 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: Salmón al Horno -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Pan-seared Atlantic salmon fillet with a glossy golden honey-dijon glaze, served over tender asparagus spears, sprinkled with toasted sesame seeds and fresh dill under clean restaurant lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPW3q3x7GmzimTq1SioBoyQbt9ErDCSKA8_2DcnnFtOluRRvivX2tg4kbw7tzeeDKVao_SqQElO24ScQrt_Aha6eggNw_XZsNtdqqjIBc1W1u5fbJ1dfpo0N4wcHch2Ir2wAgMJuL0gS5F5lYmsnKw4rm6HvuWjEeb5RqJyhmFFxLnKRP1s_otlXodqQGEfnxRiEXAOQrAq7GA8vAy0esvIKSNj6KlYtsWXN_cgz2XgGcaQbtp4g">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 25 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Fácil
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Salmón al Horno con Miel y Eneldo
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Filete glaseado al horno con mostaza antigua, miel silvestre de romero y cama de espárragos crujientes.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">2.1k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">8</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                460 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Paella Marinera Tradicional -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional Spanish seafood paella in a large authentic paellera pan loaded with king prawns, mussels, calamari rings and saffron infused rice garnished with lemon slices." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMD_l_8gj6UPKYdeFSdmtMIcV0TgqGLw9eA-S7JP222wZCeIUfG-3g-jLkLo33ELm4w36gNSF-ocap5vdyfEETdBhowz_rZQYmMM_iHqRL7MOUrUAlQzKLoez4_TT3zXBnfjaWQqMjnxOdnVE0zIraqsAJalWxtz7Y75gjHQNuysi28wFgTsA8K98apnMaMcW6pXGtHoXj3neq5SciMRH9MNwZDDe37sTCG372">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 55 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Intermedia
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Paella Marinera Tradicional
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Arroz bomba con azafrán en hebra, fumet concentrado de roca, langostinos, calamares y mejillones frescos.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">3.2k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">15</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                580 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: Lasaña Clásica Boloñesa -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Layered golden baked Italian beef lasagna with melted parmesan crust, rich ragu and silky bechamel sauce cut neatly on a white ceramic plate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsruceeCk5oWIIfSqy78IE88ALopk59gCsW4GqLWJbVgoZhU4ZjiTIVEiND8rAOdgvGCis_Wmqs0bt3h8vaMBy7FtGgjKFEkduF5jiUhMMe7zbnW-oxLxARPS6rivypbi1Y9y17sFD84oqrP3MPHAMGvjrsU9lwxYXWdJ_z6zIO6u3pMASOkEFReiXiGard0HmjAyA8GWGU9Hbyq4P5lC_ObmouYg_w53Zc-d_">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 60 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Intermedia
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Lasaña Clásica a la Boloñesa
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Capas artesanales de pasta al huevo, ragù cocinado a fuego lento por 4 horas y bechamel sedosa gratinada.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">2.9k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">11</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                650 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 5: Ceviche Mixto Peruano -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Fresh Peruvian mixed ceviche with raw sea bass cubes, octopus, red onion, cilantro and tiger's milk accompanied with sweet potato and Andean toasted corn." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLfyvwoNUiVpa4f_RhNpN0Nfph8B2LL2yPI6SweGtw4pG9J9kt1hlUPdjGaYQIr5H1TwtMAHk_lvocybByRY01Fx-QXa-z8_ozFxaZWe6O5w5MVVyqpNxoAaBcAOugNG5TuYwG_1m9LAVIu1Brs7r2Kdi7XcZ6vsdoWjhl8wVMnGUl6VkLytSTq2iaowjFNBJ91nAaYJOHbioQwwNFyPhvmVyzCSt1FAARLK20">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 20 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Fácil
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Ceviche Mixto Tradicional
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Corvina y pulpo marinados al instante en leche de tigre al ají limo, con camote glaseado y canchita chulpe.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">3.6k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">6</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                310 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 6: Tacos de Cochinita Pibil -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal Mexican Cochinita Pibil street tacos on handmade heirloom blue corn tortillas, topped with pickled red onions and habanero slivers, served on a rustic clay plate with fresh lime wedges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZXn9goXhWIfqXytPz5it0V8-zQsCY02gyaysuEL4lXSgaWcelKkDp7c3NZc3m3ZVCauucDQHrC3RXcP1D5S5ucFSg6zruPPpUwwKlMJZdtEwcR3U1R4EOGUpnKxEEO5y2sWVrnnsO7e-tOC8tPml8IwQYMn_FcI415J-DyJfIta9QzOFnM6sWjpCLSrkiWoGc88zkYAcF5Krw94BhCAYAmCsgBi2V71QLyk9Cn5MV5nSCbLjcsw">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 90 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Maestro
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Tacos de Cochinita Pibil
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Cerdo marinado lentamente en achiote yucateco y naranja agria, envuelto en hoja de plátano con cebolla encurtida.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">3.8k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">19</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                610 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 7: Tarta de Manzana Caramelizada -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Delicious golden French apple tart tatin slice with caramelized apple slices and flaky puff pastry base, served warm with vanilla bean ice cream." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnVMnPKxRrFGTFz1HszHmzydpQ6lgQQxoX8dcJF1ea65Oy2ZjKQW2NiKuxC2ap8qABOAEPLuElZstcMN6K_vXv6cafG3PXQ1EpZOac5BXfnWL85_udSiZWgbaozaH_ONbVP8rCS0mGJPdIwFOR7b53-zbxB7lexEuJkVtD6oxB-lUZAd9oHg5611TaXH4iGBQo7OZqo4TLlzRg3gha6mZcZrdKXWyRQSUg_mC_">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 45 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Fácil
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Tarta Tatin de Manzana Rústica
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Manzanas reineta caramelizadas con mantequilla normanda, canela de Ceilán y hojaldre crujiente invertido.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">4.1k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">14</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                380 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 8: Bowl Mediterráneo con Falafel -->
+<article class="flex flex-col bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.14)] transition-all duration-300 group border border-stone-200/50">
+<div class="relative w-full h-52 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Vibrant Mediterranean plant-based bowl filled with golden crispy herb falafels, velvety garlic tahini sauce, pickled cucumbers, kalamata olives, cherry tomatoes, and red quinoa in a light terracotta bowl." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3OPzfjEV0q3JbRbaGMPZ_91xDG6u_cJFLC9QZ1MqN1KZJQFjthYrqyC9TmJAh5kPR9U80rGAUDUfRtHyamogu5uRHMcwl5bVO3JVT5U7MpQFZSSJlPgY7u81aabAQ7eHQ0JF-PLUKWGFpUCBG44Ldp0Y7CusuBevxee4C7qfCxcTHRckm2eCvwWWuiMSVReDWVosKzW0UscQhE_JWRYjorGn0i7Cvn7l4YnaAaI3YMjb8zQT2eA">
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#333333] flex items-center gap-1 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#835500]">timer</span> 35 min
+          </span>
+<span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-[#835500] font-bold shadow-sm">
+            Intermedia
+          </span>
+</div>
+<div class="p-5 flex flex-col flex-1 justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-[#000000] font-bold tracking-tight mb-2 group-hover:text-[#835500] transition-colors leading-tight">
+              Bowl Mediterráneo de Falafel
+            </h2>
+<p class="font-body-sm text-body-sm text-[#333333] line-clamp-2 mb-4 leading-relaxed">
+              Falafel crujiente de hierbas frescas, hummus sedoso de garbanzo, vegetales encurtidos y aderezo de tahini tostado.
+            </p>
+</div>
+<div class="pt-3 border-t border-stone-100 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[#333333]">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 hover:text-[#835500] transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-sm text-label-sm font-semibold">1.8k</span>
+</button>
+<button class="flex items-center gap-1 hover:text-[#ab3333] transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[18px]">thumb_down</span>
+<span class="font-label-sm text-label-sm font-semibold">5</span>
+</button>
+</div>
+<span class="inline-flex items-center gap-1 bg-[#f0eded] px-2.5 py-0.5 rounded-full text-[#333333] font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[14px] text-[#e09f3e]">local_fire_department</span>
+                390 kcal
+              </span>
+</div>
+<div class="flex items-center justify-between gap-1.5 pt-1">
+<div class="flex items-center gap-1.5">
+<button aria-label="Añadir ingredientes al carrito" class="w-9 h-9 rounded-full bg-[#ffddb9] text-[#835500] flex items-center justify-center hover:bg-[#e09f3e] hover:text-white transition-colors shadow-sm" title="Añadir al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<a class="inline-flex items-center gap-1 bg-[#835500] text-white hover:bg-[#865300] px-3.5 py-1.5 rounded-full font-label-md text-label-md shadow-sm transition-colors font-semibold" href="#">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Ver receta</span>
+</a>
+</div>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</section>
+<!-- Bottom Pagination / CTA Area -->
+<div class="mt-14 flex flex-col sm:flex-row items-center justify-between gap-6 py-6 border-t border-stone-200/60">
+<div class="flex items-center gap-2 text-[#333333] font-body-sm text-body-sm">
+<span class="">Mostrando <strong>1 - 8</strong> de <strong>2,840</strong> recetas</span>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-4">
+<!-- Load More Button -->
+<button class="inline-flex items-center gap-2 bg-white text-[#333333] hover:text-[#000000] font-label-md text-label-md px-6 py-2.5 rounded-full shadow-sm border border-stone-200 hover:bg-stone-50 transition-all font-semibold" type="button">
+<span class="material-symbols-outlined text-[20px] text-[#835500]">expand_more</span>
+<span class="">Cargar más recetas</span>
+</button>
+<!-- Numeric Pagination Controls -->
+<div class="flex items-center gap-1 bg-white p-1 rounded-full shadow-sm border border-stone-200">
+<button aria-label="Página anterior" class="w-9 h-9 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-9 h-9 rounded-full bg-[#e09f3e] text-white font-label-md text-label-md shadow-sm font-semibold">1</button>
+<button class="w-9 h-9 rounded-full text-[#333333] hover:bg-stone-100 font-label-md text-label-md transition-colors">2</button>
+<button class="w-9 h-9 rounded-full text-[#333333] hover:bg-stone-100 font-label-md text-label-md transition-colors">3</button>
+<span class="px-1 text-[#333333]">...</span>
+<button class="w-9 h-9 rounded-full text-[#333333] hover:bg-stone-100 font-label-md text-label-md transition-colors">48</button>
+<button aria-label="Página siguiente" class="w-9 h-9 rounded-full flex items-center justify-center text-[#333333] hover:text-[#000000] hover:bg-stone-100 transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Interactive like / dislike micro-interaction
+  document.querySelectorAll('button[title="Me gusta"], button[title="No me gusta"]').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isLiked = this.classList.contains('active-action');
+      const icon = this.querySelector('.material-symbols-outlined');
+      if (!isLiked) {
+        this.classList.add('active-action', 'text-[#835500]');
+        if (icon) icon.style.fontVariationSettings = "'FILL' 1";
+      } else {
+        this.classList.remove('active-action', 'text-[#835500]');
+        if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+      }
+    });
+  });
+
+  // Shopping cart button feedback
+  document.querySelectorAll('button[title*="carrito"], button[title*="Carrito"]').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const icon = this.querySelector('.material-symbols-outlined');
+      if (icon) {
+        icon.textContent = 'check';
+        this.classList.remove('bg-[#ffddb9]', 'text-[#835500]');
+        this.classList.add('bg-[#e09f3e]', 'text-white');
+        setTimeout(() => {
+          icon.textContent = 'shopping_cart';
+          this.classList.remove('bg-[#e09f3e]', 'text-white');
+          this.classList.add('bg-[#ffddb9]', 'text-[#835500]');
+        }, 1500);
+      }
+    });
+  });
+</script></main><footer class="w-full bg-[#f6f3f2] border-t border-stone-200/80 py-10"><div class="w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-6"><div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[#835500] text-[28px]">room_service</span><h2 class="font-headline-md text-headline-md font-bold text-[#000000] tracking-tight">Gusto</h2></div><p class="font-body-sm text-body-sm text-[#333333] mt-1">Sistema integral de gestión de recetas &amp; Comunidad gastronómica</p></div><div class="flex items-center gap-4"><a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-[#333333] hover:text-[#000000] transition-colors font-medium" data-path="politicas-de-seguridad" href="#"><span class="material-symbols-outlined text-[#835500] text-[20px]">verified_user</span><span class="">Políticas de seguridad</span></a></div></div></footer>
+
+</body></html>
+
+<!-- Gusto - Foro y Comunidad -->
+<!DOCTYPE html><html lang="es" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#801318","secondary-fixed":"#ffddb9","on-background":"#1b1c1c","on-tertiary-fixed":"#410004","inverse-surface":"#303030","on-primary-fixed":"#291800","on-secondary-container":"#714500","on-surface":"#1b1c1c","surface-container-low":"#f6f3f2","surface-variant":"#e4e2e1","primary-container":"#e09f3e","primary":"#835500","secondary":"#865300","surface-tint":"#835500","on-primary":"#ffffff","inverse-on-surface":"#f3f0f0","secondary-fixed-dim":"#ffb963","surface-dim":"#dcd9d9","on-secondary":"#ffffff","tertiary-fixed":"#ffdad7","surface-bright":"#fbf9f8","tertiary":"#ab3333","outline":"#837564","on-error":"#ffffff","secondary-container":"#fdb252","inverse-primary":"#feb956","surface-container-highest":"#e4e2e1","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#663e00","tertiary-fixed-dim":"#ffb3ae","background":"#F3F3F3","on-error-container":"#93000a","primary-fixed":"#ffddb4","error-container":"#ffdad6","on-primary-container":"#5a3900","surface-container-high":"#eae8e7","primary-fixed-dim":"#feb956","on-surface-variant":"#514536","outline-variant":"#d5c4b1","on-primary-fixed-variant":"#633f00","tertiary-container":"#ff8a84","on-secondary-fixed":"#2b1700","surface-container":"#f0eded","error":"#ba1a1a","surface":"#F3F3F3","on-tertiary-fixed-variant":"#8a1b1e","on-tertiary":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter-mobile":"1rem","space-xs":"0.25rem","space-xl":"2.5rem","space-lg":"1.5rem","space-sm":"0.5rem","margin-tablet":"2rem",gutter:"1.5rem",margin:"3rem","space-md":"1rem","margin-mobile":"1.25rem"},fontFamily:{"body-sm":["Inter"],"body-lg":["Inter"],"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],display":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"]},fontSize:{"body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.02em",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"20px",fontWeight:"600"}],"headline-lg-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["20px",{lineHeight:"28px",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"800"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],display":["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"700"}]}}}};</script></head><body class="bg-[#F3F3F3] font-body-md text-[#333333] antialiased min-h-screen flex flex-col justify-between"><div class="sticky top-0 left-0 w-full z-50"><nav class="bg-[#E09F3E] text-on-primary shadow-[0_4px_20px_-2px_rgba(197,130,38,0.25)]"><div class="h-16 w-full px-6 md:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-white text-[28px]" style="font-variation-settings: &quot;FILL&quot; 1;">room_service</span><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-white font-display">Gusto</span></div><nav class="hidden lg:flex items-center gap-2"><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="explorar" href="#">Explorar</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="destacadas" href="#">Destacadas</a><a aria-current="page" class="px-space-md py-space-xs transition-all bg-white text-[#E09F3E] font-label-md text-label-md font-bold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.12)]" data-path="foro-y-comunidad" href="#">Foro y comunidad</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="comparar" href="#">Comparar</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-white hover:bg-white/20 transition-all" data-path="mi-espacio" href="#">Mi espacio</a></nav></div><div class="flex items-center gap-space-md"><a class="inline-flex items-center gap-1.5 bg-white text-[#835500] font-label-md text-label-md font-semibold py-2 px-5 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:bg-[#FFF8F0] transition-all" data-path="nueva-receta" href="#"><span class="material-symbols-outlined text-[18px]">add</span><span class="">Nueva receta</span></a><div class="flex items-center gap-space-xs text-white"><button aria-label="Carrito de compras de supermercado" class="relative p-2 rounded-full hover:bg-white/20 transition-colors" type="button"><span class="material-symbols-outlined text-[24px]">shopping_cart</span><span class="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-white text-[#835500] font-label-sm text-label-sm font-bold rounded-full shadow-sm">3</span></button><button aria-label="Notificaciones" class="relative p-2 rounded-full hover:bg-white/20 transition-colors" type="button"><span class="material-symbols-outlined text-[24px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-tertiary-container rounded-full ring-2 ring-[#E09F3E]"></span></button></div><div class="flex items-center gap-1.5 pl-space-xs cursor-pointer group" title="Alternar cuentas"><img alt="Profile" class="w-9 h-9 rounded-full object-cover ring-2 ring-white/70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiGQ2e6lZ1GWYGfEZL3a310H0b_PKYz2qi53ISvthP8W41AOvT0aB0nWEKnzOm3BKca3Bf_zQbVr5KjxtFOsKeoN1trCwGPrO2zb5nxTeEf4wXYJlmZrsd9Ao4BrODDofP_fmeE2jgcL7DSbEkZT1pgFR2-eYdFjOAwEK9w0kP6L3tetEuIE9a0J-6pMVLMYuUCl8mhJiamC4aIKmvqdFiphORV0ppxYSjLIxcTyeg3bLVbF2eWg"><span class="material-symbols-outlined text-white text-[20px] transition-transform group-hover:translate-y-0.5">keyboard_arrow_down</span></div></div></div></nav></div><main class="w-full flex-grow bg-[#F3F3F3] pb-16"><div class="w-full px-4 sm:px-8 lg:px-margin py-8 max-w-[1320px] mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div class="max-w-3xl">
+<div class="flex items-center gap-2 mb-2">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#ffddb9] text-[#865300]">
+<span class="material-symbols-outlined text-[17px]" style="font-variation-settings: 'FILL' 1;">forum</span>
+</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-[#865300] font-bold">Comunidad Gusto</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-extrabold text-[#000000] tracking-tight font-display mb-2">
+          Foro &amp; Comunidad Gastronómica
+        </h1>
+<p class="text-base md:text-lg text-[#333333] leading-relaxed">
+          Comparte tus secretos, técnicas de cocina, pide consejos y debate con apasionados del sabor.
+        </p>
+</div>
+<div class="flex-shrink-0">
+<button class="inline-flex items-center gap-2 bg-[#E09F3E] text-white font-label-lg text-label-lg px-6 py-3.5 rounded-full shadow-[0_4px_16px_rgba(224,159,62,0.4)] hover:bg-[#835500] transition-all duration-200 transform hover:-translate-y-0.5" id="btn-create-post">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="">Nueva publicación / Iniciar debate</span>
+</button>
+</div>
+</div>
+<!-- Toolbar & Category Filter Chips -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-8 bg-white p-3 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-1">
+<button class="filter-chip active flex-shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-[#E09F3E] text-white shadow-sm transition-all" data-filter="all">
+          Todas las discusiones
+        </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-[#F3F3F3] text-[#333333] hover:bg-[#ffddb9] hover:text-[#714500] transition-all" data-filter="tecnicas">
+          Técnicas culinarias
+        </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-[#F3F3F3] text-[#333333] hover:bg-[#ffddb9] hover:text-[#714500] transition-all" data-filter="ingredientes">
+          Ingredientes &amp; Sustituciones
+        </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-[#F3F3F3] text-[#333333] hover:bg-[#ffddb9] hover:text-[#714500] transition-all" data-filter="equipamiento">
+          Equipamiento
+        </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-[#F3F3F3] text-[#333333] hover:bg-[#ffddb9] hover:text-[#714500] transition-all" data-filter="secretos">
+          Secretos de chefs
+        </button>
+</div>
+<div class="flex items-center gap-2 px-2 border-t lg:border-t-0 pt-3 lg:pt-0">
+<div class="relative w-full lg:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-[#837564]">search</span>
+<input class="w-full pl-9 pr-4 py-2 bg-[#F3F3F3] rounded-full font-body-sm text-body-sm text-[#000000] placeholder:text-[#837564] focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#E09F3E] transition-all" placeholder="Buscar en el foro..." type="text">
+</div>
+<button class="p-2 rounded-full bg-[#F3F3F3] hover:bg-[#ffddb9] text-[#333333] transition-colors" title="Ordenar">
+<span class="material-symbols-outlined text-[20px]">swap_vert</span>
+</button>
+</div>
+</div>
+<!-- Main Grid Content: 8 cols discussions + 4 cols sidebar -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Feed of Horizontal Cards (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Card 1: Masa Madre y Greñado -->
+<article class="group bg-white rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100">
+<div class="flex flex-col sm:flex-row gap-6">
+<!-- Left Thumbnail -->
+<div class="sm:w-56 h-48 sm:h-auto flex-shrink-0 rounded-xl overflow-hidden relative bg-gray-100">
+<img alt="Hogaza de masa madre artesanal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal sourdough bread loaf resting on dark rustic wood with crisp blistering crust and dramatic scoring ear cut, warm golden bakery lighting with scattered fine flour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcleyCcXLcRDGMJCCeS34Dszy09dXqd3fvfT3Vs4o5Riv0bW6GfZtnHpTscp5cqMSYj4AUlTjOwZef655yN_PsUmoXHEgxn3AmKlaxH-zerWT6EhRctzRjVcqqV2blXTtbce_2xm3AEpfhHzw--8nb_uA9PZYduq_ZaRe3ygQwDTk6lPv_4yapO6sSM2GfC1CcoyF9pR1c8Wau5d0lt1LFxKXB1VfRZ2DilyChUXAuG8BklA7qcg">
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-[#E09F3E] text-white shadow-sm font-semibold">Destacado</span>
+</div>
+</div>
+<!-- Content Area -->
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2 flex-wrap">
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#FFF4E5] text-[#865300] font-semibold">#MasaMadre</span>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#F3F3F3] text-[#333333]">#Repostería</span>
+<span class="font-body-sm text-body-sm text-gray-500">• Hace 2 horas</span>
+</div>
+<h3 class="text-xl font-bold text-[#000000] group-hover:text-[#835500] transition-colors cursor-pointer mb-2 font-display">
+                  El secreto definitivo para un greñado perfecto y oreja pronunciada en hogazas rústicas
+                </h3>
+<p class="font-body-md text-body-md text-[#333333] line-clamp-2 leading-relaxed">
+                  ¿Tu masa se desparrama o el corte cicatriza antes del horno? Comparto la prueba de hidratación al 78% con harina de fuerza 320W y la clave de la tensión en el formado en frío.
+                </p>
+</div>
+<!-- Author & Metrics Footer -->
+<div class="pt-4 mt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+<!-- Author Info -->
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Mateo Valenzuela" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E09F3E]/30" data-alt="Close up portrait of an artisan baker in chef uniform smiling warmly in a flour dusted kitchen studio natural soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfTJzqsuOJaNCjiiiykJYYICavwMZ9J7yI-ZZEg_zgPlwrgSdnQf3hBS2HXA8mcrMVCHL9XAX6cpiBihGejUSEixwajLSUv0ysI7EeLUanFU3osWAsST_yaG3fI5xfke29ZCuN3a4CTydfoKyYta97NW9h8omHP6zjB-Ry93GsRPpVb4dfAckvWkQAUic7j3KaYU4DfbrwaurYuavj2HzCxYmLZHNMPRkZmv05tLPKbwEABx223Q">
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#E09F3E] border-2 border-white"></span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-[#000000] font-bold block leading-tight">Mateo Valenzuela</span>
+<span class="text-xs text-[#865300] font-medium block">Chef Panadero &amp; Molinero</span>
+</div>
+</div>
+<!-- Interaction Metrics -->
+<div class="flex items-center gap-4 text-[#333333]">
+<button class="interaction-btn flex items-center gap-1.5 hover:text-[#835500] transition-colors">
+<span class="material-symbols-outlined text-[19px]">chat_bubble_outline</span>
+<span class="font-label-md text-label-md">64 comentarios</span>
+</button>
+<button class="like-btn flex items-center gap-1.5 hover:text-[#ab3333] transition-colors">
+<span class="material-symbols-outlined text-[19px]">favorite_border</span>
+<span class="font-label-md text-label-md like-count">189</span>
+</button>
+<button class="bookmark-btn p-1.5 rounded-full hover:bg-gray-100 hover:text-[#835500] transition-colors" title="Guardar discusión">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: Emulsiones y Salsas Clásicas -->
+<article class="group bg-white rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100">
+<div class="flex flex-col sm:flex-row gap-6">
+<!-- Left Thumbnail -->
+<div class="sm:w-56 h-48 sm:h-auto flex-shrink-0 rounded-xl overflow-hidden relative bg-gray-100">
+<img alt="Emulsión de salsa holandesa en cazo de cobre" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Culinary macro shot of velvety golden Hollandaise sauce being whisked in a copper saucepan, warm kitchen lights and steam droplets" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZRic3mYLxTNQ5liSXshTF6mL71lmCko0ki4T0ggWsnElgZ7NXk_DFarbXrXmFU98M-1lMZPH1WIvh3oGKpwhiiCvnlmmi8e8rez-iabZOKzBm7R_opXxwaSEl4hk5khbV4VsqXN250-wi-QkDGmtGgPIX3tGbLX9MS7On1t1_Efin6ocvzOFQUL7OH555GdSl6n3l7X0qPq6qZ2JSnGIYExoYXlrveXvaljwu6tTj9rnDFpkU6A">
+</div>
+<!-- Content Area -->
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2 flex-wrap">
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#FFF4E5] text-[#865300] font-semibold">#SousVide</span>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#F3F3F3] text-[#333333]">#CocinaItaliana</span>
+<span class="font-body-sm text-body-sm text-gray-500">• Hace 5 horas</span>
+</div>
+<h3 class="text-xl font-bold text-[#000000] group-hover:text-[#835500] transition-colors cursor-pointer mb-2 font-display">
+                  ¿Cómo rescatar una salsa holandesa cortada en menos de 90 segundos?
+                </h3>
+<p class="font-body-md text-body-md text-[#333333] line-clamp-2 leading-relaxed">
+                  A todos nos ha pasado en pleno servicio. Olvida tirar la preparación: un cubito de hielo o una cucharada de agua tibia bien batida restablece el equilibrio de fases al instante.
+                </p>
+</div>
+<!-- Author & Metrics Footer -->
+<div class="pt-4 mt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Elena Morales" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E09F3E]/30" data-alt="Professional female executive chef in crisp white jacket standing in restaurant kitchen warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoXbfdnB5gbTPSqmSAxiduOe7-k_miYiS_QR0h9LNPhiw5GMqTdI0bwob08IYRtl4O1qAi7x3IhJ4D3ustgKIriNck9_8ziI7GtwE1u-6_tmmmAduNNXP4mMd-bQIdeex8jjx2cFHxfUi_mOd-bFkXzqwh3KM9eV51ykqC2UWPvumazrtzrAVwZg3zDGSl72yZYC81KzGpN_KDPsybiABF9oVGnmckGZnJXe-agQOV7qdk4lRkBQ">
+</div>
+<div>
+<span class="font-label-md text-label-md text-[#000000] font-bold block leading-tight">Elena Morales</span>
+<span class="text-xs text-[#865300] font-medium block">Chef Ejecutiva &amp; Docente</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#333333]">
+<button class="interaction-btn flex items-center gap-1.5 hover:text-[#835500] transition-colors">
+<span class="material-symbols-outlined text-[19px]">chat_bubble_outline</span>
+<span class="font-label-md text-label-md">42 comentarios</span>
+</button>
+<button class="like-btn flex items-center gap-1.5 hover:text-[#ab3333] transition-colors">
+<span class="material-symbols-outlined text-[19px]">favorite_border</span>
+<span class="font-label-md text-label-md like-count">241</span>
+</button>
+<button class="bookmark-btn p-1.5 rounded-full hover:bg-gray-100 hover:text-[#835500] transition-colors" title="Guardar discusión">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Afilado de Cuchillos Japoneses -->
+<article class="group bg-white rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100">
+<div class="flex flex-col sm:flex-row gap-6">
+<!-- Left Thumbnail -->
+<div class="sm:w-56 h-48 sm:h-auto flex-shrink-0 rounded-xl overflow-hidden relative bg-gray-100">
+<img alt="Afilado de cuchillo japonés en piedra de afilar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional Japanese chef knife sharpening process on whetstone 1000 6000 grit with water splash reflections dark culinary backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6qMHMwskWm-oVXY2QBsv34x8s_UqE5zZvgVesG7l6vfdYkDhAtdkhnGOprQHUFKsxUHYWKzM4SHaxnBSwFJ5AAB35s9YybUrjIwav50l-3alShP4dwnweUDPCaYVPNciCBaE9DjXBNKGeDYOzn9j6tdtW8HeYKZwE9xXGtpwu_q3-WnnJ8XQZRfHWcq9wq_iMTOdUFgfQRNQCJVfjp_1sfFCEDphCCD2f9Kh6t3TDLhjNX5uc_Q">
+</div>
+<!-- Content Area -->
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2 flex-wrap">
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#FFF4E5] text-[#865300] font-semibold">#Equipamiento</span>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#F3F3F3] text-[#333333]">#Cuchillería</span>
+<span class="font-body-sm text-body-sm text-gray-500">• Ayer</span>
+</div>
+<h3 class="text-xl font-bold text-[#000000] group-hover:text-[#835500] transition-colors cursor-pointer mb-2 font-display">
+                  Guía honesta de piedras al agua: ¿Realmente necesitas pasar del grano #3000?
+                </h3>
+<p class="font-body-md text-body-md text-[#333333] line-clamp-2 leading-relaxed">
+                  Comparativa práctica entre un filo de trabajo diario para carnes y verduras frente al acabado espejo pulido para sashimi. Ventajas de micro-dentado versus pulido extremo.
+                </p>
+</div>
+<!-- Author & Metrics Footer -->
+<div class="pt-4 mt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Kenji Takahashi" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E09F3E]/30" data-alt="Asian male chef smiling in restaurant kitchen holding chef tools warm ambient golden lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ8fNDdDXRlzVeShMyIhfszaiz7ZcwuaPxwEhkJjmZOHI1SOjr1SpzX_DYlsg8kfkKPc2kAlI41iQ3R7iUAo-cmV0oIybcg4WTTPvpGrd3H2BSgiZ48zvy0_37YsEEhPoO-bdZRdvrDRJm6kKizsKrmHEHfOTx2hLw1QKzDubKfFuBKejlGy689SEwk2W8_1hpeAMyaIp7OFDcQrJKVggrbLO6TopJUFxRp1lSTUKZ5ZCyj_uNAQ">
+</div>
+<div>
+<span class="font-label-md text-label-md text-[#000000] font-bold block leading-tight">Kenji Takahashi</span>
+<span class="text-xs text-[#865300] font-medium block">Chef Itamae &amp; Aficionado al Acero</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#333333]">
+<button class="interaction-btn flex items-center gap-1.5 hover:text-[#835500] transition-colors">
+<span class="material-symbols-outlined text-[19px]">chat_bubble_outline</span>
+<span class="font-label-md text-label-md">89 comentarios</span>
+</button>
+<button class="like-btn flex items-center gap-1.5 hover:text-[#ab3333] transition-colors">
+<span class="material-symbols-outlined text-[19px]">favorite_border</span>
+<span class="font-label-md text-label-md like-count">312</span>
+</button>
+<button class="bookmark-btn p-1.5 rounded-full hover:bg-gray-100 hover:text-[#835500] transition-colors" title="Guardar discusión">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: Fermentaciones y Pastas Italianas -->
+<article class="group bg-white rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100">
+<div class="flex flex-col sm:flex-row gap-6">
+<!-- Left Thumbnail -->
+<div class="sm:w-56 h-48 sm:h-auto flex-shrink-0 rounded-xl overflow-hidden relative bg-gray-100">
+<img alt="Frascos de fermentación artesanal y kimchi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Glass mason jars filled with colorful fermented vegetables kimchi and lacto fermented plums illuminated by warm kitchen morning sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN0GgSv15n4V8NZs9l2IxfTETfLpq-Dtgq0ZCovfp5j4e_HUwulYAUJ-f2x0oBbkpor-7-55E7l0lpKUwekTRsAwoqNYa6yulTHZUboJiiNusfOuq19EuIDk7-HNGLpI5A4BPQoQ9_H09BiLgTogTxDzFw4zkurC_ctYD1uwlyT-MrLCokKb8CEg1b73ckvmfqof8xUoqdn051X0t4wgYm690nJyn75cEBqEagZf7qZKcZmju5vQ">
+</div>
+<!-- Content Area -->
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2 flex-wrap">
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#FFF4E5] text-[#865300] font-semibold">#CocinaItaliana</span>
+<span class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#F3F3F3] text-[#333333]">#Fermentación</span>
+<span class="font-body-sm text-body-sm text-gray-500">• Hace 2 días</span>
+</div>
+<h3 class="text-xl font-bold text-[#000000] group-hover:text-[#835500] transition-colors cursor-pointer mb-2 font-display">
+                  Lacto-fermentación segura en casa: control de salinidad y pH sin instrumentos caros
+                </h3>
+<p class="font-body-md text-body-md text-[#333333] line-clamp-2 leading-relaxed">
+                  ¿2% o 3% de salmuera sobre peso neto? Desglosamos la fórmula universal para encurtidos crocantes que duran meses y nunca desarrollan moho no deseado.
+                </p>
+</div>
+<!-- Author & Metrics Footer -->
+<div class="pt-4 mt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Carla Vivas" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#E09F3E]/30" data-alt="Enthusiastic home cook holding glass jars of preserves in modern bright rustic kitchen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg66wtPprb17r1TMMG-uExSdwcQL4y0Cwfk0ziwyjBrpNylTe9bKH1I8xeGxYRE6nW29F4MoWkrfUkr6oKeAYsKHFpYgjXjvML1NDdV7X9kIv5zCjQY5EAyoy04Mk41x_MXE8Kmqkico-EoH_khNZvJWGj5_7jug-6SICqlQxP5kjsiClW_CIj6u6OD6N43xAGT74tF5mgOVXlOeBpnD54-3g6ed3i_nLpc3BRYcXs05Ga95O0Kg">
+</div>
+<div>
+<span class="font-label-md text-label-md text-[#000000] font-bold block leading-tight">Carla Vivas</span>
+<span class="text-xs text-[#865300] font-medium block">Foodie Entusiasta &amp; Fermentista</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#333333]">
+<button class="interaction-btn flex items-center gap-1.5 hover:text-[#835500] transition-colors">
+<span class="material-symbols-outlined text-[19px]">chat_bubble_outline</span>
+<span class="font-label-md text-label-md">53 comentarios</span>
+</button>
+<button class="like-btn flex items-center gap-1.5 hover:text-[#ab3333] transition-colors">
+<span class="material-symbols-outlined text-[19px]">favorite_border</span>
+<span class="font-label-md text-label-md like-count">175</span>
+</button>
+<button class="bookmark-btn p-1.5 rounded-full hover:bg-gray-100 hover:text-[#835500] transition-colors" title="Guardar discusión">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Pagination / Load More -->
+<div class="flex items-center justify-center pt-4">
+<button class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white text-[#000000] font-label-lg text-label-lg shadow-sm border border-gray-200 hover:bg-gray-50 transition-all font-semibold">
+<span class="">Cargar más publicaciones</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Sidebar (4 cols) -->
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<!-- Widget: Temas en Tendencia -->
+<div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100">
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-gray-100">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#E09F3E] text-[24px]">local_fire_department</span>
+<h3 class="text-lg font-bold text-[#000000] font-display">Temas en tendencia</h3>
+</div>
+<span class="text-xs text-gray-500 font-medium">Esta semana</span>
+</div>
+<div class="flex flex-col divide-y divide-gray-100">
+<a class="py-3 group block" href="#">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-[#865300]">#MasaMadre</span>
+<span class="text-xs text-gray-400">1.4k posts</span>
+</div>
+<h4 class="font-label-lg text-label-lg text-[#000000] group-hover:text-[#835500] transition-colors leading-snug font-semibold">
+                ¿Miga abierta o miga cerrada? La gran controversia del alveolado
+              </h4>
+<p class="font-body-sm text-body-sm text-[#333333] mt-0.5 line-clamp-1">
+                Técnicas de autólisis vs fermentación en bloque prolongada.
+              </p>
+</a>
+<a class="py-3 group block" href="#">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-[#865300]">#SousVide</span>
+<span class="text-xs text-gray-400">892 posts</span>
+</div>
+<h4 class="font-label-lg text-label-lg text-[#000000] group-hover:text-[#835500] transition-colors leading-snug font-semibold">
+                Puntos de cocción exacta en carnes magras a baja temperatura
+              </h4>
+<p class="font-body-sm text-body-sm text-[#333333] mt-0.5 line-clamp-1">
+                Sellado final con mantequilla avellanada y hierbas frescas.
+              </p>
+</a>
+<a class="py-3 group block" href="#">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-[#865300]">#CocinaItaliana</span>
+<span class="text-xs text-gray-400">745 posts</span>
+</div>
+<h4 class="font-label-lg text-label-lg text-[#000000] group-hover:text-[#835500] transition-colors leading-snug font-semibold">
+                Harina tipo 00 vs sémola de trigo duro en pastas frescas
+              </h4>
+<p class="font-body-sm text-body-sm text-[#333333] mt-0.5 line-clamp-1">
+                Estructura de gluten, elasticidad y absorción de salsas.
+              </p>
+</a>
+<a class="py-3 group block" href="#">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-bold text-[#865300]">#Repostería</span>
+<span class="text-xs text-gray-400">610 posts</span>
+</div>
+<h4 class="font-label-lg text-label-lg text-[#000000] group-hover:text-[#835500] transition-colors leading-snug font-semibold">
+                Atemperado de chocolate por siembra sin termómetro infrarrojo
+              </h4>
+<p class="font-body-sm text-body-sm text-[#333333] mt-0.5 line-clamp-1">
+                Trucos táctiles en labio y espátula para brillo de vitrina.
+              </p>
+</a>
+</div>
+</div>
+<!-- Widget: Chefs destacados del mes -->
+<div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100">
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-gray-100">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#E09F3E] text-[24px]">workspace_premium</span>
+<h3 class="text-lg font-bold text-[#000000] font-display">Chefs destacados del mes</h3>
+</div>
+<a class="text-xs font-bold text-[#835500] hover:underline" href="#">Ver ranking</a>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Chef 1 -->
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<div class="relative flex-shrink-0">
+<img alt="Rodrigo Arismendi" class="w-11 h-11 rounded-full object-cover ring-2 ring-[#E09F3E]" data-alt="Chef portrait looking at camera smiling confident with dark apron warm studio portrait culinary style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClviB9nVYn9pj86EZEd_ghCwXu08TzKmNpCU2SE8t0ZR3usRPW5gW0LTrhLXHYsB5ZaKXpPea5vaIXwZgt1wfh3bsYLiu9_KJTOihnT50JCE3zpWYOi2Pbr1rA1A-DoX9jdkdkr_Ncn4bv42jTfSeyT_s7XhAGanaB5URYEIr_3Dvw9Zhr9ErLOyG46UFJvjW_-TzLfV7YKGL6ZqZ3UuxqK134o1LupbdFaE-ggcqIaJWWPIa1KA">
+<span class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-[#E09F3E] text-white text-xs flex items-center justify-center font-bold shadow-sm">1</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-md text-label-md text-[#000000] font-bold truncate">Rodrigo Arismendi</h4>
+<p class="text-xs text-[#865300] truncate">Especialista en Asados &amp; Brasa</p>
+</div>
+</div>
+<button class="follow-btn flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-300 hover:bg-[#E09F3E] hover:text-white hover:border-transparent transition-all">
+                Seguir
+              </button>
+</div>
+<!-- Chef 2 -->
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<div class="relative flex-shrink-0">
+<img alt="Sophie Laurent" class="w-11 h-11 rounded-full object-cover ring-2 ring-gray-200" data-alt="French female pastry chef wearing professional chef hat and coat smiling warmly in bakery kitchen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuhbvs5JzjHrlwkG-141XHJc9QAHnZ1VV20FP3JHj7hfWY4yHGFj90dXsUbTGAAecGT47NQRXzigaYjVngLMOz9GR-UyW-LRvWY2mnm91bAQJHbBmovJJDNcjB7IKxP-GSie0HKkMOhac_6VjT5giz5geS_jd8sZwJNhP58_76tjJCEwRIBSTE_j4CMFXe4I1ChWRCs0vzoR3bS9_fyK2h_WXjUOqs3gUlY8kyXb2VtKMxOaulKA">
+<span class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-gray-200 text-[#000000] text-xs flex items-center justify-center font-bold shadow-sm">2</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-md text-label-md text-[#000000] font-bold truncate">Sophie Laurent</h4>
+<p class="text-xs text-[#865300] truncate">Chef Pastelera &amp; Viennoiserie</p>
+</div>
+</div>
+<button class="follow-btn flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-300 hover:bg-[#E09F3E] hover:text-white hover:border-transparent transition-all">
+                Seguir
+              </button>
+</div>
+<!-- Chef 3 -->
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<div class="relative flex-shrink-0">
+<img alt="Marco Santoro" class="w-11 h-11 rounded-full object-cover ring-2 ring-gray-200" data-alt="Italian male chef in modern minimalist kitchen holding fresh pasta dough warm natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnwpI7Nd_KSqIgL9oowF3yY54DSyAgE9O4AcfyQHn1_SGRGabnBkLGfPU9pxhxHgtddZxREJT-4iHh6xt_5GDglg2sv1COMnGAl-O3joMa1AROfRE5wViFigs3ZvZJkw4aM-ERhAFUfuXM1buL79buVn5TDLtaDzvveJ0mY_CK-7Z5WpuO5Jci83t5wCtfj16TLpLfkFkmzai5NkvUZnDqnp5N4yHxoCsAix-rhIPWiA038zYRKQ">
+<span class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-gray-200 text-[#000000] text-xs flex items-center justify-center font-bold shadow-sm">3</span>
+</div>
+<div class="min-w-0">
+<h4 class="font-label-md text-label-md text-[#000000] font-bold truncate">Marco Santoro</h4>
+<p class="text-xs text-[#865300] truncate">Maestro Pasta Fresca</p>
+</div>
+</div>
+<button class="follow-btn flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-300 hover:bg-[#E09F3E] hover:text-white hover:border-transparent transition-all">
+                Seguir
+              </button>
+</div>
+</div>
+</div>
+<!-- Widget: Reglas de la comunidad -->
+<div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#E09F3E]/20">
+<div class="flex items-center gap-2 text-[#835500] mb-3">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+<h4 class="text-base font-bold text-[#000000] font-display">Reglas de la comunidad</h4>
+</div>
+<p class="font-body-sm text-body-sm text-[#333333] leading-relaxed mb-4">
+            En Gusto valoramos la crítica constructiva, el respeto mutuo a las tradiciones culinarias y la generosidad al compartir técnicas gastronómicas.
+          </p>
+<a class="inline-flex items-center gap-1.5 text-xs font-bold text-[#835500] hover:text-[#E09F3E] transition-colors" href="#">
+<span class="">Leer lineamientos completos</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</aside>
+</div>
+</div>
+<!-- Interactive Modal: Crear Nueva Publicación -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200" id="modal-post">
+<div class="bg-white w-full max-w-xl rounded-3xl p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-200 max-h-[90vh] overflow-y-auto">
+<div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#E09F3E] text-[26px]">drive_file_rename_outline</span>
+<h3 class="text-xl font-bold text-[#000000] font-display">Subir nueva idea o debate</h3>
+</div>
+<button class="p-1.5 rounded-full text-gray-400 hover:bg-gray-100 transition-colors" id="btn-close-modal">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<form class="flex flex-col gap-4" id="form-new-post">
+<div>
+<label class="block text-xs font-bold text-[#000000] mb-1.5">Título del debate o técnica</label>
+<input class="w-full px-4 py-2.5 rounded-xl bg-[#F3F3F3] text-sm text-[#000000] border-0 focus:ring-2 focus:ring-[#E09F3E] outline-none" placeholder="Ej: Mi método infalible para emulsionar mayonesa sin que se corte" required="" type="text">
+</div>
+<div>
+<label class="block text-xs font-bold text-[#000000] mb-1.5">Categoría culinaria</label>
+<select class="w-full px-4 py-2.5 rounded-xl bg-[#F3F3F3] text-sm text-[#000000] border-0 focus:ring-2 focus:ring-[#E09F3E] outline-none">
+<option>Técnicas culinarias</option>
+<option>Ingredientes &amp; Sustituciones</option>
+<option>Equipamiento</option>
+<option>Secretos de chefs</option>
+<option>Repostería &amp; Panadería</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-bold text-[#000000] mb-1.5">Descripción / Pregunta detallada</label>
+<textarea class="w-full px-4 py-2.5 rounded-xl bg-[#F3F3F3] text-sm text-[#000000] border-0 focus:ring-2 focus:ring-[#E09F3E] outline-none resize-none" placeholder="Explica los ingredientes, tiempos, proporciones o la duda que deseas debatir..." required="" rows="4"></textarea>
+</div>
+<div>
+<label class="block text-xs font-bold text-[#000000] mb-1.5">Etiquetas (separadas por coma)</label>
+<input class="w-full px-4 py-2.5 rounded-xl bg-[#F3F3F3] text-sm text-[#000000] border-0 focus:ring-2 focus:ring-[#E09F3E] outline-none" placeholder="#MasaMadre, #SousVide, #CocinaItaliana" type="text">
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+<button class="px-5 py-2 rounded-full text-xs font-semibold text-[#333333] hover:bg-gray-100 transition-colors" id="btn-cancel-modal" type="button">
+            Cancelar
+          </button>
+<button class="px-6 py-2.5 rounded-full text-xs font-bold bg-[#E09F3E] text-white hover:bg-[#835500] shadow-sm transition-all" type="submit">
+            Publicar en la comunidad
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Inline Micro-interactions Script -->
+<script>
+    (function initGustoForum() {
+      // Filter chips active toggle
+      const filterChips = document.querySelectorAll('.filter-chip');
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          filterChips.forEach(c => {
+            c.classList.remove('bg-[#E09F3E]', 'text-white', 'shadow-sm');
+            c.classList.add('bg-[#F3F3F3]', 'text-[#333333]');
+          });
+          chip.classList.remove('bg-[#F3F3F3]', 'text-[#333333]');
+          chip.classList.add('bg-[#E09F3E]', 'text-white', 'shadow-sm');
+        });
+      });
+
+      // Like buttons increment
+      const likeButtons = document.querySelectorAll('.like-btn');
+      likeButtons.forEach(btn => {
+        let liked = false;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const countSpan = btn.querySelector('.like-count');
+          const icon = btn.querySelector('.material-symbols-outlined');
+          let currentCount = parseInt(countSpan.textContent, 10);
+
+          if (!liked) {
+            countSpan.textContent = currentCount + 1;
+            icon.textContent = 'favorite';
+            icon.style.fontVariationSettings = "'FILL' 1";
+            btn.classList.add('text-[#ab3333]');
+            liked = true;
+          } else {
+            countSpan.textContent = currentCount - 1;
+            icon.textContent = 'favorite_border';
+            icon.style.fontVariationSettings = "'FILL' 0";
+            btn.classList.remove('text-[#ab3333]');
+            liked = false;
+          }
+        });
+      });
+
+      // Bookmark buttons toggle
+      const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+      bookmarkButtons.forEach(btn => {
+        let saved = false;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const icon = btn.querySelector('.material-symbols-outlined');
+          if (!saved) {
+            icon.textContent = 'bookmark';
+            icon.style.fontVariationSettings = "'FILL' 1";
+            btn.classList.add('text-[#835500]');
+            saved = true;
+          } else {
+            icon.textContent = 'bookmark_border';
+            icon.style.fontVariationSettings = "'FILL' 0";
+            btn.classList.remove('text-[#835500]');
+            saved = false;
+          }
+        });
+      });
+
+      // Follow buttons toggle
+      const followButtons = document.querySelectorAll('.follow-btn');
+      followButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.textContent.trim() === 'Seguir') {
+            btn.textContent = 'Siguiendo';
+            btn.classList.add('bg-[#ffddb9]', 'text-[#2b1700]', 'border-transparent');
+          } else {
+            btn.textContent = 'Seguir';
+            btn.classList.remove('bg-[#ffddb9]', 'text-[#2b1700]', 'border-transparent');
+          }
+        });
+      });
+
+      // Modal open/close behavior
+      const modal = document.getElementById('modal-post');
+      const openModalBtn = document.getElementById('btn-create-post');
+      const closeModalBtn = document.getElementById('btn-close-modal');
+      const cancelModalBtn = document.getElementById('btn-cancel-modal');
+      const formNewPost = document.getElementById('form-new-post');
+
+      const openModal = () => {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.querySelector('.transform').classList.remove('scale-95');
+        modal.querySelector('.transform').classList.add('scale-100');
+      };
+
+      const closeModal = () => {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.querySelector('.transform').classList.remove('scale-100');
+        modal.querySelector('.transform').classList.add('scale-95');
+      };
+
+      if (openModalBtn) openModalBtn.addEventListener('click', openModal);
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+      if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      if (formNewPost) {
+        formNewPost.addEventListener('submit', (e) => {
+          e.preventDefault();
+          closeModal();
+          alert('¡Tu publicación ha sido enviada con éxito a la comunidad Gusto!');
+          formNewPost.reset();
+        });
+      }
+    })();
+  </script>
+</main><footer class="w-full bg-[#f6f3f2] shadow-[0_-1px_8px_rgba(0,0,0,0.02)] py-10"><div class="w-full px-6 md:px-margin max-w-[1320px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6"><div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[#835500] text-[28px]">room_service</span><h2 class="font-headline-md text-headline-md font-bold text-[#000000] tracking-tight font-display">Gusto</h2></div><p class="font-body-sm text-body-sm text-[#333333] mt-1">Sistema integral de gestión de recetas &amp; Comunidad gastronómica</p></div><div class="flex items-center gap-2"><a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-[#333333] hover:text-[#000000] font-medium transition-colors" data-path="politicas-de-seguridad" href="#"><span class="material-symbols-outlined text-[#835500] text-[20px]">verified_user</span><span class="">Políticas de seguridad</span></a></div></div></footer>
+
+
+</body></html>
+
+<!-- Gusto - Recetas Destacadas -->
+<!DOCTYPE html><html lang="es" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#801318","secondary-fixed":"#ffddb9","on-background":"#1b1c1c","on-tertiary-fixed":"#410004","inverse-surface":"#303030","on-primary-fixed":"#291800","on-secondary-container":"#714500","on-surface":"#1b1c1c","surface-container-low":"#f6f3f2","surface-variant":"#e4e2e1","primary-container":"#e09f3e","primary":"#835500","secondary":"#865300","surface-tint":"#835500","on-primary":"#ffffff","inverse-on-surface":"#f3f0f0","secondary-fixed-dim":"#ffb963","surface-dim":"#dcd9d9","on-secondary":"#ffffff","tertiary-fixed":"#ffdad7","surface-bright":"#fbf9f8","tertiary":"#ab3333","outline":"#837564","on-error":"#ffffff","secondary-container":"#fdb252","inverse-primary":"#feb956","surface-container-highest":"#e4e2e1","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#663e00","tertiary-fixed-dim":"#ffb3ae","background":"#fbf9f8","on-error-container":"#93000a","primary-fixed":"#ffddb4","error-container":"#ffdad6","on-primary-container":"#5a3900","surface-container-high":"#eae8e7","primary-fixed-dim":"#feb956","on-surface-variant":"#514536","outline-variant":"#d5c4b1","on-primary-fixed-variant":"#633f00","tertiary-container":"#ff8a84","on-secondary-fixed":"#2b1700","surface-container":"#f0eded","error":"#ba1a1a","surface":"#fbf9f8","on-tertiary-fixed-variant":"#8a1b1e","on-tertiary":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter-mobile":"1rem","space-xs":"0.25rem","space-xl":"2.5rem","space-lg":"1.5rem","space-sm":"0.5rem","margin-tablet":"2rem",gutter:"1.5rem",margin:"3rem","space-md":"1rem","margin-mobile":"1.25rem"},fontFamily:{"body-sm":["Inter"],"body-lg":["Inter"],"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],display:["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"]},fontSize:{"body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.02em",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"20px",fontWeight:"600"}],"headline-lg-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["20px",{lineHeight:"28px",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"800"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],display:["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"700"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><div class="fixed top-0 left-0 w-full z-50"><nav class="bg-primary-container text-on-primary shadow-[0_4px_20px_-2px_rgba(197,130,38,0.18)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[28px] text-on-primary" style="font-variation-settings: &quot;FILL&quot; 1;">room_service</span><span class="font-headline-sm text-headline-sm tracking-tight text-on-primary">Gusto</span></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="bg-surface-container-lowest text-on-primary-container font-label-md text-label-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.06)]"><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="explorar" href="#">Explorar</a><a aria-current="page" class="px-space-md py-space-xs transition-all bg-surface-container-lowest text-on-primary-container font-label-md text-label-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.06)]" data-path="destacadas" href="#">Destacadas</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="foro-y-comunidad" href="#">Foro y comunidad</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="comparar" href="#">Comparar</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="mi-espacio" href="#">Mi espacio</a></nav></div><div class="flex items-center gap-space-md"><a class="inline-flex items-center gap-space-xs bg-surface-container-lowest text-on-primary-container font-label-lg text-label-lg px-space-lg py-space-xs rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="nueva-receta" href="#"><span class="material-symbols-outlined text-[18px]">add</span><span class="">Nueva receta</span></a><div class="flex items-center gap-space-xs text-on-primary"><button aria-label="Carrito de compras" class="relative p-space-xs rounded-full hover:bg-secondary-container hover:text-on-secondary-container transition-colors" type="button"><span class="material-symbols-outlined">shopping_cart</span><span class="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-surface-container-lowest text-on-primary-container font-label-sm text-label-sm rounded-full shadow-sm">3</span></button><button aria-label="Notificaciones" class="relative p-space-xs rounded-full hover:bg-secondary-container hover:text-on-secondary-container transition-colors" type="button"><span class="material-symbols-outlined">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-tertiary-container rounded-full"></span></button></div><div class="flex items-center gap-space-xs pl-space-xs cursor-pointer group"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_0_0_2px_rgba(255,255,255,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiGQ2e6lZ1GWYGfEZL3a310H0b_PKYz2qi53ISvthP8W41AOvT0aB0nWEKnzOm3BKca3Bf_zQbVr5KjxtFOsKeoN1trCwGPrO2zb5nxTeEf4wXYJlmZrsd9Ao4BrODDofP_fmeE2jgcL7DSbEkZT1pgFR2-eYdFjOAwEK9w0kP6L3tetEuIE9a0J-6pMVLMYuUCl8mhJiamC4aIKmvqdFiphORV0ppxYSjLIxcTyeg3bLVbF2eWg"><span class="material-symbols-outlined text-on-primary text-[20px] transition-transform group-hover:translate-y-0.5">keyboard_arrow_down</span></div></div></div></nav></div><main class="w-full bg-surface min-h-[calc(100vh-140px)] pt-space-xl"><div class="flex flex-col w-full">
+<!-- Sub-header Breadcrumb / Navigation context -->
+<div class="w-full px-margin pt-space-lg pb-space-sm flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs text-primary mb-1">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Hall de Fama Gastronómico</span>
+</div>
+<h2 class="font-display text-display text-on-surface tracking-tight">Recetas Destacadas de la Comunidad</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mt-1">
+        Las creaciones culinarias más aclamadas y votadas por nuestros chefs y aficionados
+      </p>
+</div>
+<!-- Live trending counter indicator -->
+<div class="hidden xl:flex items-center gap-space-md bg-surface-container-lowest px-space-lg py-space-sm rounded-full shadow-sm">
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-label-sm text-label-sm">#1</div>
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-label-sm text-label-sm">#2</div>
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-label-sm text-label-sm">#3</div>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="">14.8k votos emitidos hoy</span>
+</div>
+</div>
+</div>
+<!-- Filter Period Tabs Bar -->
+<div class="w-full px-margin py-space-md sticky top-16 z-30 bg-surface/90 backdrop-blur-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md bg-surface-container-low p-space-xs rounded-full shadow-sm">
+<div class="inline-flex items-center p-1 bg-surface-container-highest rounded-full" id="period-selector">
+<button class="tab-btn px-space-xl py-space-xs rounded-full font-label-lg text-label-lg bg-primary-container text-on-primary shadow-sm transition-all" data-period="dia" type="button">
+          Top del Día
+        </button>
+<button class="tab-btn px-space-xl py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-all" data-period="semana" type="button">
+          Top de la Semana
+        </button>
+<button class="tab-btn px-space-xl py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-all" data-period="mes" type="button">
+          Top del Mes
+        </button>
+</div>
+<!-- Quick stats & sorting tags -->
+<div class="flex items-center gap-space-xs pr-space-md overflow-x-auto">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant hidden sm:inline-block mr-1">Filtrar por:</span>
+<button class="px-space-md py-1 bg-surface-container-lowest text-primary font-label-sm text-label-sm rounded-full shadow-sm flex items-center gap-1 hover:bg-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+          Mayor Votación
+        </button>
+<button class="px-space-md py-1 bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm rounded-full hover:bg-surface-variant transition-colors" type="button">
+          Chefs Certificados
+        </button>
+<button class="px-space-md py-1 bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm rounded-full hover:bg-surface-variant transition-colors" type="button">
+          Bajo en Calorías
+        </button>
+</div>
+</div>
+</div>
+<!-- Main Content Container -->
+<div class="w-full px-margin py-space-lg flex flex-col gap-space-xl">
+<!-- SPOTLIGHT HERO / PODIUM WINNER (#1) -->
+<div class="relative w-full rounded-2xl bg-surface-container-lowest shadow-[0_4px_24px_-2px_rgba(197,130,38,0.12)] overflow-hidden">
+<div class="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[460px]">
+<!-- Spotlight visual area -->
+<div class="lg:col-span-7 relative min-h-[300px] lg:min-h-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 hover:scale-105" data-alt="A gourmet artisan dish of slow-roasted salmon on saffron risotto with microgreens, warm golden hour kitchen light, roasted caramel notes, fine dining culinary food photography with shallow depth of field, pristine white ceramics and rustic warm copper accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA59fm7OP08ymJuuC38HCCIaRR7o-08lnLA8bXKv3cgtQlj0up4fxP1rVuhg7yjwSrDVY2NQzzFyfLpERMvU4AP7_k-G0Uk3T6HxxloNu2EZ1xjIpHKYKFktMPTuPj-hTHuWEyKAn850LcMjSiZNrCGezRxSqwW1rh9d9f5mLOlxKJSOCyj3aOmCBGQOsk38fwHWBYh4DwmtUmPMGMDLIR-0Pp0wREfrvQwtM6t1jGZI7lPp8xyxA')"></div>
+<!-- Scrim & Floating Podium Badges -->
+<div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-black/50 via-black/10 to-transparent"></div>
+<div class="absolute top-4 left-4 flex flex-wrap items-center gap-2">
+<span class="px-space-md py-space-xs bg-primary-container text-on-primary font-label-md text-label-md rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+              #1 Top del Día
+            </span>
+<span class="px-space-sm py-space-xs bg-inverse-surface/85 text-inverse-on-surface font-label-sm text-label-sm rounded-full backdrop-blur-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-secondary-container" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+              Trending 98%
+            </span>
+</div>
+<div class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md px-space-md py-space-xs rounded-full flex items-center gap-2 shadow-sm">
+<img alt="Chef Elena Rostova" class="w-6 h-6 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiGQ2e6lZ1GWYGfEZL3a310H0b_PKYz2qi53ISvthP8W41AOvT0aB0nWEKnzOm3BKca3Bf_zQbVr5KjxtFOsKeoN1trCwGPrO2zb5nxTeEf4wXYJlmZrsd9Ao4BrODDofP_fmeE2jgcL7DSbEkZT1pgFR2-eYdFjOAwEK9w0kP6L3tetEuIE9a0J-6pMVLMYuUCl8mhJiamC4aIKmvqdFiphORV0ppxYSjLIxcTyeg3bLVbF2eWg">
+<span class="font-label-sm text-label-sm text-on-surface">Chef Elena Rostova</span>
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Spotlight Content Area -->
+<div class="lg:col-span-5 p-space-xl flex flex-col justify-between bg-surface-container-lowest">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Plato de Oro Invicto</span>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">timer</span>
+                45 mins
+              </div>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mb-space-sm leading-tight">
+              Salmón Glaseado con Reducción de Miel de Romero &amp; Risotto Azafranado
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-space-lg">
+              Crujiente corte de salmón salvaje macerado en emulsión de cítricos y romero silvestre, descansando sobre una base cremosa de arroz carnaroli con hebras de azafrán español y pistachos tostados al soplete.
+            </p>
+<!-- Metrics bar for spotlight -->
+<div class="grid grid-cols-3 gap-space-sm p-space-md rounded-xl bg-surface-container-low mb-space-lg text-center">
+<div>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold">640</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Calorías</span>
+</div>
+<div class="flex flex-col justify-center">
+<span class="block font-headline-sm text-headline-sm text-primary font-bold">4.98</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Votos (1.4k)</span>
+</div>
+<div>
+<span class="block font-headline-sm text-headline-sm text-on-surface font-bold">Media</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Dificultad</span>
+</div>
+</div>
+</div>
+<!-- Bottom bar inside spotlight -->
+<div class="flex items-center justify-between pt-space-md border-t-0 bg-surface-container-lowest">
+<div class="flex items-center gap-space-md">
+<button class="flex items-center gap-1.5 text-on-surface hover:text-primary transition-colors" title="Me gusta" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+<span class="font-label-md text-label-md">1,248</span>
+</button>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-error transition-colors" title="No me gusta" type="button">
+<span class="material-symbols-outlined text-[19px]">thumb_down</span>
+<span class="font-label-md text-label-md">14</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<button aria-label="Añadir ingredientes al carrito" class="w-10 h-10 rounded-full bg-surface-container-high hover:bg-secondary-container hover:text-on-secondary-container text-on-surface flex items-center justify-center transition-all shadow-sm" title="Añadir ingredientes al carrito" type="button">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+</button>
+<button class="px-space-lg py-space-xs rounded-full bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center gap-2 hover:bg-primary transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="">Ver receta</span>
+</button>
+<button aria-label="Más acciones" class="w-9 h-9 rounded-full hover:bg-surface-variant text-on-surface-variant flex items-center justify-center transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[22px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION TITLE & LEADERBOARD GRID -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[26px]">military_tech</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">Top Clasificados de la Jornada</h3>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Actualizado hace 12 minutos</span>
+</div>
+<!-- 6-CARD RESPONSIVE GRID -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg">
+<!-- CARD 2 (#2 Top del Día) -->
+<article class="flex flex-col bg-surface-container-lowest rounded-2xl shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06)] overflow-hidden transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12)] hover:-translate-y-1">
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 hover:scale-105" data-alt="Rustic fresh hand-tossed sourdough pizza topped with burrata, heirloom cherry tomatoes, prosciutto di Parma, and fresh basil leaves, soft morning light in an Italian trattoria kitchen, warm wood tones and fine flour dusting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAm1l2wPrEk_UA39-dB_2b4bSmPyRZyqY60eIdbkJXwhNKkrH0J9M3XyQ_mmBNw9dVBxDvRvbi5li_17U1w15SLrTqHsuEg37QLLSwf-HnqlaiXwXRniGzUHx0nR1XKPm9qBcseaiyE2cDQQm61CUQ17ylyqJTpRSHEpbqHUNhfcBiEi8exXMmlyKaNAGLXLlDhCCEQxPLgiAou9kWiJw-UJHjVOZTkAPEhqOgMQE0iIcWr245xzA')"></div>
+<div class="absolute top-3 left-3 flex items-center gap-2">
+<span class="px-space-sm py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm rounded-full shadow-sm flex items-center gap-1 font-bold">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+              #2 Top del Día
+            </span>
+<span class="px-space-xs py-1 bg-surface-container-highest/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm rounded-full">
+              Trending 94%
+            </span>
+</div>
+<button aria-label="Guardar en favoritos" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-tertiary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">Italiana</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">30 mins</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold line-clamp-1 mb-1">
+              Pizza Napolitana de Burrata &amp; Higos
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Masa madre leudada 48 horas con mozzarella di bufala fior di latte, compota suave de higos y lluvia de albahaca fresca de huerto.
+            </p>
+</div>
+<!-- Bottom Bar of the card -->
+<div class="pt-space-md flex flex-col gap-space-sm bg-surface-container-lowest">
+<!-- Calorie & community likes row -->
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low px-space-md py-1.5 rounded-xl">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[17px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                  892
+                </span>
+<span class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">thumb_down</span>
+                  11
+                </span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span>
+                520 kcal
+              </div>
+</div>
+<!-- Action buttons bottom bar -->
+<div class="flex items-center justify-between">
+<button aria-label="Añadir ingredientes al carrito" class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors" title="Añadir ingredientes al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="">Ver receta</span>
+</button>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full hover:bg-surface-variant text-on-surface-variant flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 3 (#3 Top del Día) -->
+<article class="flex flex-col bg-surface-container-lowest rounded-2xl shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06)] overflow-hidden transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12)] hover:-translate-y-1">
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 hover:scale-105" data-alt="Steaming bowl of authentic Japanese tonkotsu ramen with soft-boiled nitamago egg, chashu pork slices, nori sheet and scallions, studio quality culinary photography with rich amber broth reflections and moody warm lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZcRfZOPUDDDK3ciM_qicIr1IadNNJVzWze1ari1xzr4TEE18uQq6-1JkU7H5_Px54gZn0Wl9X9Bq6pVe35UufPU8Aueq3J5I7BEirQa4moqcek8edUJMiMLx9pHrJusayX1QlyWsRVXj4X0Z13F3L523AHW5X9PMW_c8FqRr1kxeFPFY7af4GXFG8MWlouf-hKf5zOZgqz-7JOvAv89pBrYWGG9VNj3Avb4jVAnOKE5EdDZDd9g')"></div>
+<div class="absolute top-3 left-3 flex items-center gap-2">
+<span class="px-space-sm py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm rounded-full shadow-sm flex items-center gap-1 font-bold">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+              #3 Top del Día
+            </span>
+<span class="px-space-xs py-1 bg-surface-container-highest/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm rounded-full">
+              Trending 91%
+            </span>
+</div>
+<button aria-label="Guardar en favoritos" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-tertiary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">Asiática</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">1h 15m</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold line-clamp-1 mb-1">
+              Tonkotsu Ramen Artesanal con Huevo Onsen
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Caldo sedoso de 12 horas de cocción lenta, fideos alcalinos hechos a mano, panceta caramelizada y aceite de ajo negro tostado.
+            </p>
+</div>
+<div class="pt-space-md flex flex-col gap-space-sm bg-surface-container-lowest">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low px-space-md py-1.5 rounded-xl">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[17px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                  764
+                </span>
+<span class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">thumb_down</span>
+                  8
+                </span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span>
+                680 kcal
+              </div>
+</div>
+<div class="flex items-center justify-between">
+<button aria-label="Añadir ingredientes al carrito" class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors" title="Añadir ingredientes al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="">Ver receta</span>
+</button>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full hover:bg-surface-variant text-on-surface-variant flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 4 (#4 del Día) -->
+<article class="flex flex-col bg-surface-container-lowest rounded-2xl shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06)] overflow-hidden transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12)] hover:-translate-y-1">
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 hover:scale-105" data-alt="Velvety Basque burnt cheesecake slice with caramelized deeply browned crust and creamy runny center, sprinkled with Madagascar sea salt flakes and accompanied by fresh wild blackberries, shot on warm neutral linen." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnmQkHnnSt8H2jUsk4nfZ1I4J3WgMpmvenzpKvYu87usMd90DeMc5fGVSA-sQ-RF621IwaC12N20SaPzm6T5blcUnvEXd53HACBlFQPvXkbXgqr8k3qlKy-xQZBvaDrrxQsyJijReI1r2PdpAmGjqjiru4s6WVF6hSHUxoOkyAuZfhs7MMuecVy7qgRvk0tcD9M1PFlMSplLW33BgLklq2RMW4DPJp-7EUsbW-wRJUuOh6iNpX8g')"></div>
+<div class="absolute top-3 left-3 flex items-center gap-2">
+<span class="px-space-sm py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm rounded-full shadow-sm flex items-center gap-1 font-bold">
+              #4 del Día
+            </span>
+<span class="px-space-xs py-1 bg-surface-container-highest/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm rounded-full">
+              Trending 88%
+            </span>
+</div>
+<button aria-label="Guardar en favoritos" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-tertiary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">Repostería</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">50 mins</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold line-clamp-1 mb-1">
+              Tarta de Queso Vasca Caramelizada
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Interior cremoso casi fluido con corteza de caramelo intenso tostada a fuego vivo, elaborada con quesos artesanos de pastor y vainilla pura.
+            </p>
+</div>
+<div class="pt-space-md flex flex-col gap-space-sm bg-surface-container-lowest">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low px-space-md py-1.5 rounded-xl">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[17px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                  612
+                </span>
+<span class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">thumb_down</span>
+                  5
+                </span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span>
+                430 kcal
+              </div>
+</div>
+<div class="flex items-center justify-between">
+<button aria-label="Añadir ingredientes al carrito" class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors" title="Añadir ingredientes al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="">Ver receta</span>
+</button>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full hover:bg-surface-variant text-on-surface-variant flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 5 (#5 del Día) -->
+<article class="flex flex-col bg-surface-container-lowest rounded-2xl shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06)] overflow-hidden transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12)] hover:-translate-y-1">
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 hover:scale-105" data-alt="Artisanal Mexican tacos al pastor on small warm yellow corn tortillas with sliced charred pineapple, fresh cilantro, diced red onions, and lime wedges on a terracotta platter, vibrant food styling with warm golden ambient backlight." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXTTI8STsNi0iKL_h1iWhZMu6PxflIsRGFXNiwOZr_i62OQGPzzUtZBLm9PL42xVIxq8m1hNlzibluiEJ1Xsjd4jqvR4YpNr0f4SEGlDoTVK6SLVkiUoDgrbcxvx9uUFZZio7gRp-00qr1mbXdoQCa8mYw8NZ4Rmzk0O3DtZyxRuAasPt0zqDs9NM6BaUsywqx3yya24Vss7v-VPaS3t-5iTFm5fBHR7LUgTySVIOos0PBKPaXNw')"></div>
+<div class="absolute top-3 left-3 flex items-center gap-2">
+<span class="px-space-sm py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm rounded-full shadow-sm flex items-center gap-1 font-bold">
+              #5 del Día
+            </span>
+<span class="px-space-xs py-1 bg-surface-container-highest/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm rounded-full">
+              Trending 85%
+            </span>
+</div>
+<button aria-label="Guardar en favoritos" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-tertiary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">Latina</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">40 mins</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold line-clamp-1 mb-1">
+              Tacos al Pastor Gourmet con Piña Asada
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Lomito de cerdo marinado en adobo casero de achiote con especias yucatecas, cocinado a la plancha con cebollitas cambray y cilantro fino.
+            </p>
+</div>
+<div class="pt-space-md flex flex-col gap-space-sm bg-surface-container-lowest">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low px-space-md py-1.5 rounded-xl">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[17px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                  549
+                </span>
+<span class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">thumb_down</span>
+                  7
+                </span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span>
+                490 kcal
+              </div>
+</div>
+<div class="flex items-center justify-between">
+<button aria-label="Añadir ingredientes al carrito" class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors" title="Añadir ingredientes al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="">Ver receta</span>
+</button>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full hover:bg-surface-variant text-on-surface-variant flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 6 (#6 del Día) -->
+<article class="flex flex-col bg-surface-container-lowest rounded-2xl shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06)] overflow-hidden transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12)] hover:-translate-y-1">
+<div class="relative w-full aspect-[4/3] overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 hover:scale-105" data-alt="Vibrant healthy vegan poke bowl arranged neatly with edamame, sliced avocado, pickled pink radishes, mango cubes, black sesame seeds, and marinated tofu over brown rice, bright natural lighting with fresh culinary colors." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAo5slocJlqkk6j4WeTc1Y4aSsETsJcaZAa433Jth4D9G7KVJPgRV2lzL_-H_chWy5pW65FwhMwvqSq5ITTGDqaNYBltbeG8pPfQLrE_wN4IJvWsroFfWIzos3K5YGW-FgpAethzZka6-YEz4b88mj6rp4FfNWdIkYwHjQdH4pbukfrKVMAArqOHMdyg8_H01gjrMRt4oVqXKRwOo7vTmcdAMLLzYbvipgomeWncyxlw9K6YwECdQ')"></div>
+<div class="absolute top-3 left-3 flex items-center gap-2">
+<span class="px-space-sm py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm rounded-full shadow-sm flex items-center gap-1 font-bold">
+              #6 del Día
+            </span>
+<span class="px-space-xs py-1 bg-surface-container-highest/90 backdrop-blur-sm text-on-surface font-label-sm text-label-sm rounded-full">
+              Trending 82%
+            </span>
+</div>
+<button aria-label="Guardar en favoritos" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-tertiary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">Vegana / Fit</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">•</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">20 mins</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold line-clamp-1 mb-1">
+              Bowl Arcoíris de Tofu Crocante &amp; Mango
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Una explosión sensorial de textura crocante marinada en jengibre y tamari, con emulsión de sésamo tostado y vegetales crocantes recién cosechados.
+            </p>
+</div>
+<div class="pt-space-md flex flex-col gap-space-sm bg-surface-container-lowest">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm bg-surface-container-low px-space-md py-1.5 rounded-xl">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[17px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                  488
+                </span>
+<span class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">thumb_down</span>
+                  3
+                </span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span>
+                380 kcal
+              </div>
+</div>
+<div class="flex items-center justify-between">
+<button aria-label="Añadir ingredientes al carrito" class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors" title="Añadir ingredientes al carrito" type="button">
+<span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="px-space-md py-1.5 rounded-full bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="">Ver receta</span>
+</button>
+<button aria-label="Más opciones" class="w-8 h-8 rounded-full hover:bg-surface-variant text-on-surface-variant flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Community Callout Banner -->
+<div class="w-full bg-gradient-to-r from-secondary-fixed via-primary-fixed to-secondary-fixed rounded-2xl p-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-secondary-fixed font-bold tracking-tight">¿Tienes una creación digna del podio?</h4>
+<p class="font-body-md text-body-md text-on-secondary-fixed-variant">Publica tu receta hoy y participa en la votación global de la comunidad de Gusto.</p>
+</div>
+</div>
+<a class="px-space-xl py-space-sm bg-primary text-on-primary rounded-full font-label-lg text-label-lg shadow-md hover:bg-secondary transition-all whitespace-nowrap" href="#">
+        Subir mi receta
+      </a>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive tab toggle for demonstration
+  document.querySelectorAll('#period-selector .tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#period-selector .tab-btn').forEach(b => {
+        b.className = 'tab-btn px-space-xl py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-all';
+      });
+      this.className = 'tab-btn px-space-xl py-space-xs rounded-full font-label-lg text-label-lg bg-primary-container text-on-primary shadow-sm transition-all';
+    });
+  });
+</script></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_8px_rgba(0,0,0,0.02)] py-space-xl"><div class="w-full px-margin py-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md"><div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[28px]">room_service</span><span class="font-headline-md text-headline-md text-on-surface tracking-tight">Gusto</span></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Sistema integral de gestión de recetas &amp; Comunidad gastronómica</p></div><div class="flex items-center gap-space-xs"><a class="inline-flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="politicas-de-seguridad" href="#"><span class="material-symbols-outlined text-primary text-[20px]">verified_user</span><span class="">Políticas de seguridad</span></a></div></div></footer>
+
+</body></html>
+
+<!-- Gusto - Mi Espacio (Perfil) -->
+<!DOCTYPE html><html lang="es" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-container":"#801318","secondary-fixed":"#ffddb9","on-background":"#1b1c1c","on-tertiary-fixed":"#410004","inverse-surface":"#303030","on-primary-fixed":"#291800","on-secondary-container":"#714500","on-surface":"#1b1c1c","surface-container-low":"#f6f3f2","surface-variant":"#e4e2e1","primary-container":"#e09f3e","primary":"#835500","secondary":"#865300","surface-tint":"#835500","on-primary":"#ffffff","inverse-on-surface":"#f3f0f0","secondary-fixed-dim":"#ffb963","surface-dim":"#dcd9d9","on-secondary":"#ffffff","tertiary-fixed":"#ffdad7","surface-bright":"#fbf9f8","tertiary":"#ab3333","outline":"#837564","on-error":"#ffffff","secondary-container":"#fdb252","inverse-primary":"#feb956","surface-container-highest":"#e4e2e1","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#663e00","tertiary-fixed-dim":"#ffb3ae","background":"#fbf9f8","on-error-container":"#93000a","primary-fixed":"#ffddb4","error-container":"#ffdad6","on-primary-container":"#5a3900","surface-container-high":"#eae8e7","primary-fixed-dim":"#feb956","on-surface-variant":"#514536","outline-variant":"#d5c4b1","on-primary-fixed-variant":"#633f00","tertiary-container":"#ff8a84","on-secondary-fixed":"#2b1700","surface-container":"#f0eded","error":"#ba1a1a","surface":"#fbf9f8","on-tertiary-fixed-variant":"#8a1b1e","on-tertiary":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter-mobile":"1rem","space-xs":"0.25rem","space-xl":"2.5rem","space-lg":"1.5rem","space-sm":"0.5rem","margin-tablet":"2rem",gutter:"1.5rem",margin:"3rem","space-md":"1rem","margin-mobile":"1.25rem"},fontFamily:{"body-sm":["Inter"],"body-lg":["Inter"],"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],display:["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"]},fontSize:{"body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"label-md":["13px",{lineHeight:"18px",letterSpacing:"0.02em",fontWeight:"600"}],"label-lg":["15px",{lineHeight:"20px",fontWeight:"600"}],"headline-lg-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["20px",{lineHeight:"28px",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"800"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],display:["48px",{lineHeight:"56px",letterSpacing:"-0.02em",fontWeight:"800"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"700"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><div class="fixed top-0 left-0 w-full z-50"><nav class="bg-primary-container text-on-primary shadow-[0_4px_20px_-2px_rgba(197,130,38,0.18)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-on-primary text-[28px]">room_service</span><span class="font-headline-sm text-headline-sm tracking-tight text-on-primary">Gusto</span></div><nav class="hidden lg:flex items-center gap-space-xs" data-active-classes="bg-surface-container-lowest text-on-primary-container font-label-md text-label-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.06)]"><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="explorar" href="#">Explorar</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="destacadas" href="#">Destacadas</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="foro-y-comunidad" href="#">Foro y comunidad</a><a class="px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-primary hover:bg-secondary-container hover:text-on-secondary-container transition-all" data-path="comparar" href="#">Comparar</a><a aria-current="page" class="px-space-md py-space-xs transition-all bg-surface-container-lowest text-on-primary-container font-label-md text-label-md rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.06)]" data-path="mi-espacio" href="#">Mi espacio</a></nav></div><div class="flex items-center gap-space-md"><a class="inline-flex items-center gap-space-xs bg-surface-container-lowest text-on-primary-container font-label-lg text-label-lg px-space-lg py-space-xs rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="nueva-receta" href="#"><span class="material-symbols-outlined text-[18px]">add</span><span class="">Nueva receta</span></a><div class="flex items-center gap-space-xs text-on-primary"><button aria-label="Carrito de compras" class="relative p-space-xs rounded-full hover:bg-secondary-container hover:text-on-secondary-container transition-colors" type="button"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-surface-container-lowest text-on-primary-container font-label-sm text-label-sm rounded-full shadow-sm">3</span></button><button aria-label="Notificaciones" class="relative p-space-xs rounded-full hover:bg-secondary-container hover:text-on-secondary-container transition-colors" type="button"><span class="material-symbols-outlined">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-tertiary-container rounded-full"></span></button></div><div class="flex items-center gap-space-xs pl-space-xs cursor-pointer group"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_0_0_2px_rgba(255,255,255,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiGQ2e6lZ1GWYGfEZL3a310H0b_PKYz2qi53ISvthP8W41AOvT0aB0nWEKnzOm3BKca3Bf_zQbVr5KjxtFOsKeoN1trCwGPrO2zb5nxTeEf4wXYJlmZrsd9Ao4BrODDofP_fmeE2jgcL7DSbEkZT1pgFR2-eYdFjOAwEK9w0kP6L3tetEuIE9a0J-6pMVLMYuUCl8mhJiamC4aIKmvqdFiphORV0ppxYSjLIxcTyeg3bLVbF2eWg"><span class="material-symbols-outlined text-on-primary text-[20px] transition-transform group-hover:translate-y-0.5">keyboard_arrow_down</span></div></div></div></nav></div><main class="w-full bg-surface min-h-[calc(100vh-140px)] pt-16"><div class="flex flex-col w-full">
+<!-- Culinary Header Canvas -->
+<div class="w-full px-margin py-space-xl">
+<!-- Profile Showcase Bento -->
+<div class="relative bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_-2px_rgba(197,130,38,0.08),0_2px_8px_-1px_rgba(17,17,17,0.04)] p-space-xl mb-space-xl overflow-hidden">
+<!-- Ambient warm glow accent in top corner -->
+<div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row items-start justify-between gap-space-xl relative z-10">
+<!-- Left: Avatar & Bio details -->
+<div class="flex flex-col md:flex-row items-start gap-space-lg max-w-4xl">
+<!-- Chef Portrait with Verified Cloche Badge -->
+<div class="relative shrink-0">
+<div class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden shadow-[0_8px_24px_rgba(131,85,0,0.18)] ring-4 ring-primary-container/20">
+<img class="w-full h-full object-cover" data-alt="Intimate professional studio portrait of Chef Sarah Jenkins in a refined clean linen chef jacket with natural warm sunlit ambience, smiling warmly at the camera with artisanal kitchen pots and copper cookware softly blurred in the background, cinematic warm golden tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWuTgF3SjJRBf7Xp9jXVyWmx7y8lOVXIG7T6Pig5UZljfhJ5uvYtMX7_KgRp8W8Rgm6y-tn3sqgrz3slPWWSuDtxpex73ESz-9II9ntPjE75Zrlw1B38RdxOY3fxbDtbjtZsSHtvMpRlsytZFT6TM_-ROc0JgyUQLCEjNDCmRwbRNwrdL9m6KV9br_DIHwZ1onIBR0BQexFYo2cL2Awi8AE4s1ZunGZjlo-2iPDViBe1JUxb53dQ">
+</div>
+<!-- Verification Seal with Cloche Icon -->
+<div class="absolute bottom-1 right-1 w-9 h-9 rounded-full bg-primary-container text-surface-container-lowest flex items-center justify-center shadow-md" title="Chef Profesional Verificada">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+</div>
+</div>
+<!-- Bio & Credentials -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-sm">
+<h1 class="font-display text-headline-lg text-on-surface tracking-tight font-extrabold">
+                Chef Sarah Jenkins
+              </h1>
+<span class="bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm px-space-sm py-0.5 rounded-full uppercase tracking-wider">
+                Master Creator
+              </span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
+<span class="">Madrid, España</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant mx-1"></span>
+<span class="text-secondary font-medium">Especialista en cocina mediterránea &amp; repostería de autor</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed max-w-2xl">
+              Apasionada por los ingredientes de temporada y la alquimia culinaria. 12 años transformando recetas tradicionales en experiencias contemporáneas y memorables. ¡Cocinemos juntos y celebremos cada bocado!
+            </p>
+<!-- Metrics Matrix -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-md mt-space-md pt-space-md border-t border-surface-container">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">14.2k</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Seguidores</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">382</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Seguidos</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">54</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Recetas Creadas</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4.9</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Valoración Media</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Action CTA Cluster -->
+<div class="flex flex-row lg:flex-col gap-space-sm w-full lg:w-auto shrink-0 justify-start">
+<button class="flex-1 lg:flex-none inline-flex items-center justify-center gap-space-xs bg-primary-container hover:bg-secondary text-surface-container-lowest font-label-lg text-label-lg px-space-lg py-space-sm rounded-full shadow-[0_4px_14px_rgba(224,159,62,0.35)] transition-all transform hover:-translate-y-0.5" type="button">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+<span class="">Editar perfil</span>
+</button>
+<button class="flex-1 lg:flex-none inline-flex items-center justify-center gap-space-xs bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg px-space-lg py-space-sm rounded-full transition-colors" type="button">
+<span class="material-symbols-outlined text-primary text-[20px]">share</span>
+<span class="">Compartir perfil</span>
+</button>
+<a class="hidden lg:inline-flex items-center justify-center gap-space-xs bg-secondary-fixed hover:bg-secondary-fixed-dim text-on-secondary-fixed font-label-md text-label-md px-space-lg py-space-xs rounded-full transition-colors mt-space-xs" data-path="nueva-receta" href="#">
+<span class="material-symbols-outlined text-[18px]">soup_kitchen</span>
+<span class="">Modo Cocina</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Quick Stats Bento Strip -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mb-space-xl">
+<!-- Stat 1: Top Recipe -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-secondary-fixed flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[28px]">local_fire_department</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Más cocinada este mes</span>
+<p class="font-headline-sm text-headline-sm text-on-surface truncate font-bold">Risotto de Hongos Silvestres</p>
+<span class="font-body-sm text-body-sm text-primary font-medium">1,480 veces preparada</span>
+</div>
+</div>
+<!-- Stat 2: Total Reach / Views -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant shrink-0">
+<span class="material-symbols-outlined text-[28px]">visibility</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Visualizaciones Totales</span>
+<p class="font-headline-sm text-headline-sm text-on-surface truncate font-bold">186,420</p>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">+18.4% desde el último mes</span>
+</div>
+</div>
+<!-- Stat 3: Pantry & Ingredients -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[28px]">kitchen</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Despensa activa</span>
+<p class="font-headline-sm text-headline-sm text-on-surface truncate font-bold">42 Ingredientes</p>
+<span class="font-body-sm text-body-sm text-tertiary font-medium">3 por vencer en 48 hrs</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs Section -->
+<div class="flex items-center justify-between border-b border-surface-container pb-space-xs mb-space-lg">
+<div class="flex items-center gap-space-md overflow-x-auto"><button class="group relative pb-space-sm font-label-lg text-label-lg text-on-surface flex items-center gap-space-xs shrink-0" type="button"><span class="material-symbols-outlined text-primary-container text-[20px]">menu_book</span><span class="font-bold">Mis recetas</span><span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded-full">54</span><span class="absolute bottom-0 left-0 right-0 h-1 bg-primary-container rounded-full"></span></button><button class="group relative pb-space-sm font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface flex items-center gap-space-xs transition-colors shrink-0" type="button"><span class="material-symbols-outlined text-[20px]">draft</span><span class="">Borradores</span><span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">128</span></button><button class="group relative pb-space-sm font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface flex items-center gap-space-xs transition-colors shrink-0" type="button"><span class="material-symbols-outlined text-[20px]">event_note</span><span class="">Programadas</span><span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">3</span></button><button class="group relative pb-space-sm font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface flex items-center gap-space-xs transition-colors shrink-0" type="button"><span class="material-symbols-outlined text-[20px]">collections_bookmark</span><span class="">Colecciones</span><span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">46</span></button><button class="group relative pb-space-sm font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface flex items-center gap-space-xs transition-colors shrink-0" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span><span class="">Lista de deseos</span><span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">19</span></button><button class="group relative pb-space-sm font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface flex items-center gap-space-xs transition-colors shrink-0" type="button"><span class="material-symbols-outlined text-[20px]">person_search</span><span class="">Buscar cocineros</span></button></div>
+<!-- Filter / Sort Actions -->
+<div class="hidden md:flex items-center gap-space-xs">
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-on-surface-variant bg-surface-container-lowest px-space-md py-space-xs rounded-full shadow-sm hover:text-on-surface">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+<span class="">Más recientes</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-on-surface-variant bg-surface-container-lowest px-space-md py-space-xs rounded-full shadow-sm hover:text-on-surface">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span class="">Filtrar</span>
+</button>
+</div>
+</div>
+<!-- Chef Recipe Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg mb-space-xl">
+<!-- Recipe Card 1: Focaccia de Romero y Aceitunas Kalamata -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] flex flex-col transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12),0_4px_12px_-2px_rgba(17,17,17,0.06)] hover:-translate-y-1">
+<!-- Card Top Visual & Media Badges -->
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Artisanal golden focaccia bread infused with fresh rosemary sprigs, purple kalamata olives, and flakes of sea salt, served on a warm rustic wooden cutting board with warm side lighting and a ceramic dish of extra virgin olive oil." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKl6OLILMX_8LngdtEQnm6Uik54ApmeqzDZRUxpuNd8NPO_J7ke4htUaB1MCldXCxmXHculh8GfRfWXg7514XugkdNbFiW8C0QfJb5pZiNICJprUklVB7l5QFY6GY3PYs2HSi62p-aOI0Mh8x4a5FpWT6_DU-_MWSUygb7rstx3xkgr6jkkkK0L3F7Bj6PovLRGqCrgvnAZAD19JjgW6m6zzQ9UVjD7S7bbVtoAqkAoFR2ivCA_Q">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
+<!-- Top Tag Badge: Status -->
+<div class="absolute top-space-sm left-space-sm flex items-center gap-1.5">
+<span class="bg-primary-container text-surface-container-lowest font-label-sm text-label-sm px-space-sm py-1 rounded-full shadow-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+              Publicada
+            </span>
+<span class="bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm px-space-sm py-1 rounded-full shadow-sm">
+              45 min
+            </span>
+</div>
+<!-- Quick Action Bookmark / Favorite -->
+<button aria-label="Favorito" class="absolute top-space-sm right-space-sm w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface hover:text-tertiary hover:bg-surface-container-lowest flex items-center justify-center transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<!-- Bottom Floating Metrics -->
+<div class="absolute bottom-space-sm left-space-sm right-space-sm flex items-center justify-between text-surface-container-lowest">
+<div class="flex items-center gap-space-xs font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary-container">local_fire_department</span>
+<span class="">320 kcal / porción</span>
+</div>
+<div class="flex items-center gap-2 font-label-md text-label-md">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">thumb_up</span>
+                842
+              </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                42
+              </span>
+</div>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-lg flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Panadería &amp; Masas</span>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight group-hover:text-primary transition-colors">
+              Focaccia Genovesa al Romero &amp; Kalamata
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs line-clamp-2">
+              Masa madre de hidratación al 80% con fermentación en frío de 48 horas, terminada con emulsión de salmuera y aceite de oliva virgen extra.
+            </p>
+</div>
+<!-- Card Controls Footer -->
+<div class="flex items-center justify-between mt-space-md pt-space-md border-t border-surface-container">
+<div class="flex items-center gap-space-xs">
+<button aria-label="Añadir a lista de compras" class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors text-on-surface" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+</button>
+<button aria-label="Temporizador de cocina" class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center transition-colors text-on-surface" type="button">
+<span class="material-symbols-outlined text-[20px]">timer</span>
+</button>
+</div>
+<a class="inline-flex items-center gap-space-xs text-primary font-label-md text-label-md hover:text-secondary group-hover:translate-x-1 transition-all" href="#">
+<span class="">Ver receta</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Recipe Card 2: Salmón Glaseado con Miso y Naranja Sanguina -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] flex flex-col transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12),0_4px_12px_-2px_rgba(17,17,17,0.06)] hover:-translate-y-1">
+<!-- Media Block -->
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Pan-seared wild salmon fillet coated with a caramelized sweet miso and blood orange glaze, garnished with micro-coriander and toasted white sesame seeds on an artisanal dark slate plate, warm ambient kitchen lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA82VzIe2ssIEoRW_5y-HYbFFw4asn0ZUbCjrnn5_uonOnK4vzFYwJDnpCL9EuA43UeHljO8dT5IUKu8_0OSOrCfhF2Xx2d4b5uTBMzbwMYlQAPOknok2cJ8fCKvdGPDxzeK2il584afbM_a53V8jzBlFDrpF_50Zx4VCaIjgUd4Dj-I6vrAM978BgAxxO8yROPUUroCwM38x4V282cMJJaMoChAeuPXD8CCYtrB4qmOY2mdJqlGA">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
+<!-- Top Tag Badge: Status -->
+<div class="absolute top-space-sm left-space-sm flex items-center gap-1.5">
+<span class="bg-tertiary text-surface-container-lowest font-label-sm text-label-sm px-space-sm py-1 rounded-full shadow-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span>
+              Destacada
+            </span>
+<span class="bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm px-space-sm py-1 rounded-full shadow-sm">
+              25 min
+            </span>
+</div>
+<button aria-label="Favorito" class="absolute top-space-sm right-space-sm w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-tertiary flex items-center justify-center transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<div class="absolute bottom-space-sm left-space-sm right-space-sm flex items-center justify-between text-surface-container-lowest">
+<div class="flex items-center gap-space-xs font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary-container">local_fire_department</span>
+<span class="">480 kcal / porción</span>
+</div>
+<div class="flex items-center gap-2 font-label-md text-label-md">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">thumb_up</span>
+                1.2k
+              </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                89
+              </span>
+</div>
+</div>
+</div>
+<!-- Body -->
+<div class="p-space-lg flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Pescados &amp; Fusión</span>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight group-hover:text-primary transition-colors">
+              Salmón Salvaje con Glaseado de Miso y Naranja
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs line-clamp-2">
+              Cocción a la plancha con piel crujiente y reducción agridulce de miso blanco, jengibre fresco rallado y jugo de naranja sanguina española.
+            </p>
+</div>
+<!-- Footer -->
+<div class="flex items-center justify-between mt-space-md pt-space-md border-t border-surface-container">
+<div class="flex items-center gap-space-xs">
+<button aria-label="Añadir a lista de compras" class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-secondary-container hover:text-on-secondary-container flex items-center justify-center transition-colors text-on-surface" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+</button>
+<button aria-label="Temporizador de cocina" class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center transition-colors text-on-surface" type="button">
+<span class="material-symbols-outlined text-[20px]">timer</span>
+</button>
+</div>
+<a class="inline-flex items-center gap-space-xs text-primary font-label-md text-label-md hover:text-secondary group-hover:translate-x-1 transition-all" href="#">
+<span class="">Ver receta</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Recipe Card 3: Tarta Cremosa de Pistacho y Cardamomo (Borrador) -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(197,130,38,0.06),0_2px_6px_-1px_rgba(17,17,17,0.04)] flex flex-col transition-all duration-300 hover:shadow-[0_12px_32px_-4px_rgba(197,130,38,0.12),0_4px_12px_-2px_rgba(17,17,17,0.06)] hover:-translate-y-1">
+<!-- Media Block -->
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Gourmet pistachio cheesecake with an aromatic cardamom sablé crust, garnished with crushed bright green Sicilian pistachios and dried edible rose petals on a ceramic cream colored dessert plate, warm soft morning lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFmfJiosqpVoZ_6zwtRBY2t-6QXpxBaTKKGDrhxH1Y7eTCjastUaPGy6ifXqcnDhmU2mb_pIWvWXYzjBLHGATev09qhWtcW7o9GN1UsAEzR7lP39P-8iaMPUm6lk-gMGsbRq0YH76QwCdPZAZYqPi9Y59nPg_jPs-JCjZDqrtEEIGL5RwqBRbcWTifmUxNQrjM-SAXnlvg6qapalFRqJ_XW4TvM6C307imsnRMia0oD1KT0eG2Uw">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
+<!-- Top Tag Badge: Status Borrador -->
+<div class="absolute top-space-sm left-space-sm flex items-center gap-1.5">
+<span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-space-sm py-1 rounded-full shadow-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">edit_note</span>
+              Borrador
+            </span>
+<span class="bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm px-space-sm py-1 rounded-full shadow-sm">
+              60 min
+            </span>
+</div>
+<button aria-label="Favorito" class="absolute top-space-sm right-space-sm w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface hover:text-tertiary flex items-center justify-center transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<div class="absolute bottom-space-sm left-space-sm right-space-sm flex items-center justify-between text-surface-container-lowest">
+<div class="flex items-center gap-space-xs font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary-container">local_fire_department</span>
+<span class="">410 kcal / porción</span>
+</div>
+<div class="flex items-center gap-2 font-label-md text-label-md">
+<span class="bg-surface-container-lowest/40 px-2 py-0.5 rounded text-label-sm">Solo tú puedes verla</span>
+</div>
+</div>
+</div>
+<!-- Body -->
+<div class="p-space-lg flex flex-col flex-1 justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Repostería de Autor</span>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight group-hover:text-primary transition-colors">
+              Cheesecake Horneada de Pistacho &amp; Cardamomo
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs line-clamp-2">
+              Base crocante especiada con cardamomo verde recién molido, corazón untuoso de pasta pura de pistacho de Bronte y pétalos de rosa orgánicos.
+            </p>
+</div>
+<!-- Footer -->
+<div class="flex items-center justify-between mt-space-md pt-space-md border-t border-surface-container">
+<div class="flex items-center gap-space-xs">
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-secondary" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span class="">Continuar editando</span>
+</button>
+</div>
+<button class="bg-primary-container text-surface-container-lowest font-label-sm text-label-sm px-space-md py-space-xs rounded-full hover:bg-secondary transition-colors" type="button">
+              Publicar
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Chef's Curated Collection Section (Editorial Split Banner) -->
+<div class="bg-surface-container-low rounded-xl p-space-xl flex flex-col md:flex-row items-center justify-between gap-space-xl relative overflow-hidden">
+<div class="flex flex-col gap-space-xs max-w-xl">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-widest">Colección Personal</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">
+          "Secretos del Mediterráneo Cálido"
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Un libro interactivo que reúne mis 15 recetas insignia con maridajes de vinos naturales y técnicas explicadas paso a paso con video-clases en alta definición.
+        </p>
+<div class="flex items-center gap-space-sm mt-space-sm">
+<button class="bg-primary-container hover:bg-secondary text-surface-container-lowest font-label-lg text-label-lg px-space-lg py-space-sm rounded-full transition-colors shadow-sm">
+            Explorar Colección
+          </button>
+<span class="font-label-md text-label-md text-on-surface-variant">Acceso libre para la comunidad</span>
+</div>
+</div>
+<div class="relative w-full md:w-80 h-48 rounded-xl overflow-hidden shadow-lg shrink-0">
+<img class="w-full h-full object-cover" data-alt="Overhead flatlay composition of Mediterranean cooking ingredients with fresh lemons, sprigs of rosemary, bottles of golden olive oil, terracotta bowls of spices and fresh hand-kneaded pasta dough on a warm marble tabletop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjtg8uxMpkO_4IfikjzGYpBgXERFojTBDeCVyChAmNyZJ61u9wpysjeWZGTayajB-8aINSkZyfB0XaoVM_id2TcYlaP5EDloOHLWsLe1VGVrJXjUtAQPZB2YaHPkovvE83oj6SG8HXITieYiWg-Ij4VlD8b7R6WdlYI4XE0STDnmZCnKEAnZ3sjIQqQBtDQYLQ_m5DUEE08ljhqpmRHEs705ik9TPFPLC_ZbuXlU0q42K_hYU7tQ">
+<div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-primary flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-[28px] pl-0.5">play_arrow</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_8px_rgba(0,0,0,0.02)] py-space-xl"><div class="w-full px-margin py-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md"><div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[28px]">room_service</span><h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Gusto</h2></div><p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Sistema integral de gestión de recetas &amp; Comunidad gastronómica</p></div><div class="flex items-center gap-space-xs"><a class="inline-flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="politicas-de-seguridad" href="#"><span class="material-symbols-outlined text-primary text-[20px]">room_service</span><span class="">Políticas de seguridad</span></a></div></div></footer>
+
+</body></html>

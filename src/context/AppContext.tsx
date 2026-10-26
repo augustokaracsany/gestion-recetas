@@ -324,7 +324,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const requestPasswordReset = (email: string) => {
     return {
       success: true,
-      message: `Enlace seguro de restablecimiento enviado a ${email}. (Simulado para demostración RF-04).`
+      message: `Enlace seguro de restablecimiento enviado a ${email}.`
     };
   };
 
@@ -451,12 +451,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         ? r.dislikedUserIds.filter(id => id !== currentUser.id)
         : r.dislikedUserIds;
 
+      const diffLikes = alreadyLiked ? -1 : 1;
+      const diffDislikes = alreadyDisliked ? -1 : 0;
+
       return {
         ...r,
         likedUserIds: nextLiked,
         dislikedUserIds: nextDisliked,
-        likesCount: nextLiked.length,
-        dislikesCount: nextDisliked.length
+        likesCount: Math.max(0, (r.likesCount ?? 0) + diffLikes),
+        dislikesCount: Math.max(0, (r.dislikesCount ?? 0) + diffDislikes)
       };
     }));
   };
@@ -474,12 +477,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         ? r.likedUserIds.filter(id => id !== currentUser.id)
         : r.likedUserIds;
 
+      const diffDislikes = alreadyDisliked ? -1 : 1;
+      const diffLikes = alreadyLiked ? -1 : 0;
+
       return {
         ...r,
         likedUserIds: nextLiked,
         dislikedUserIds: nextDisliked,
-        likesCount: nextLiked.length,
-        dislikesCount: nextDisliked.length
+        likesCount: Math.max(0, (r.likesCount ?? 0) + diffLikes),
+        dislikesCount: Math.max(0, (r.dislikesCount ?? 0) + diffDislikes)
       };
     }));
   };

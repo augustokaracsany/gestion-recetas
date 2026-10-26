@@ -33,6 +33,7 @@ export interface UserProfile {
   followingUserIds: string[];
   pinnedRecipeId?: string;
   wishlistRecipeIds: string[];
+  location?: string;
   isBanned?: boolean;
 }
 

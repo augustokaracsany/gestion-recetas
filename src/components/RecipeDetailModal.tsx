@@ -130,8 +130,14 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
   const totalIngredientsCost = recipe.ingredients.reduce((acc, ing) => acc + ing.estimatedPrice, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/70 backdrop-blur-xs overflow-y-auto cursor-pointer"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-auto max-h-[92vh] flex flex-col cursor-default"
+      >
         {/* Top Header Bar */}
         <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-6 py-3 border-b border-stone-200 flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-semibold text-stone-500 uppercase tracking-wider">
@@ -153,8 +159,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => toggleWishlist(recipe.id)}
-              title={isInWishlist ? 'Quitar de lista de deseos' : 'Guardar en deseos (RF-24)'}
-              className={`p-2 rounded-xl transition-colors ${
+              title={isInWishlist ? 'Quitar de lista de deseos' : 'Guardar en deseos'}
+              className={`p-2 rounded-xl transition-colors cursor-pointer ${
                 isInWishlist ? 'bg-amber-100 text-amber-800' : 'text-stone-600 hover:bg-stone-100'
               }`}
             >
@@ -163,8 +169,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
 
             <button
               onClick={() => toggleCompareRecipe(recipe.id)}
-              title={isComparing ? 'Remover de comparación' : 'Comparar receta (RF-18)'}
-              className={`p-2 rounded-xl transition-colors ${
+              title={isComparing ? 'Remover de comparación' : 'Comparar receta'}
+              className={`p-2 rounded-xl transition-colors cursor-pointer ${
                 isComparing ? 'bg-sky-100 text-sky-800' : 'text-stone-600 hover:bg-stone-100'
               }`}
             >
@@ -173,16 +179,16 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
 
             <button
               onClick={() => setPrintableRecipe(recipe)}
-              title="Vista de impresión limpia (RF-31)"
-              className="p-2 text-stone-600 hover:bg-stone-100 rounded-xl transition-colors"
+              title="Vista de impresión limpia"
+              className="p-2 text-stone-600 hover:bg-stone-100 rounded-xl transition-colors cursor-pointer"
             >
               <Printer className="w-4 h-4" />
             </button>
 
             <button
               onClick={() => exportRecipeJson(recipe)}
-              title="Exportar receta JSON (RF-29 / RF-30)"
-              className="p-2 text-stone-600 hover:bg-stone-100 rounded-xl transition-colors"
+              title="Exportar receta JSON"
+              className="p-2 text-stone-600 hover:bg-stone-100 rounded-xl transition-colors cursor-pointer"
             >
               <Download className="w-4 h-4" />
             </button>
@@ -193,8 +199,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                   onClose();
                   onEditRecipe(recipe);
                 }}
-                title="Editar receta (RF-13)"
-                className="p-2 text-amber-700 hover:bg-amber-50 rounded-xl transition-colors"
+                title="Editar receta"
+                className="p-2 text-amber-700 hover:bg-amber-50 rounded-xl transition-colors cursor-pointer"
               >
                 <Edit3 className="w-4 h-4" />
               </button>
@@ -203,8 +209,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             {canDelete && (
               <button
                 onClick={handleDelete}
-                title="Eliminar receta (RF-12)"
-                className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                title="Eliminar receta"
+                className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -212,8 +218,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
 
             <button
               onClick={() => onOpenReport(recipe)}
-              title="Denunciar receta (RF-11)"
-              className="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+              title="Denunciar receta"
+              className="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
             >
               <AlertTriangle className="w-4 h-4" />
             </button>
@@ -257,23 +263,23 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
           </div>
 
           {/* Author, Co-authors & Follow bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-100">
+          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-[#FFDDB9]/30 border border-[#E09F3E]/30">
             <div className="flex items-center gap-3">
               <img
                 src={recipe.authorAvatar}
                 alt={recipe.authorName}
-                className="w-12 h-12 rounded-full object-cover border-2 border-amber-300"
+                className="w-12 h-12 rounded-full object-cover border-2 border-[#E09F3E]"
               />
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-stone-900 text-base">{recipe.authorName}</span>
-                  <span className="text-[11px] px-2 py-0.5 rounded-md bg-amber-200/80 text-amber-900 font-semibold">
+                  <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#FFDDB9] text-[#714500] font-bold">
                     Autor
                   </span>
                 </div>
                 {recipe.coAuthors.length > 0 && (
                   <div className="text-xs text-stone-600 mt-0.5">
-                    Co-autoría con: <span className="font-semibold text-stone-800">{recipe.coAuthors.join(', ')}</span> (RF-27)
+                    Co-autoría con: <span className="font-semibold text-stone-800">{recipe.coAuthors.join(', ')}</span>
                   </div>
                 )}
               </div>
@@ -283,21 +289,21 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               {recipe.authorId !== currentUser.id && (
                 <button
                   onClick={() => followUserToggle(recipe.authorId)}
-                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     isFollowingAuthor
                       ? 'bg-stone-200 text-stone-800 hover:bg-stone-300'
-                      : 'bg-amber-600 text-white hover:bg-amber-700 shadow-xs'
+                      : 'bg-[#835500] text-white hover:bg-[#865300] shadow-xs'
                   }`}
                 >
                   {isFollowingAuthor ? (
                     <>
                       <UserCheck className="w-3.5 h-3.5" />
-                      Siguiendo (RF-19)
+                      Siguiendo
                     </>
                   ) : (
                     <>
                       <UserPlus className="w-3.5 h-3.5" />
-                      Seguir Chef (RF-19)
+                      Seguir Chef
                     </>
                   )}
                 </button>
@@ -377,13 +383,13 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Video Player if present (RF-26) */}
+          {/* Video Player if present */}
           {recipe.videoUrl && (
             <div className="p-4 rounded-2xl bg-stone-900 text-white space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm font-bold text-amber-300">
                   <Video className="w-5 h-5" />
-                  Video Explicativo del Paso a Paso (RF-26 - Función Premium)
+                  Video Explicativo del Paso a Paso
                 </div>
                 <a
                   href={recipe.videoUrl}
@@ -418,7 +424,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                 <div>
                   <h3 className="font-bold text-lg text-stone-900">Ingredientes</h3>
                   <p className="text-xs text-stone-500">
-                    Disponibilidad y tiendas asociadas (RF-22, RF-25)
+                    Disponibilidad y tiendas asociadas
                   </p>
                 </div>
                 <button
@@ -500,12 +506,12 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               <button
                 type="button"
                 onClick={handleAddSelectedToCart}
-                className="w-full py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl shadow-sm flex items-center justify-center gap-2 text-sm transition-all"
+                className="w-full py-3 px-4 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-full shadow-sm flex items-center justify-center gap-2 text-sm transition-all cursor-pointer"
               >
-                <ShoppingCart className="w-4 h-4" />
+                <span className="material-symbols-outlined text-[20px]">shopping_cart</span>
                 {selectedIngredientIds.length > 0
                   ? `Comprar ${selectedIngredientIds.length} ingredientes seleccionados`
-                  : 'Agregar todos los ingredientes al Carrito (RF-23)'}
+                  : 'Agregar todos los ingredientes al Carrito'}
               </button>
             </div>
 
@@ -592,13 +598,13 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Comments and Reviews Section (RF-10) */}
+          {/* Comments and Reviews Section */}
           <div className="border-t border-stone-200 pt-8 space-y-6">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-lg text-stone-900 flex items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-amber-600" />
-                  Comentarios y Preguntas Culinarias (RF-10)
+                  Comentarios y Preguntas Culinarias
                 </h3>
                 <p className="text-xs text-stone-500">
                   Comparte tus resultados, consejos o dudas con el autor y la comunidad

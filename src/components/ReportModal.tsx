@@ -93,7 +93,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           <div className="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
             <AlertTriangle className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />
             <p>
-              Tu denuncia será examinada por el equipo de moderadores y administradores (RF-11 / RF-20). Los reportes falsos reiterados pueden conllevar sanciones.
+              Tu denuncia será examinada por el equipo de moderadores y administradores. Los reportes falsos reiterados pueden conllevar sanciones.
             </p>
           </div>
 

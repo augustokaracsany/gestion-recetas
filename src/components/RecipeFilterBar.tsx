@@ -1,6 +1,5 @@
 import React from 'react';
 import { DietaryTag } from '../types';
-import { Search, Filter, SlidersHorizontal, X, Clock, Flame } from 'lucide-react';
 
 interface RecipeFilterBarProps {
   searchQuery: string;
@@ -20,24 +19,21 @@ interface RecipeFilterBarProps {
 }
 
 const CATEGORIES = [
-  { id: 'todas', label: 'Todas las Recetas' },
-  { id: 'panaderia', label: '🥖 Panadería & Masas' },
-  { id: 'pastas', label: '🍝 Pastas Italianas' },
-  { id: 'ensaladas', label: '🥗 Ensaladas & Bowls' },
-  { id: 'platos_fuertes', label: '🍲 Platos Fuertes' },
-  { id: 'sopas', label: '🥣 Sopas & Cremas' },
-  { id: 'postres', label: '🍰 Postres & Dulces' },
-  { id: 'desayunos', label: '🥞 Desayunos' },
+  { id: 'todas', label: 'Todas' },
+  { id: 'panaderia', label: 'Panadería & Masas' },
+  { id: 'pastas', label: 'Platos fuertes & Pastas' },
+  { id: 'ensaladas', label: 'Entrantes & Bowls' },
+  { id: 'postres', label: 'Postres' },
+  { id: 'desayunos', label: 'Bebidas & Desayunos' },
 ];
 
 const DIETARY_FILTERS: { id: DietaryTag; label: string }[] = [
-  { id: 'celiaco', label: '🌾 Sin TACC / Celíacos' },
-  { id: 'vegano', label: '🌱 Vegano' },
-  { id: 'vegetariano', label: '🧀 Vegetariano' },
-  { id: 'diabetico', label: '🩺 Apto Diabéticos' },
-  { id: 'keto', label: '🥑 Keto Low-Carb' },
-  { id: 'sin_lactosa', label: '🥛 Sin Lactosa' },
-  { id: 'bajo_sodio', label: '🧂 Bajo Sodio' },
+  { id: 'vegetariano', label: 'Vegetariano' },
+  { id: 'vegano', label: 'Vegano' },
+  { id: 'celiaco', label: 'Sin gluten' },
+  { id: 'keto', label: 'Keto' },
+  { id: 'diabetico', label: 'Apto Diabéticos' },
+  { id: 'sin_lactosa', label: 'Sin lactosa' },
 ];
 
 export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
@@ -56,8 +52,6 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
   activeFilterCount,
   onClearFilters,
 }) => {
-  const [showAdvanced, setShowAdvanced] = React.useState(false);
-
   const toggleTag = (tag: DietaryTag) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
@@ -65,176 +59,217 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 border border-stone-200/90 shadow-sm space-y-4">
-      {/* Top Search Input & Controls */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        {/* Search Bar (RF-16) */}
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-          <input
-            type="text"
-            placeholder="Buscar por título, ingredientes (ej. palta, almendras) o palabras clave (RF-16)..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-xs sm:text-sm font-medium focus:bg-white focus:ring-2 focus:ring-amber-500 focus:outline-hidden transition-all placeholder:text-stone-400"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3.5 top-3.5 text-stone-400 hover:text-stone-600"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
+    <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-[0_4px_24px_-4px_rgba(197,130,38,0.08)] mb-8 border border-stone-200/60">
+      {/* Search Bar (RF-16) */}
+      <div className="relative w-full mb-6">
+        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-[#835500]">
+          <span className="material-symbols-outlined text-[26px]">search</span>
+        </div>
+        <input
+          id="recipe-search"
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Buscar recetas por nombre, ingrediente, técnica o autor..."
+          className="w-full h-14 pl-14 pr-12 rounded-full bg-[#f6f3f2] text-[#000000] placeholder:text-[#333333]/70 text-sm sm:text-base focus:bg-white focus:ring-2 focus:ring-[#e09f3e] outline-none transition-all shadow-inner"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => setSearchQuery('')}
+            aria-label="Limpiar búsqueda"
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#333333] hover:text-[#000000] transition-colors cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[20px]">cancel</span>
+          </button>
+        )}
+      </div>
+
+      {/* Filter Rows */}
+      <div className="space-y-4 pt-1">
+        {/* Categories Row */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs sm:text-sm font-semibold text-[#333333] w-28 shrink-0 flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[18px] text-[#835500]">dinner_dining</span>
+            Categorías:
+          </span>
+          <div className="flex flex-wrap gap-2 flex-1">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ${
+                  selectedCategory === cat.id
+                    ? 'bg-[#e09f3e] text-white shadow-sm font-semibold'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9] hover:text-[#2b1700]'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Toggle Advanced Filters Button */}
-        <button
-          type="button"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border text-xs sm:text-sm font-semibold transition-all ${
-            showAdvanced || activeFilterCount > 0
-              ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
-              : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
-          }`}
-        >
-          <SlidersHorizontal className="w-4 h-4" />
-          <span>Filtros Dietéticos (RF-07)</span>
-          {activeFilterCount > 0 && (
-            <span className="w-5 h-5 rounded-full bg-white text-amber-700 text-xs font-bold flex items-center justify-center">
-              {activeFilterCount}
+        {/* Time, Difficulty & Sort Row */}
+        <div className="flex flex-col lg:flex-row gap-4 pt-2">
+          {/* Time Filter */}
+          <div className="flex flex-wrap items-center gap-2 lg:w-1/3">
+            <span className="text-xs sm:text-sm font-semibold text-[#333333] w-28 shrink-0 flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[18px] text-[#835500]">schedule</span>
+              Tiempo:
             </span>
-          )}
-        </button>
-
-        {/* Sort Select */}
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as any)}
-          className="px-3.5 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-xs sm:text-sm font-semibold text-stone-700 focus:ring-2 focus:ring-amber-500 focus:outline-hidden cursor-pointer"
-        >
-          <option value="popular">Más Populares (Likes RF-14)</option>
-          <option value="recent">Más Recientes</option>
-          <option value="time">Menor Tiempo Total</option>
-          <option value="calories">Bajo en Calorías</option>
-        </select>
-      </div>
-
-      {/* Category Pills Slider */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-        {CATEGORIES.map((cat) => {
-          const isSelected = selectedCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border shrink-0 ${
-                isSelected
-                  ? 'bg-amber-800 text-white border-amber-800 shadow-xs'
-                  : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
-              }`}
-            >
-              {cat.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Advanced Filter Panel (Collapsible RF-07) */}
-      {showAdvanced && (
-        <div className="pt-4 border-t border-stone-100 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
-          {/* Dietary Restrictions Tags */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-stone-700 uppercase tracking-wide">
-                Restricciones Dietéticas Específicas (RF-07):
-              </span>
-              {activeFilterCount > 0 && (
-                <button
-                  type="button"
-                  onClick={onClearFilters}
-                  className="text-xs text-amber-700 hover:underline font-bold"
-                >
-                  Limpiar Filtros
-                </button>
-              )}
-            </div>
             <div className="flex flex-wrap gap-2">
-              {DIETARY_FILTERS.map((tag) => {
-                const isSelected = selectedTags.includes(tag.id);
+              <button
+                type="button"
+                onClick={() => setMaxTime(180)}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  maxTime >= 180
+                    ? 'bg-[#fdb252] text-[#714500] font-semibold shadow-sm'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                Todos
+              </button>
+              <button
+                type="button"
+                onClick={() => setMaxTime(30)}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  maxTime <= 30
+                    ? 'bg-[#fdb252] text-[#714500] font-semibold shadow-sm'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                &lt; 30 min
+              </button>
+              <button
+                type="button"
+                onClick={() => setMaxTime(60)}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  maxTime > 30 && maxTime <= 60
+                    ? 'bg-[#fdb252] text-[#714500] font-semibold shadow-sm'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                30 - 60 min
+              </button>
+            </div>
+          </div>
+
+          {/* Difficulty Filter */}
+          <div className="flex flex-wrap items-center gap-2 lg:w-1/3">
+            <span className="text-xs sm:text-sm font-semibold text-[#333333] w-28 shrink-0 flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[18px] text-[#835500]">hotel_class</span>
+              Dificultad:
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedDifficulty('todas')}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  selectedDifficulty === 'todas'
+                    ? 'bg-[#e09f3e] text-white shadow-sm font-semibold'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                Todas
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedDifficulty('facil')}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  selectedDifficulty === 'facil'
+                    ? 'bg-[#e09f3e] text-white shadow-sm font-semibold'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                Fácil
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedDifficulty('media')}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  selectedDifficulty === 'media'
+                    ? 'bg-[#e09f3e] text-white shadow-sm font-semibold'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                Intermedia
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedDifficulty('dificil')}
+                className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                  selectedDifficulty === 'dificil'
+                    ? 'bg-[#e09f3e] text-white shadow-sm font-semibold'
+                    : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
+                }`}
+              >
+                Maestro
+              </button>
+            </div>
+          </div>
+
+          {/* Sort Selection */}
+          <div className="flex items-center gap-2 lg:w-1/3">
+            <span className="text-xs sm:text-sm font-semibold text-[#333333] w-28 shrink-0 flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[18px] text-[#835500]">swap_vert</span>
+              Ordenar:
+            </span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="px-4 py-2 rounded-full text-xs sm:text-sm bg-[#f6f3f2] text-[#333333] border-none outline-none focus:ring-2 focus:ring-[#e09f3e] cursor-pointer"
+            >
+              <option value="popular">Más populares</option>
+              <option value="recent">Más recientes</option>
+              <option value="time">Menor tiempo</option>
+              <option value="calories">Menor calorías</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Dietary Tags & Reset Action (RF-07) */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs sm:text-sm font-semibold text-[#333333] w-28 shrink-0 flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[18px] text-[#835500]">eco</span>
+              Dieta:
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {DIETARY_FILTERS.map((df) => {
+                const isActive = selectedTags.includes(df.id);
                 return (
                   <button
-                    key={tag.id}
+                    key={df.id}
                     type="button"
-                    onClick={() => toggleTag(tag.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
-                      isSelected
-                        ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
-                        : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-amber-50 hover:border-amber-200'
+                    onClick={() => toggleTag(df.id)}
+                    className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-[#835500] text-white shadow-sm font-semibold'
+                        : 'bg-[#f6f3f2] text-[#333333] hover:bg-[#ffddb9]'
                     }`}
                   >
-                    {tag.label}
+                    {df.label}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Difficulty & Time filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase mb-1.5">
-                Nivel de Dificultad:
-              </label>
-              <div className="grid grid-cols-4 gap-2">
-                {[
-                  { id: 'todas', label: 'Todas' },
-                  { id: 'facil', label: 'Fácil' },
-                  { id: 'media', label: 'Media' },
-                  { id: 'dificil', label: 'Avanzada' },
-                ].map((diff) => (
-                  <button
-                    key={diff.id}
-                    type="button"
-                    onClick={() => setSelectedDifficulty(diff.id)}
-                    className={`py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                      selectedDifficulty === diff.id
-                        ? 'bg-stone-900 text-white border-stone-900'
-                        : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
-                    }`}
-                  >
-                    {diff.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold text-stone-700 uppercase">
-                  Tiempo Máximo de Preparación:
-                </label>
-                <span className="text-xs font-bold text-amber-700">{maxTime} minutos</span>
-              </div>
-              <input
-                type="range"
-                min="10"
-                max="180"
-                step="5"
-                value={maxTime}
-                onChange={(e) => setMaxTime(Number(e.target.value))}
-                className="w-full accent-amber-600 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-stone-400 mt-1">
-                <span>10 min (Rápido)</span>
-                <span>60 min</span>
-                <span>180 min (Gourmet)</span>
-              </div>
-            </div>
-          </div>
+          {/* Reset Filters Button */}
+          {activeFilterCount > 0 && (
+            <button
+              type="button"
+              onClick={onClearFilters}
+              className="inline-flex items-center gap-1.5 text-[#ab3333] hover:text-[#801318] text-xs sm:text-sm px-3.5 py-1.5 rounded-full hover:bg-red-50 transition-colors ml-auto sm:ml-0 font-medium cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[18px]">restart_alt</span>
+              <span>Limpiar filtros ({activeFilterCount})</span>
+            </button>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 };
