@@ -13,6 +13,7 @@ import { RecipeEditorModal } from './components/RecipeEditorModal';
 import { RecipeFilterBar } from './components/RecipeFilterBar';
 import { RecipeCompareView } from './components/RecipeCompareView';
 import { ShoppingCartDrawer } from './components/ShoppingCartDrawer';
+import { MultiRecipeShoppingModal } from './components/MultiRecipeShoppingModal';
 import { FeaturedRecipesPanel } from './components/FeaturedRecipesPanel';
 import { CommunityForumView } from './components/CommunityForumView';
 import { UserProfileView } from './components/UserProfileView';
@@ -44,7 +45,7 @@ function AppContent() {
   // Navigation view: 'explorar' | 'destacadas' | 'foro' | 'comparar' | 'perfil' | 'moderacion'
   const [activeView, setActiveView] = useState<string>('explorar');
 
-  // Search & Filter State (RF-07, RF-16)
+  // Search & Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('todas');
   const [selectedTags, setSelectedTags] = useState<DietaryTag[]>([]);
@@ -57,10 +58,11 @@ function AppContent() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [recipeToEdit, setRecipeToEdit] = useState<Recipe | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMultiRecipeOpen, setIsMultiRecipeOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState<'login' | 'register'>('login');
   
-  // Report modal state (RF-11, RF-20)
+  // Report modal state
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [reportTarget, setReportTarget] = useState<{
     type: 'recipe' | 'profile';
@@ -90,11 +92,11 @@ function AppContent() {
   const filteredRecipes = useMemo(() => {
     return recipes.filter((recipe) => {
       // If exploring, hide drafts unless current user is author
-      if (recipe.status === 'draft' && recipe.authorId !== currentUser.id) {
+      if (recipe.status === 'draft' && (!currentUser || recipe.authorId !== currentUser.id)) {
         return false;
       }
 
-      // Search query filter (RF-16: keyword, ingredient, title)
+      // Search query filter (keyword, ingredient, title)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchesTitle = recipe.title.toLowerCase().includes(q);
@@ -113,7 +115,7 @@ function AppContent() {
         return false;
       }
 
-      // Dietary tags filter (RF-07: vegetarian, vegan, celiac, diabetic, keto...)
+      // Dietary tags filter (vegetarian, vegan, celiac, diabetic, keto...)
       if (selectedTags.length > 0) {
         const hasAllTags = selectedTags.every((tag) => recipe.tags.includes(tag));
         if (!hasAllTags) return false;
@@ -146,16 +148,26 @@ function AppContent() {
   };
 
   const handleEditRecipe = (recipe: Recipe) => {
+    if (!currentUser) {
+      setAuthInitialMode('login');
+      setIsAuthOpen(true);
+      return;
+    }
     setRecipeToEdit(recipe);
     setIsEditorOpen(true);
   };
 
   const handleCreateNewRecipe = () => {
+    if (!currentUser) {
+      setAuthInitialMode('login');
+      setIsAuthOpen(true);
+      return;
+    }
     setRecipeToEdit(null);
     setIsEditorOpen(true);
   };
 
-  // If printable recipe is triggered (RF-31), render full screen print preview!
+  // If printable recipe is triggered, render full screen print preview!
   if (printableRecipe) {
     return (
       <PrintRecipeView
@@ -227,18 +239,28 @@ function AppContent() {
 
             {/* Recipe Grid */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <h2 className="text-xs font-bold text-stone-600 uppercase tracking-wider">
                   Catálogo Gastronómico ({filteredRecipes.length} recetas disponibles)
                 </h2>
-                {activeFilterCount > 0 && (
+                <div className="flex items-center gap-3">
                   <button
-                    onClick={handleClearFilters}
-                    className="text-xs text-[#835500] hover:underline font-semibold cursor-pointer"
+                    type="button"
+                    onClick={() => setIsMultiRecipeOpen(true)}
+                    className="text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 px-3.5 py-1.5 rounded-full transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
                   >
-                    Restablecer filtros
+                    <ShoppingBag className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Compra Multi-Receta Consolidada</span>
                   </button>
-                )}
+                  {activeFilterCount > 0 && (
+                    <button
+                      onClick={handleClearFilters}
+                      className="text-xs text-[#835500] hover:underline font-semibold cursor-pointer"
+                    >
+                      Restablecer filtros
+                    </button>
+                  )}
+                </div>
               </div>
 
               {filteredRecipes.length === 0 ? (
@@ -309,6 +331,10 @@ function AppContent() {
             onOpenReport={handleOpenReport}
             onEditRecipe={handleEditRecipe}
             onCreateRecipe={handleCreateNewRecipe}
+            onOpenAuth={(mode) => {
+              setAuthInitialMode(mode || 'login');
+              setIsAuthOpen(true);
+            }}
           />
         )}
 
@@ -368,6 +394,13 @@ function AppContent() {
       <ShoppingCartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
+        onOpenMultiRecipe={() => setIsMultiRecipeOpen(true)}
+      />
+
+      <MultiRecipeShoppingModal
+        isOpen={isMultiRecipeOpen}
+        onClose={() => setIsMultiRecipeOpen(false)}
+        onOpenCart={() => setIsCartOpen(true)}
       />
 
       <AuthModals

@@ -17,6 +17,73 @@ export interface SubProfile {
   dietaryRestrictions: DietaryTag[];
 }
 
+export interface UserAddress {
+  id: string;
+  alias: string; // ej: "Casa", "Trabajo", "Depto Palermo"
+  street: string; // Calle
+  number: string; // Número
+  apartment?: string; // Piso / Depto
+  city: string; // Ciudad / Barrio
+  province: string; // Provincia / Localidad
+  postalCode: string; // Código Postal
+  isDefault: boolean;
+  notes?: string; // Indicaciones adicionales (ej: "Timbre 4B, entre calles...")
+  createdAt: string;
+}
+
+export type OrderStatus = 
+  | 'pendiente_pago'
+  | 'en_preparacion'
+  | 'despachado'
+  | 'en_camino'
+  | 'entregado'
+  | 'cancelado';
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  quantity: number;
+  unit: string;
+  priceARS: number;
+  subtotalARS?: number;
+  recipeTitle?: string;
+  storeName?: string;
+  store?: string;
+  substituteUsed?: string;
+}
+
+export interface PurchaseOrder {
+  id: string;
+  userId: string;
+  orderNumber: string; // ej: #GST-84920
+  storeId: string;
+  storeName: string;
+  items: OrderItem[];
+  subtotalARS: number;
+  deliveryFeeARS: number;
+  pantrySavingsARS: number;
+  totalARS: number;
+  status: OrderStatus;
+  deliveryAddress: UserAddress;
+  createdAt: string;
+  estimatedDeliveryTime: string; // ej: "Hoy, entre 16:30 y 17:30 hs"
+  statusHistory: {
+    status: OrderStatus;
+    timestamp: string;
+    note: string;
+  }[];
+}
+
+export interface ResetPasswordSimulation {
+  email: string;
+  userName: string;
+  token: string;
+  resetLink: string;
+  createdAt: string;
+  expiresAt: string;
+  isUsed?: boolean;
+}
+
 export interface UserProfile {
   id: string;
   name: string;
@@ -34,6 +101,11 @@ export interface UserProfile {
   followingUserIds: string[];
   pinnedRecipeId?: string;
   wishlistRecipeIds: string[];
+  wishlistIngredientItems?: WishlistIngredientItem[];
+  addresses?: UserAddress[];
+  preferredPostalCode?: string;
+  preferredCity?: string;
+  preferredStoreId?: string;
   location?: string;
   isBanned?: boolean;
 }
@@ -43,7 +115,7 @@ export interface Ingredient {
   name: string;
   quantity: number;
   unit: string;
-  estimatedPrice: number; // in USD
+  estimatedPrice: number; // in ARS ($)
   storeName: string;
   storeLocation: string;
   inStock: boolean;
@@ -78,7 +150,10 @@ export interface RecipeComment {
   authorAvatar: string;
   content: string;
   createdAt: string;
+  updatedAt?: string;
   likes: number;
+  likedUserIds: string[];
+  dislikedUserIds: string[];
   parentCommentId?: string;
 }
 
@@ -118,6 +193,12 @@ export interface Recipe {
   videoUrl?: string;
 }
 
+export interface CartItemSource {
+  recipeId: string;
+  recipeTitle: string;
+  quantity: number;
+}
+
 export interface CartItem {
   id: string;
   ingredient: Ingredient;
@@ -126,6 +207,17 @@ export interface CartItem {
   quantityNeeded: number;
   haveInPantry: boolean;
   storeName: string;
+  sources?: CartItemSource[];
+  customStoreId?: string;
+  substitutedBy?: string;
+}
+
+export interface WishlistIngredientItem {
+  id: string;
+  ingredient: Ingredient;
+  recipeId?: string;
+  recipeTitle?: string;
+  addedAt: string;
 }
 
 export interface ModerationReport {

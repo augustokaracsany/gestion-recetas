@@ -30,12 +30,12 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartSuccess, setCartSuccess] = useState(false);
 
-  const isLiked = recipe.likedUserIds.includes(currentUser.id);
-  const isDisliked = recipe.dislikedUserIds.includes(currentUser.id);
-  const isInWishlist = currentUser.wishlistRecipeIds.includes(recipe.id);
+  const isLiked = currentUser ? recipe.likedUserIds.includes(currentUser.id) : false;
+  const isDisliked = currentUser ? recipe.dislikedUserIds.includes(currentUser.id) : false;
+  const isInWishlist = currentUser ? currentUser.wishlistRecipeIds.includes(recipe.id) : false;
   const isComparing = comparingRecipeIds.includes(recipe.id);
-  const isAuthor = recipe.authorId === currentUser.id;
-  const canPin = isAuthor || currentUser.role === 'editor' || currentUser.role === 'admin';
+  const isAuthor = currentUser ? recipe.authorId === currentUser.id : false;
+  const canPin = currentUser ? (isAuthor || currentUser.role === 'editor' || currentUser.role === 'admin') : false;
 
   const totalTime = recipe.prepTimeMin + recipe.cookTimeMin;
 
@@ -81,8 +81,13 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
             </span>
           )}
           {recipe.status === 'scheduled' && (
-            <span className="bg-[#835500] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
-              Programada
+            <span className="bg-[#835500] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1">
+              <span className="material-symbols-outlined text-[13px]">event_note</span>
+              <span>
+                {recipe.scheduledPublishDate
+                  ? `Prog. ${new Date(recipe.scheduledPublishDate).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}`
+                  : 'Programada'}
+              </span>
             </span>
           )}
         </div>
@@ -306,7 +311,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
                     <span>Descargar texto</span>
                   </button>
 
-                  {recipe.status === 'scheduled' && isAuthor && (
+                  {recipe.status === 'scheduled' && (isAuthor || currentUser?.role === 'admin' || currentUser?.role === 'editor') && (
                     <button
                       type="button"
                       onClick={() => {

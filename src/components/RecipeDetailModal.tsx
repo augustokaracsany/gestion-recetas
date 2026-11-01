@@ -26,8 +26,10 @@ import {
   Sparkles,
   Store,
   Check,
-  Calendar
+  Calendar,
+  BookmarkCheck
 } from 'lucide-react';
+import { formatARS } from '../utils/currency';
 
 interface RecipeDetailModalProps {
   recipe: Recipe | null;
@@ -47,12 +49,17 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
     toggleLikeRecipe,
     toggleDislikeRecipe,
     toggleWishlist,
+    toggleWishlistIngredient,
     comparingRecipeIds,
     toggleCompareRecipe,
     deleteRecipe,
     addRecipeIngredientsToCart,
     comments,
     addComment,
+    editComment,
+    deleteComment,
+    voteComment,
+    publishScheduledNow,
     followUserToggle,
     setPrintableRecipe,
     exportRecipeJson,
@@ -63,18 +70,20 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
   const [commentText, setCommentText] = useState('');
   const [replyingToId, setReplyingToId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editingContent, setEditingContent] = useState('');
   const [selectedIngredientIds, setSelectedIngredientIds] = useState<string[]>([]);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
   if (!recipe) return null;
 
-  const isAuthor = recipe.authorId === currentUser.id;
-  const canEdit = isAuthor || currentUser.role === 'editor' || currentUser.role === 'admin';
-  const canDelete = isAuthor || currentUser.role === 'editor' || currentUser.role === 'admin';
-  const isFollowingAuthor = currentUser.followingUserIds.includes(recipe.authorId);
-  const isLiked = recipe.likedUserIds.includes(currentUser.id);
-  const isDisliked = recipe.dislikedUserIds.includes(currentUser.id);
-  const isInWishlist = currentUser.wishlistRecipeIds.includes(recipe.id);
+  const isAuthor = currentUser ? recipe.authorId === currentUser.id : false;
+  const canEdit = currentUser ? (isAuthor || currentUser.role === 'editor' || currentUser.role === 'admin') : false;
+  const canDelete = currentUser ? (isAuthor || currentUser.role === 'editor' || currentUser.role === 'admin') : false;
+  const isFollowingAuthor = currentUser ? currentUser.followingUserIds.includes(recipe.authorId) : false;
+  const isLiked = currentUser ? recipe.likedUserIds.includes(currentUser.id) : false;
+  const isDisliked = currentUser ? recipe.dislikedUserIds.includes(currentUser.id) : false;
+  const isInWishlist = currentUser ? currentUser.wishlistRecipeIds.includes(recipe.id) : false;
   const isComparing = comparingRecipeIds.includes(recipe.id);
 
   const recipeComments = comments.filter((c) => c.recipeId === recipe.id);
@@ -113,6 +122,24 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
     setReplyingToId(null);
   };
 
+  const handleStartEditComment = (commentId: string, currentText: string) => {
+    setEditingCommentId(commentId);
+    setEditingContent(currentText);
+  };
+
+  const handleSaveEditComment = (commentId: string) => {
+    if (!editingContent.trim()) return;
+    editComment(commentId, editingContent);
+    setEditingCommentId(null);
+    setEditingContent('');
+  };
+
+  const handleDeleteComment = (commentId: string) => {
+    if (window.confirm('¿Deseas eliminar este comentario?')) {
+      deleteComment(commentId);
+    }
+  };
+
   const toggleStepDone = (stepNum: number) => {
     setCompletedSteps((prev) =>
       prev.includes(stepNum) ? prev.filter((s) => s !== stepNum) : [...prev, stepNum]
@@ -120,7 +147,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
   };
 
   const handleDelete = () => {
-    if (window.confirm(`¿Estás seguro de que deseas eliminar permanentemente la receta "${recipe.title}"? (RF-12)`)) {
+    if (window.confirm(`¿Estás seguro de que deseas eliminar permanentemente la receta "${recipe.title}"?`)) {
       if (deleteRecipe(recipe.id)) {
         onClose();
       }
@@ -262,6 +289,38 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             </div>
           </div>
 
+          {/* Scheduled Recipe Banner */}
+          {recipe.status === 'scheduled' && (
+            <div className="p-4 rounded-2xl bg-sky-50 border border-sky-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sky-950">
+              <div className="flex items-center gap-2.5 text-xs">
+                <span className="material-symbols-outlined text-[20px] text-sky-700">schedule</span>
+                <div>
+                  <span className="font-bold">Publicación Programada: </span>
+                  <span>
+                    {recipe.scheduledPublishDate
+                      ? new Date(recipe.scheduledPublishDate).toLocaleString('es-ES', {
+                          day: '2-digit',
+                          month: 'long',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })
+                      : 'Fecha pendiente de definir'}
+                  </span>
+                </div>
+              </div>
+              {canEdit && (
+                <button
+                  type="button"
+                  onClick={() => publishScheduledNow(recipe.id)}
+                  className="px-4 py-1.5 bg-sky-700 hover:bg-sky-800 text-white text-xs font-bold rounded-xl transition-colors shrink-0 shadow-2xs cursor-pointer"
+                >
+                  Publicar Ahora de Inmediato
+                </button>
+              )}
+            </div>
+          )}
+
           {/* Author, Co-authors & Follow bar */}
           <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-[#FFDDB9]/30 border border-[#E09F3E]/30">
             <div className="flex items-center gap-3">
@@ -286,7 +345,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             </div>
 
             <div className="flex items-center gap-3">
-              {recipe.authorId !== currentUser.id && (
+              {(!currentUser || recipe.authorId !== currentUser.id) && (
                 <button
                   onClick={() => followUserToggle(recipe.authorId)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
@@ -377,7 +436,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               <Store className="w-5 h-5 text-emerald-600 shrink-0" />
               <div>
                 <div className="text-[11px] font-semibold text-stone-500 uppercase">Costo Estimado</div>
-                <div className="text-sm font-bold text-emerald-700">~${totalIngredientsCost.toFixed(2)} USD</div>
+                <div className="text-sm font-bold text-emerald-700">{formatARS(totalIngredientsCost)}</div>
                 <div className="text-[10px] text-stone-500">Tiendas locales</div>
               </div>
             </div>
@@ -451,7 +510,10 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-start gap-2.5">
+                        <div
+                          onClick={() => handleToggleIngredientSelect(ing.id)}
+                          className="flex items-start gap-2.5 flex-1 cursor-pointer"
+                        >
                           <input
                             type="checkbox"
                             checked={isChecked}
@@ -466,13 +528,13 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                               <Store className="w-3 h-3 text-stone-400" />
                               <span>{ing.storeName}</span>
                               <span>•</span>
-                              <span className="font-medium text-emerald-700">${ing.estimatedPrice.toFixed(2)}</span>
+                              <span className="font-medium text-emerald-700">{formatARS(ing.estimatedPrice)}</span>
                             </div>
                           </div>
                         </div>
 
-                        {/* Stock badge */}
-                        <div className="text-right shrink-0">
+                        {/* Stock badge & Wishlist button */}
+                        <div className="flex items-center gap-1.5 shrink-0">
                           {ing.stockLevel === 'alto' && (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
                               Stock Alto
@@ -488,6 +550,18 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                               Agotado
                             </span>
                           )}
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleWishlistIngredient(ing, recipe.id, recipe.title);
+                            }}
+                            title="Guardar en lista de deseos"
+                            className="p-1.5 rounded-lg text-stone-400 hover:text-amber-700 hover:bg-stone-100 transition-colors cursor-pointer"
+                          >
+                            <Bookmark className="w-3.5 h-3.5" />
+                          </button>
                         </div>
                       </div>
 
@@ -618,15 +692,15 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             {/* Comment Form */}
             <form onSubmit={handleCommentSubmit} className="flex gap-3">
               <img
-                src={currentUser.avatar}
-                alt={currentUser.name}
+                src={currentUser ? currentUser.avatar : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160&auto=format&fit=crop&q=80'}
+                alt={currentUser ? currentUser.name : 'Usuario'}
                 className="w-9 h-9 rounded-full object-cover shrink-0"
               />
               <div className="flex-1 space-y-2">
                 <textarea
                   rows={2}
                   required
-                  placeholder={`Escribe un comentario como ${currentUser.name}...`}
+                  placeholder={currentUser ? `Escribe un comentario como ${currentUser.name}...` : 'Inicia sesión para dejar un comentario en esta receta...'}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-2xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500 focus:outline-hidden resize-none"
@@ -651,50 +725,185 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               ) : (
                 rootComments.map((comment) => {
                   const replies = recipeComments.filter((c) => c.parentCommentId === comment.id);
+                  const netScore = (comment.likedUserIds?.length || 0) - (comment.dislikedUserIds?.length || 0);
+                  const userLiked = currentUser && comment.likedUserIds?.includes(currentUser.id);
+                  const userDisliked = currentUser && comment.dislikedUserIds?.includes(currentUser.id);
+                  const isAuthor = currentUser ? comment.authorId === currentUser.id : false;
+                  const canEdit = currentUser ? (isAuthor || currentUser.role === 'admin') : false;
+                  const canDelete = currentUser ? (isAuthor || currentUser.role === 'admin' || currentUser.role === 'editor') : false;
+                  const isEditingThis = editingCommentId === comment.id;
+
+                  // Format date and time
+                  const commentDate = new Date(comment.createdAt);
+                  const formattedDateTime = commentDate.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                  }) + ' a las ' + commentDate.toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  });
+
                   return (
-                    <div key={comment.id} className="p-4 rounded-2xl bg-stone-50/80 border border-stone-200/80 space-y-3">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-2.5">
+                    <div key={comment.id} className="p-4 sm:p-5 rounded-2xl bg-stone-50/90 border border-stone-200 space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        {/* Author info & Date/Time */}
+                        <div className="flex items-center gap-3">
                           <img
                             src={comment.authorAvatar}
                             alt={comment.authorName}
-                            className="w-8 h-8 rounded-full object-cover"
+                            className="w-8 h-8 rounded-full object-cover ring-1 ring-amber-300"
                           />
                           <div>
-                            <div className="text-xs font-bold text-stone-900">{comment.authorName}</div>
-                            <div className="text-[10px] text-stone-400">
-                              {new Date(comment.createdAt).toLocaleDateString('es-ES')}
+                            <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
+                              <span>{comment.authorName}</span>
+                              {recipe.authorId === comment.authorId && (
+                                <span className="text-[10px] bg-[#ffddb9] text-[#714500] font-bold px-1.5 py-0.2 rounded-md">
+                                  Autor
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[11px] text-stone-500 flex items-center gap-1">
+                              <span className="material-symbols-outlined text-[13px] text-stone-400">schedule</span>
+                              <span>{formattedDateTime}</span>
+                              {comment.updatedAt && (
+                                <span className="text-stone-400 italic font-normal">(editado)</span>
+                              )}
                             </div>
                           </div>
                         </div>
 
+                        {/* Top-right actions: Edit / Delete */}
+                        <div className="flex items-center gap-2">
+                          {canEdit && !isEditingThis && (
+                            <button
+                              type="button"
+                              onClick={() => handleStartEditComment(comment.id, comment.content)}
+                              className="text-stone-400 hover:text-amber-700 text-xs font-medium transition-colors cursor-pointer"
+                              title="Editar comentario"
+                            >
+                              Editar
+                            </button>
+                          )}
+                          {canDelete && (
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteComment(comment.id)}
+                              className="text-stone-400 hover:text-red-600 text-xs font-medium transition-colors cursor-pointer"
+                              title="Eliminar comentario"
+                            >
+                              Eliminar
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Content or Edit Form */}
+                      {isEditingThis ? (
+                        <div className="pl-11 space-y-2">
+                          <textarea
+                            rows={3}
+                            value={editingContent}
+                            onChange={(e) => setEditingContent(e.target.value)}
+                            className="w-full px-3 py-2 text-xs sm:text-sm bg-white rounded-xl border border-amber-300 focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                          />
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setEditingCommentId(null)}
+                              className="px-3 py-1 text-xs text-stone-600 hover:bg-stone-200 rounded-lg cursor-pointer"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleSaveEditComment(comment.id)}
+                              className="px-3.5 py-1 bg-[#e09f3e] text-white text-xs font-bold rounded-lg hover:bg-[#835500] cursor-pointer"
+                            >
+                              Guardar cambios
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-xs sm:text-sm text-stone-700 leading-relaxed pl-11">
+                          {comment.content}
+                        </p>
+                      )}
+
+                      {/* REDDIT-STYLE VOTING & REPLY BUTTON */}
+                      <div className="flex items-center justify-between pl-11 pt-1">
+                        {/* Upvote, Net Score, Downvote */}
+                        <div className="inline-flex items-center bg-white rounded-full border border-stone-200 px-1 py-0.5 shadow-2xs">
+                          {/* Upvote button */}
+                          <button
+                            type="button"
+                            onClick={() => voteComment(comment.id, 'like')}
+                            aria-label="Votar positivo"
+                            title="Voto positivo (Like)"
+                            className={`p-1 rounded-full transition-colors cursor-pointer ${
+                              userLiked
+                                ? 'text-emerald-700 bg-emerald-100 font-bold'
+                                : 'text-stone-500 hover:text-emerald-700 hover:bg-stone-100'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[18px]">thumb_up</span>
+                          </button>
+
+                          {/* Net Score: Reddit style (+N, -N, 0) */}
+                          <span
+                            className={`px-2 py-0.5 text-xs font-bold ${
+                              netScore > 0
+                                ? 'text-emerald-700'
+                                : netScore < 0
+                                ? 'text-rose-700'
+                                : 'text-stone-500'
+                            }`}
+                            title={`Votos positivos: ${comment.likedUserIds?.length || 0} | Votos negativos: ${comment.dislikedUserIds?.length || 0}`}
+                          >
+                            {netScore > 0 ? `+${netScore}` : netScore}
+                          </span>
+
+                          {/* Downvote button */}
+                          <button
+                            type="button"
+                            onClick={() => voteComment(comment.id, 'dislike')}
+                            aria-label="Votar negativo"
+                            title="Voto negativo (Dislike)"
+                            className={`p-1 rounded-full transition-colors cursor-pointer ${
+                              userDisliked
+                                ? 'text-rose-700 bg-rose-100 font-bold'
+                                : 'text-stone-500 hover:text-rose-700 hover:bg-stone-100'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-[18px]">thumb_down</span>
+                          </button>
+                        </div>
+
+                        {/* Reply trigger */}
                         <button
                           type="button"
                           onClick={() => setReplyingToId(replyingToId === comment.id ? null : comment.id)}
-                          className="text-xs text-amber-700 hover:underline font-semibold"
+                          className="text-xs text-[#835500] hover:underline font-bold flex items-center gap-1 cursor-pointer"
                         >
-                          Responder
+                          <span className="material-symbols-outlined text-[16px]">reply</span>
+                          <span>Responder</span>
                         </button>
                       </div>
 
-                      <p className="text-xs sm:text-sm text-stone-700 leading-relaxed pl-10">
-                        {comment.content}
-                      </p>
-
                       {/* Reply form if active */}
                       {replyingToId === comment.id && (
-                        <div className="pl-10 pt-2 flex gap-2">
+                        <div className="pl-11 pt-2 flex gap-2">
                           <input
                             type="text"
                             placeholder="Escribe tu respuesta..."
                             value={replyText}
                             onChange={(e) => setReplyText(e.target.value)}
-                            className="flex-1 px-3 py-1.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-hidden"
+                            className="flex-1 px-3.5 py-1.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
                           />
                           <button
                             type="button"
                             onClick={() => handleReplySubmit(comment.id)}
-                            className="px-3 py-1.5 bg-amber-600 text-white rounded-xl text-xs font-semibold hover:bg-amber-700"
+                            className="px-4 py-1.5 bg-[#e09f3e] hover:bg-[#835500] text-white rounded-xl text-xs font-semibold cursor-pointer transition-colors"
                           >
                             Enviar
                           </button>
@@ -703,23 +912,131 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
 
                       {/* Nested replies */}
                       {replies.length > 0 && (
-                        <div className="pl-10 space-y-2.5 pt-2 border-l-2 border-amber-200 ml-4">
-                          {replies.map((reply) => (
-                            <div key={reply.id} className="bg-white p-3 rounded-xl border border-stone-200">
-                              <div className="flex items-center gap-2 mb-1">
-                                <img
-                                  src={reply.authorAvatar}
-                                  alt={reply.authorName}
-                                  className="w-6 h-6 rounded-full object-cover"
-                                />
-                                <span className="text-xs font-bold text-stone-800">{reply.authorName}</span>
-                                <span className="text-[10px] text-stone-400">
-                                  {new Date(reply.createdAt).toLocaleDateString('es-ES')}
-                                </span>
+                        <div className="pl-6 sm:pl-11 space-y-3 pt-3 border-l-2 border-amber-200 ml-4">
+                          {replies.map((reply) => {
+                            const replyNetScore = (reply.likedUserIds?.length || 0) - (reply.dislikedUserIds?.length || 0);
+                            const replyUserLiked = currentUser && reply.likedUserIds?.includes(currentUser.id);
+                            const replyUserDisliked = currentUser && reply.dislikedUserIds?.includes(currentUser.id);
+                            const canEditReply = currentUser ? (reply.authorId === currentUser.id || currentUser.role === 'admin') : false;
+                            const canDeleteReply = currentUser ? (reply.authorId === currentUser.id || currentUser.role === 'admin' || currentUser.role === 'editor') : false;
+                            const isEditingReply = editingCommentId === reply.id;
+
+                            const replyDate = new Date(reply.createdAt);
+                            const formattedReplyDateTime = replyDate.toLocaleDateString('es-ES', {
+                              day: '2-digit',
+                              month: 'short',
+                              year: 'numeric'
+                            }) + ' a las ' + replyDate.toLocaleTimeString('es-ES', {
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            });
+
+                            return (
+                              <div key={reply.id} className="bg-white p-3.5 rounded-xl border border-stone-200 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <img
+                                      src={reply.authorAvatar}
+                                      alt={reply.authorName}
+                                      className="w-6 h-6 rounded-full object-cover ring-1 ring-amber-300"
+                                    />
+                                    <span className="text-xs font-bold text-stone-800">{reply.authorName}</span>
+                                    <span className="text-[10px] text-stone-500">
+                                      {formattedReplyDateTime}
+                                    </span>
+                                    {reply.updatedAt && (
+                                      <span className="text-[10px] text-stone-400 italic">(editado)</span>
+                                    )}
+                                  </div>
+
+                                  <div className="flex items-center gap-2">
+                                    {canEditReply && !isEditingReply && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleStartEditComment(reply.id, reply.content)}
+                                        className="text-stone-400 hover:text-amber-700 text-[11px] cursor-pointer"
+                                      >
+                                        Editar
+                                      </button>
+                                    )}
+                                    {canDeleteReply && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleDeleteComment(reply.id)}
+                                        className="text-stone-400 hover:text-red-600 text-[11px] cursor-pointer"
+                                      >
+                                        Eliminar
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {isEditingReply ? (
+                                  <div className="pl-8 space-y-2">
+                                    <textarea
+                                      rows={2}
+                                      value={editingContent}
+                                      onChange={(e) => setEditingContent(e.target.value)}
+                                      className="w-full px-2.5 py-1.5 text-xs bg-white rounded-lg border border-amber-300"
+                                    />
+                                    <div className="flex items-center justify-end gap-1.5">
+                                      <button
+                                        type="button"
+                                        onClick={() => setEditingCommentId(null)}
+                                        className="px-2 py-0.5 text-xs text-stone-500 hover:bg-stone-100 rounded"
+                                      >
+                                        Cancelar
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleSaveEditComment(reply.id)}
+                                        className="px-2.5 py-0.5 bg-[#e09f3e] text-white text-xs font-bold rounded"
+                                      >
+                                        Guardar
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <p className="text-xs text-stone-700 pl-8 leading-relaxed">{reply.content}</p>
+                                )}
+
+                                {/* Reply Reddit Score bar */}
+                                <div className="pl-8 pt-1 flex items-center">
+                                  <div className="inline-flex items-center bg-stone-50 rounded-full border border-stone-200 px-1 py-0.2">
+                                    <button
+                                      type="button"
+                                      onClick={() => voteComment(reply.id, 'like')}
+                                      className={`p-0.5 rounded-full transition-colors cursor-pointer ${
+                                        replyUserLiked ? 'text-emerald-700' : 'text-stone-400 hover:text-emerald-700'
+                                      }`}
+                                    >
+                                      <span className="material-symbols-outlined text-[15px]">thumb_up</span>
+                                    </button>
+                                    <span
+                                      className={`px-1.5 text-[11px] font-bold ${
+                                        replyNetScore > 0
+                                          ? 'text-emerald-700'
+                                          : replyNetScore < 0
+                                          ? 'text-rose-700'
+                                          : 'text-stone-500'
+                                      }`}
+                                    >
+                                      {replyNetScore > 0 ? `+${replyNetScore}` : replyNetScore}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => voteComment(reply.id, 'dislike')}
+                                      className={`p-0.5 rounded-full transition-colors cursor-pointer ${
+                                        replyUserDisliked ? 'text-rose-700' : 'text-stone-400 hover:text-rose-700'
+                                      }`}
+                                    >
+                                      <span className="material-symbols-outlined text-[15px]">thumb_down</span>
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
-                              <p className="text-xs text-stone-700 pl-8">{reply.content}</p>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       )}
                     </div>

@@ -1,4 +1,15 @@
-import { UserProfile, Recipe, RecipeComment, ForumTopic, ForumReply, ModerationReport, AppNotification, RecipeCollection } from '../types';
+import {
+  UserProfile,
+  Recipe,
+  RecipeComment,
+  ForumTopic,
+  ForumReply,
+  ModerationReport,
+  AppNotification,
+  RecipeCollection,
+  UserAddress,
+  PurchaseOrder
+} from '../types';
 
 export const INITIAL_USERS: UserProfile[] = [
   {
@@ -25,6 +36,74 @@ export const INITIAL_USERS: UserProfile[] = [
     followingUserIds: ['user-lucia', 'user-camila'],
     pinnedRecipeId: 'rec-1',
     wishlistRecipeIds: ['rec-2', 'rec-4'],
+    preferredPostalCode: '1414',
+    preferredCity: 'CABA (Palermo / Colegiales)',
+    preferredStoreId: 'coto',
+    addresses: [
+      {
+        id: 'addr-mateo-1',
+        alias: 'Casa Principal',
+        street: 'Av. Santa Fe',
+        number: '3420',
+        apartment: '4B',
+        city: 'Palermo, CABA',
+        province: 'Ciudad Autónoma de Buenos Aires',
+        postalCode: '1414',
+        isDefault: true,
+        notes: 'Timbre 4B. Tocar timbre y dejar en recepción si no atiendo.',
+        createdAt: '2026-09-01T10:00:00.000Z'
+      },
+      {
+        id: 'addr-mateo-2',
+        alias: 'Taller de Cocina / Estudio',
+        street: 'Honduras',
+        number: '4810',
+        city: 'Palermo Soho, CABA',
+        province: 'Ciudad Autónoma de Buenos Aires',
+        postalCode: '1414',
+        isDefault: false,
+        notes: 'Portón negro. Taller gastronómico en PB.',
+        createdAt: '2026-09-15T14:30:00.000Z'
+      }
+    ],
+    wishlistIngredientItems: [
+      {
+        id: 'wish-ing-1',
+        ingredient: {
+          id: 'ing-5',
+          name: 'Pasta seca Penne Rigate certificada Sin TACC',
+          quantity: 400,
+          unit: 'g',
+          estimatedPrice: 3200,
+          storeName: 'Dietética & Molino San Jorge',
+          storeLocation: 'Av. Corrientes 1250, CABA',
+          inStock: true,
+          stockLevel: 'alto',
+          category: 'secos'
+        },
+        recipeId: 'rec-2',
+        recipeTitle: 'Pasta al Pesto Genovés Sin TACC (Apta Celíacos)',
+        addedAt: '2026-10-04T10:00:00.000Z'
+      },
+      {
+        id: 'wish-ing-2',
+        ingredient: {
+          id: 'ing-14',
+          name: 'Harina de Almendras extra fina',
+          quantity: 180,
+          unit: 'g',
+          estimatedPrice: 4200,
+          storeName: 'Dietética & Molino San Jorge',
+          storeLocation: 'Av. Corrientes 1250, CABA',
+          inStock: true,
+          stockLevel: 'alto',
+          category: 'secos'
+        },
+        recipeId: 'rec-4',
+        recipeTitle: 'Cheesecake Keto de Frutos Rojos (Sin Azúcar / Low Carb)',
+        addedAt: '2026-10-04T10:05:00.000Z'
+      }
+    ],
   },
   {
     id: 'user-lucia',
@@ -50,6 +129,25 @@ export const INITIAL_USERS: UserProfile[] = [
     followingUserIds: ['user-mateo'],
     pinnedRecipeId: 'rec-2',
     wishlistRecipeIds: ['rec-1', 'rec-3'],
+    preferredPostalCode: '1428',
+    preferredCity: 'CABA (Belgrano / Núñez)',
+    preferredStoreId: 'jumbo',
+    addresses: [
+      {
+        id: 'addr-lucia-1',
+        alias: 'Departamento Belgrano',
+        street: 'Av. Cabildo',
+        number: '2150',
+        apartment: '8A',
+        city: 'Belgrano, CABA',
+        province: 'Ciudad Autónoma de Buenos Aires',
+        postalCode: '1428',
+        isDefault: true,
+        notes: 'Seguridad 24 hs en garita.',
+        createdAt: '2026-09-10T12:00:00.000Z'
+      }
+    ],
+    wishlistIngredientItems: []
   },
   {
     id: 'user-camila',
@@ -67,6 +165,25 @@ export const INITIAL_USERS: UserProfile[] = [
     followingUserIds: ['user-mateo', 'user-lucia'],
     pinnedRecipeId: undefined,
     wishlistRecipeIds: ['rec-3'],
+    preferredPostalCode: '5000',
+    preferredCity: 'Córdoba Capital',
+    preferredStoreId: 'vea',
+    addresses: [
+      {
+        id: 'addr-camila-1',
+        alias: 'Casa Córdoba',
+        street: 'Bv. Chacabuco',
+        number: '620',
+        apartment: '2D',
+        city: 'Nueva Córdoba',
+        province: 'Córdoba',
+        postalCode: '5000',
+        isDefault: true,
+        notes: 'Edificio Los Robles.',
+        createdAt: '2026-09-12T16:00:00.000Z'
+      }
+    ],
+    wishlistIngredientItems: []
   },
   {
     id: 'user-ignacio',
@@ -83,6 +200,25 @@ export const INITIAL_USERS: UserProfile[] = [
     followersCount: 95,
     followingUserIds: [],
     wishlistRecipeIds: [],
+    preferredPostalCode: '1414',
+    preferredCity: 'CABA (Palermo / Colegiales)',
+    preferredStoreId: 'coto',
+    addresses: [
+      {
+        id: 'addr-ignacio-1',
+        alias: 'Oficina Central Gusto',
+        street: 'Av. Corrientes',
+        number: '1250',
+        apartment: 'Piso 10',
+        city: 'San Nicolás, CABA',
+        province: 'Ciudad Autónoma de Buenos Aires',
+        postalCode: '1001',
+        isDefault: true,
+        notes: 'Horario comercial 09:00 a 18:00 hs.',
+        createdAt: '2026-08-01T09:00:00.000Z'
+      }
+    ],
+    wishlistIngredientItems: []
   }
 ];
 
@@ -127,11 +263,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Harina de Fuerza Orgánica 000',
         quantity: 500,
         unit: 'g',
-        estimatedPrice: 2.10,
-        storeName: 'Molino & Cereal San Jorge',
-        storeLocation: 'Av. Corrientes 1250',
+        estimatedPrice: 2450,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
         stockLevel: 'alto',
+        suggestedSubstitute: 'Harina 0000 Tradicional',
         category: 'secos'
       },
       {
@@ -139,11 +276,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Masa Madre activa al 100% de hidratación',
         quantity: 100,
         unit: 'g',
-        estimatedPrice: 1.50,
-        storeName: 'Panadería Artesanal El Trigal',
-        storeLocation: 'Calle Palma 432',
+        estimatedPrice: 1950,
+        storeName: 'Coto Digital',
+        storeLocation: 'Sucursal Abasto - Av. Corrientes 3247, CABA',
         inStock: true,
         stockLevel: 'medio',
+        suggestedSubstitute: 'Levadura fresca prensada (15g)',
         category: 'frescos'
       },
       {
@@ -151,9 +289,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Agua filtrada a temperatura ambiente',
         quantity: 350,
         unit: 'ml',
-        estimatedPrice: 0.10,
-        storeName: 'Supermercado Central Gourmet',
-        storeLocation: 'Av. Libertador 880',
+        estimatedPrice: 450,
+        storeName: 'Supermercados Dia',
+        storeLocation: 'Honduras 4100, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'otros'
@@ -163,9 +301,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Sal marina fina sin aditivos',
         quantity: 10,
         unit: 'g',
-        estimatedPrice: 0.80,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 650,
+        storeName: 'Jumbo a Casa',
+        storeLocation: 'Av. Int. Bullrich 345, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'especias'
@@ -243,11 +381,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Pasta seca Penne Rigate certificada Sin TACC',
         quantity: 400,
         unit: 'g',
-        estimatedPrice: 3.20,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 3200,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
         stockLevel: 'alto',
+        suggestedSubstitute: 'Fideos Fusilli de Arroz Sin TACC',
         category: 'secos'
       },
       {
@@ -255,11 +394,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Albahaca fresca de hojas anchas',
         quantity: 60,
         unit: 'g',
-        estimatedPrice: 1.40,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 1400,
+        storeName: 'Supermercados Dia',
+        storeLocation: 'Honduras 4100, CABA',
         inStock: true,
         stockLevel: 'medio',
+        suggestedSubstitute: 'Rúcula fresca silvestre',
         category: 'frescos'
       },
       {
@@ -267,12 +407,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Piñones o nueces tostadas',
         quantity: 40,
         unit: 'g',
-        estimatedPrice: 2.80,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 2800,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
-        stockLevel: 'bajo',
-        suggestedSubstitute: 'Nueces de Castilla o almendras peladas',
+        stockLevel: 'medio',
+        suggestedSubstitute: 'Nueces mariposa o almendras peladas',
         category: 'secos'
       },
       {
@@ -280,11 +420,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Queso Parmigiano Reggiano rallado fino (sin gluten)',
         quantity: 70,
         unit: 'g',
-        estimatedPrice: 3.90,
-        storeName: 'Supermercado Central Gourmet',
-        storeLocation: 'Av. Libertador 880',
+        estimatedPrice: 3900,
+        storeName: 'Jumbo a Casa',
+        storeLocation: 'Av. Int. Bullrich 345, CABA',
         inStock: true,
         stockLevel: 'alto',
+        suggestedSubstitute: 'Queso Sardo estacionado',
         category: 'lacteos'
       },
       {
@@ -292,9 +433,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Aceite de Oliva Virgen Extra prensado en frío',
         quantity: 80,
         unit: 'ml',
-        estimatedPrice: 2.50,
-        storeName: 'Supermercado Central Gourmet',
-        storeLocation: 'Av. Libertador 880',
+        estimatedPrice: 2500,
+        storeName: 'Coto Digital',
+        storeLocation: 'Sucursal Abasto - Av. Corrientes 3247, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'otros'
@@ -362,21 +503,22 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Tofu firme orgánico prensado',
         quantity: 250,
         unit: 'g',
-        estimatedPrice: 3.10,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 3100,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
         stockLevel: 'alto',
+        suggestedSubstitute: 'Tempeh orgánico o garbanzos asados',
         category: 'frescos'
       },
       {
         id: 'ing-11',
-        name: 'Aguacate Hass en su punto',
+        name: 'Palta Hass en su punto',
         quantity: 1,
         unit: 'unidad',
-        estimatedPrice: 1.80,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 1800,
+        storeName: 'Supermercados Dia',
+        storeLocation: 'Honduras 4100, CABA',
         inStock: true,
         stockLevel: 'medio',
         category: 'frescos'
@@ -386,9 +528,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Pasta de Sésamo (Tahini puro)',
         quantity: 35,
         unit: 'g',
-        estimatedPrice: 2.20,
-        storeName: 'Supermercado Central Gourmet',
-        storeLocation: 'Av. Libertador 880',
+        estimatedPrice: 2200,
+        storeName: 'Jumbo a Casa',
+        storeLocation: 'Av. Int. Bullrich 345, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'otros'
@@ -398,9 +540,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Espinacas baby y col lombarda rallada',
         quantity: 150,
         unit: 'g',
-        estimatedPrice: 1.60,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 1600,
+        storeName: 'Coto Digital',
+        storeLocation: 'Sucursal Abasto - Av. Corrientes 3247, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'frescos'
@@ -424,7 +566,7 @@ export const INITIAL_RECIPES: Recipe[] = [
       {
         stepNumber: 3,
         title: 'Montaje del bowl',
-        description: 'Disponer una base de espinacas baby, col lombarda morada, aguacate en abanico y los cubos de tofu tibios. Bañar con el aderezo y semillas de sésamo tostadas.',
+        description: 'Disponer una base de espinacas baby, col lombarda morada, palta en abanico y los cubos de tofu tibios. Bañar con el aderezo y semillas de sésamo tostadas.',
         durationMinutes: 5
       }
     ]
@@ -466,21 +608,21 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Harina de Almendras extra fina',
         quantity: 180,
         unit: 'g',
-        estimatedPrice: 4.20,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 4200,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'secos'
       },
       {
         id: 'ing-15',
-        name: 'Queso Crema entero estilo Philadelphia',
+        name: 'Queso Crema entero estilo Casancrem / Finlandia',
         quantity: 450,
         unit: 'g',
-        estimatedPrice: 3.80,
-        storeName: 'Supermercado Central Gourmet',
-        storeLocation: 'Av. Libertador 880',
+        estimatedPrice: 3800,
+        storeName: 'Coto Digital',
+        storeLocation: 'Sucursal Abasto - Av. Corrientes 3247, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'lacteos'
@@ -490,9 +632,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Eritritol o Monkfruit en polvo',
         quantity: 90,
         unit: 'g',
-        estimatedPrice: 3.50,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 3500,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: false,
         stockLevel: 'agotado',
         suggestedSubstitute: 'Stevia líquida pura concentrada o Xilitol',
@@ -500,14 +642,15 @@ export const INITIAL_RECIPES: Recipe[] = [
       },
       {
         id: 'ing-17',
-        name: 'Mix de Frutos Rojos silvestres frescos',
+        name: 'Mix de Frutos Rojos frescos de la Patagonia',
         quantity: 120,
         unit: 'g',
-        estimatedPrice: 2.90,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 2900,
+        storeName: 'Jumbo a Casa',
+        storeLocation: 'Av. Int. Bullrich 345, CABA',
         inStock: true,
         stockLevel: 'medio',
+        suggestedSubstitute: 'Frutillas frescas seleccionadas',
         category: 'frescos'
       }
     ],
@@ -568,14 +711,15 @@ export const INITIAL_RECIPES: Recipe[] = [
     ingredients: [
       {
         id: 'ing-18',
-        name: 'Garbanzos cocidos orgánicos',
+        name: 'Garbanzos cocidos seleccionados',
         quantity: 400,
         unit: 'g',
-        estimatedPrice: 1.80,
-        storeName: 'Supermercado Central Gourmet',
-        storeLocation: 'Av. Libertador 880',
+        estimatedPrice: 1800,
+        storeName: 'Coto Digital',
+        storeLocation: 'Sucursal Abasto - Av. Corrientes 3247, CABA',
         inStock: true,
         stockLevel: 'alto',
+        suggestedSubstitute: 'Lentejas turcas o porotos negros',
         category: 'frescos'
       },
       {
@@ -583,9 +727,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Leche de Coco cremosa en lata',
         quantity: 400,
         unit: 'ml',
-        estimatedPrice: 2.60,
-        storeName: 'Dietética El Trébol Verde',
-        storeLocation: 'Calle Mayor 98',
+        estimatedPrice: 2600,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'otros'
@@ -595,9 +739,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Calabaza Kabocha o Anco en cubos',
         quantity: 300,
         unit: 'g',
-        estimatedPrice: 1.20,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 1200,
+        storeName: 'Supermercados Dia',
+        storeLocation: 'Honduras 4100, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'frescos'
@@ -655,9 +799,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Harina 000 para panadería',
         quantity: 400,
         unit: 'g',
-        estimatedPrice: 1.90,
-        storeName: 'Molino & Cereal San Jorge',
-        storeLocation: 'Av. Corrientes 1250',
+        estimatedPrice: 1900,
+        storeName: 'Dietética & Molino San Jorge',
+        storeLocation: 'Av. Corrientes 1250, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'secos'
@@ -667,9 +811,9 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Tomates cherry perita maduros',
         quantity: 150,
         unit: 'g',
-        estimatedPrice: 1.50,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 1500,
+        storeName: 'Supermercados Dia',
+        storeLocation: 'Honduras 4100, CABA',
         inStock: true,
         stockLevel: 'alto',
         category: 'frescos'
@@ -726,11 +870,12 @@ export const INITIAL_RECIPES: Recipe[] = [
         name: 'Hongos Portobello frescos',
         quantity: 300,
         unit: 'g',
-        estimatedPrice: 3.40,
-        storeName: 'Mercado Fresco Orgánico',
-        storeLocation: 'Paseo de la Ribera 45',
+        estimatedPrice: 3400,
+        storeName: 'Jumbo a Casa',
+        storeLocation: 'Av. Int. Bullrich 345, CABA',
         inStock: true,
         stockLevel: 'medio',
+        suggestedSubstitute: 'Champiñones París frescos',
         category: 'frescos'
       }
     ],
@@ -754,7 +899,9 @@ export const INITIAL_COMMENTS: RecipeComment[] = [
     authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80',
     content: '¡Excelente técnica con la autólisis! Yo suelo reemplazar 50g con harina de centeno integral y el aroma que desprende es inigualable.',
     createdAt: '2026-09-16T14:20:00.000Z',
-    likes: 12
+    likes: 12,
+    likedUserIds: ['user-mateo', 'user-camila', 'user-ignacio'],
+    dislikedUserIds: []
   },
   {
     id: 'comm-2',
@@ -765,6 +912,8 @@ export const INITIAL_COMMENTS: RecipeComment[] = [
     content: '¡Gran aporte Lucía! El centeno además le da un empuje enzimático fenomenal a la masa.',
     createdAt: '2026-09-16T15:10:00.000Z',
     likes: 8,
+    likedUserIds: ['user-lucia'],
+    dislikedUserIds: [],
     parentCommentId: 'comm-1'
   },
   {
@@ -775,7 +924,9 @@ export const INITIAL_COMMENTS: RecipeComment[] = [
     authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80',
     content: 'Nunca me quedaba el pesto tan brillante. El truco de enfriar el aceite de oliva antes de emulsionar cambió todo.',
     createdAt: '2026-09-29T18:45:00.000Z',
-    likes: 5
+    likes: 5,
+    likedUserIds: ['user-mateo'],
+    dislikedUserIds: []
   }
 ];
 
@@ -931,3 +1082,159 @@ export const INITIAL_NOTIFICATIONS: AppNotification[] = [
     type: 'moderation'
   }
 ];
+
+export const INITIAL_ORDERS: PurchaseOrder[] = [
+  {
+    id: 'ord-101',
+    userId: 'user-mateo',
+    orderNumber: '#GST-94821',
+    storeId: 'coto',
+    storeName: 'Coto Digital',
+    status: 'en_camino',
+    createdAt: '2026-10-04T11:20:00.000Z',
+    estimatedDeliveryTime: 'Hoy, entre 16:30 y 17:30 hs (A tiempo)',
+    deliveryAddress: {
+      id: 'addr-mateo-1',
+      alias: 'Casa Principal',
+      street: 'Av. Santa Fe',
+      number: '3420',
+      apartment: '4B',
+      city: 'Palermo, CABA',
+      province: 'Ciudad Autónoma de Buenos Aires',
+      postalCode: '1414',
+      isDefault: true,
+      notes: 'Timbre 4B. Tocar timbre y dejar en recepción si no atiendo.',
+      createdAt: '2026-09-01T10:00:00.000Z'
+    },
+    items: [
+      {
+        id: 'ord-item-1',
+        name: 'Harina de Fuerza Orgánica 000',
+        quantity: 500,
+        unit: 'g',
+        priceARS: 2450,
+        recipeTitle: 'Hogaza Rústica de Masa Madre',
+        storeName: 'Coto Digital'
+      },
+      {
+        id: 'ord-item-2',
+        name: 'Masa Madre activa al 100% de hidratación',
+        quantity: 100,
+        unit: 'g',
+        priceARS: 1950,
+        recipeTitle: 'Hogaza Rústica de Masa Madre',
+        storeName: 'Coto Digital'
+      },
+      {
+        id: 'ord-item-3',
+        name: 'Sal marina fina sin aditivos',
+        quantity: 10,
+        unit: 'g',
+        priceARS: 650,
+        recipeTitle: 'Hogaza Rústica de Masa Madre',
+        storeName: 'Coto Digital'
+      }
+    ],
+    subtotalARS: 5050,
+    deliveryFeeARS: 2850,
+    pantrySavingsARS: 450,
+    totalARS: 7900,
+    statusHistory: [
+      {
+        status: 'pendiente_pago',
+        timestamp: '2026-10-04T11:20:00.000Z',
+        note: 'Pago verificado con tarjeta de débito bancaria.'
+      },
+      {
+        status: 'en_preparacion',
+        timestamp: '2026-10-04T11:45:00.000Z',
+        note: 'Sucursal Coto Abasto comenzó el armado de la canasta de frescos y secos.'
+      },
+      {
+        status: 'despachado',
+        timestamp: '2026-10-04T14:10:00.000Z',
+        note: 'Pedido empaquetado y transferido al transportista de reparto.'
+      },
+      {
+        status: 'en_camino',
+        timestamp: '2026-10-04T15:00:00.000Z',
+        note: 'El repartidor está en ruta hacia Palermo (Av. Santa Fe 3420 4B).'
+      }
+    ]
+  },
+  {
+    id: 'ord-102',
+    userId: 'user-mateo',
+    orderNumber: '#GST-81204',
+    storeId: 'jumbo',
+    storeName: 'Jumbo a Casa',
+    status: 'entregado',
+    createdAt: '2026-09-28T09:15:00.000Z',
+    estimatedDeliveryTime: 'Entregado con éxito el 28 de Septiembre',
+    deliveryAddress: {
+      id: 'addr-mateo-1',
+      alias: 'Casa Principal',
+      street: 'Av. Santa Fe',
+      number: '3420',
+      apartment: '4B',
+      city: 'Palermo, CABA',
+      province: 'Ciudad Autónoma de Buenos Aires',
+      postalCode: '1414',
+      isDefault: true,
+      notes: 'Timbre 4B. Tocar timbre y dejar en recepción si no atiendo.',
+      createdAt: '2026-09-01T10:00:00.000Z'
+    },
+    items: [
+      {
+        id: 'ord-item-4',
+        name: 'Queso Parmigiano Reggiano rallado fino (sin gluten)',
+        quantity: 70,
+        unit: 'g',
+        priceARS: 3900,
+        recipeTitle: 'Pasta al Pesto Genovés Sin TACC',
+        storeName: 'Jumbo a Casa'
+      },
+      {
+        id: 'ord-item-5',
+        name: 'Mix de Frutos Rojos frescos de la Patagonia',
+        quantity: 120,
+        unit: 'g',
+        priceARS: 2900,
+        recipeTitle: 'Cheesecake Keto de Frutos Rojos',
+        storeName: 'Jumbo a Casa'
+      }
+    ],
+    subtotalARS: 6800,
+    deliveryFeeARS: 0,
+    pantrySavingsARS: 1200,
+    totalARS: 6800,
+    statusHistory: [
+      {
+        status: 'pendiente_pago',
+        timestamp: '2026-09-28T09:15:00.000Z',
+        note: 'Orden recibida y procesada.'
+      },
+      {
+        status: 'en_preparacion',
+        timestamp: '2026-09-28T09:40:00.000Z',
+        note: 'Selección de productos en cámara fría.'
+      },
+      {
+        status: 'despachado',
+        timestamp: '2026-09-28T11:10:00.000Z',
+        note: 'Despachado en camioneta refrigerada.'
+      },
+      {
+        status: 'en_camino',
+        timestamp: '2026-09-28T12:00:00.000Z',
+        note: 'Próxima parada: Palermo.'
+      },
+      {
+        status: 'entregado',
+        timestamp: '2026-09-28T12:45:00.000Z',
+        note: 'Entregado en mano en domicilio. Recepción firmada.'
+      }
+    ]
+  }
+];
+

@@ -279,6 +279,7 @@ export const CommunityForumView: React.FC = () => {
                         </button>
 
                         {!reply.isBestAnswer &&
+                          currentUser &&
                           (currentUser.id === activeTopic.authorId ||
                             currentUser.role === 'admin' ||
                             currentUser.role === 'editor') && (
@@ -510,7 +511,7 @@ export const CommunityForumView: React.FC = () => {
             </div>
           </div>
 
-          {/* Widget: Chefs destacados del mes (RF-19 Seguir perfil) */}
+          {/* Widget: Chefs destacados del mes */}
           <div className="bg-white rounded-3xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100">
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
               <div className="flex items-center gap-2">
@@ -526,7 +527,7 @@ export const CommunityForumView: React.FC = () => {
 
             <div className="flex flex-col gap-3.5">
               {allUsers.slice(0, 3).map((chef, idx) => {
-                const isFollowing = currentUser.followingUserIds.includes(chef.id);
+                const isFollowing = currentUser ? currentUser.followingUserIds.includes(chef.id) : false;
 
                 return (
                   <div key={chef.id} className="flex items-center justify-between gap-3">
@@ -549,7 +550,7 @@ export const CommunityForumView: React.FC = () => {
                       </div>
                     </div>
 
-                    {chef.id !== currentUser.id && (
+                    {(!currentUser || chef.id !== currentUser.id) && (
                       <button
                         type="button"
                         onClick={() => followUserToggle(chef.id)}
