@@ -13,14 +13,50 @@ import {
 
 export const INITIAL_USERS: UserProfile[] = [
   {
+    id: 'user-camila',
+    name: 'Camila Ríos',
+    username: 'camicocina',
+    email: 'usuario.basico@gusto.app',
+    password: 'GustoUser2026!',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80',
+    role: 'usuario',
+    bio: 'Aficionada a la cocina casera. Disfrutando del nivel básico y descubriendo nuevas recetas todos los días.',
+    specialties: ['Meal Prep', 'Cenas Rápidas', 'Smoothie Bowls'],
+    dietaryPreferences: ['vegetariano'],
+    subprofiles: [],
+    followersCount: 420,
+    followingUserIds: ['user-mateo', 'user-lucia'],
+    pinnedRecipeId: undefined,
+    wishlistRecipeIds: ['rec-3'],
+    preferredPostalCode: '5000',
+    preferredCity: 'Córdoba Capital',
+    preferredStoreId: 'vea',
+    addresses: [
+      {
+        id: 'addr-camila-1',
+        alias: 'Casa Córdoba',
+        street: 'Bv. Chacabuco',
+        number: '620',
+        apartment: '2D',
+        city: 'Nueva Córdoba',
+        province: 'Córdoba',
+        postalCode: '5000',
+        isDefault: true,
+        notes: 'Edificio Los Robles.',
+        createdAt: '2026-09-12T16:00:00.000Z'
+      }
+    ],
+    wishlistIngredientItems: []
+  },
+  {
     id: 'user-mateo',
     name: 'Mateo Rossi',
     username: 'mateochef',
-    email: 'mateo.rossi@gusto.app',
-    password: 'password123',
+    email: 'chef.premium@gusto.app',
+    password: 'GustoPremium2026!',
     avatar: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=160&auto=format&fit=crop&q=80',
     role: 'premium',
-    bio: 'Chef pastelero y entusiasta de la masa madre rústica. Compartiendo recetas caseras con rigor profesional.',
+    bio: 'Chef pastelero y usuario Premium de Gusto. Suscripción activa con acceso a recetas destacadas y beneficios.',
     specialties: ['Panadería artesanal', 'Pastelería francesa', 'Fermentación'],
     dietaryPreferences: ['vegetariano'],
     subprofiles: [
@@ -52,79 +88,22 @@ export const INITIAL_USERS: UserProfile[] = [
         isDefault: true,
         notes: 'Timbre 4B. Tocar timbre y dejar en recepción si no atiendo.',
         createdAt: '2026-09-01T10:00:00.000Z'
-      },
-      {
-        id: 'addr-mateo-2',
-        alias: 'Taller de Cocina / Estudio',
-        street: 'Honduras',
-        number: '4810',
-        city: 'Palermo Soho, CABA',
-        province: 'Ciudad Autónoma de Buenos Aires',
-        postalCode: '1414',
-        isDefault: false,
-        notes: 'Portón negro. Taller gastronómico en PB.',
-        createdAt: '2026-09-15T14:30:00.000Z'
       }
     ],
-    wishlistIngredientItems: [
-      {
-        id: 'wish-ing-1',
-        ingredient: {
-          id: 'ing-5',
-          name: 'Pasta seca Penne Rigate certificada Sin TACC',
-          quantity: 400,
-          unit: 'g',
-          estimatedPrice: 3200,
-          storeName: 'Dietética & Molino San Jorge',
-          storeLocation: 'Av. Corrientes 1250, CABA',
-          inStock: true,
-          stockLevel: 'alto',
-          category: 'secos'
-        },
-        recipeId: 'rec-2',
-        recipeTitle: 'Pasta al Pesto Genovés Sin TACC (Apta Celíacos)',
-        addedAt: '2026-10-04T10:00:00.000Z'
-      },
-      {
-        id: 'wish-ing-2',
-        ingredient: {
-          id: 'ing-14',
-          name: 'Harina de Almendras extra fina',
-          quantity: 180,
-          unit: 'g',
-          estimatedPrice: 4200,
-          storeName: 'Dietética & Molino San Jorge',
-          storeLocation: 'Av. Corrientes 1250, CABA',
-          inStock: true,
-          stockLevel: 'alto',
-          category: 'secos'
-        },
-        recipeId: 'rec-4',
-        recipeTitle: 'Cheesecake Keto de Frutos Rojos (Sin Azúcar / Low Carb)',
-        addedAt: '2026-10-04T10:05:00.000Z'
-      }
-    ],
+    wishlistIngredientItems: []
   },
   {
     id: 'user-lucia',
     name: 'Lucía Valenzuela',
     username: 'lucianutri',
-    email: 'lucia.valenzuela@gusto.app',
-    password: 'password123',
+    email: 'editor.recetas@gusto.app',
+    password: 'GustoEditor2026!',
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80',
     role: 'editor',
-    bio: 'Nutricionista clínica y editora gastronómica. Enfocada en recetas para celíacos, diabéticos y cocina basada en plantas.',
+    bio: 'Editora gastronómica y nutricionista clínica en Gusto. Curaduría de contenido culinario y recetas Sin TACC.',
     specialties: ['Cocina Sin TACC', 'Nutrición Metabólica', 'Baking Vegano'],
     dietaryPreferences: ['celiaco', 'vegano'],
-    subprofiles: [
-      {
-        id: 'sub-lucia-papa',
-        name: 'Abuelo Roberto',
-        relation: 'Padre',
-        avatarColor: 'bg-sky-500',
-        dietaryRestrictions: ['diabetico', 'bajo_sodio']
-      }
-    ],
+    subprofiles: [],
     followersCount: 3890,
     followingUserIds: ['user-mateo'],
     pinnedRecipeId: 'rec-2',
@@ -150,50 +129,14 @@ export const INITIAL_USERS: UserProfile[] = [
     wishlistIngredientItems: []
   },
   {
-    id: 'user-camila',
-    name: 'Camila Ríos',
-    username: 'camicocina',
-    email: 'camila.rios@gusto.app',
-    password: 'password123',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80',
-    role: 'usuario',
-    bio: 'Aficionada a la cocina rápida de entresemana. Amante de los bowls coloridos y postres sencillos sin horno.',
-    specialties: ['Meal Prep', 'Cenas Rápidas', 'Smoothie Bowls'],
-    dietaryPreferences: ['vegetariano'],
-    subprofiles: [],
-    followersCount: 420,
-    followingUserIds: ['user-mateo', 'user-lucia'],
-    pinnedRecipeId: undefined,
-    wishlistRecipeIds: ['rec-3'],
-    preferredPostalCode: '5000',
-    preferredCity: 'Córdoba Capital',
-    preferredStoreId: 'vea',
-    addresses: [
-      {
-        id: 'addr-camila-1',
-        alias: 'Casa Córdoba',
-        street: 'Bv. Chacabuco',
-        number: '620',
-        apartment: '2D',
-        city: 'Nueva Córdoba',
-        province: 'Córdoba',
-        postalCode: '5000',
-        isDefault: true,
-        notes: 'Edificio Los Robles.',
-        createdAt: '2026-09-12T16:00:00.000Z'
-      }
-    ],
-    wishlistIngredientItems: []
-  },
-  {
     id: 'user-ignacio',
-    name: 'Ignacio Gómez (Admin)',
+    name: 'Ignacio Gómez',
     username: 'ignacioadmin',
     email: 'admin@gusto.app',
-    password: 'password123',
+    password: 'GustoAdmin2026!',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
     role: 'admin',
-    bio: 'Administrador de plataforma y moderador de comunidad en Gusto.',
+    bio: 'Administrador general y moderador de la plataforma Gusto.',
     specialties: ['Gestión de Calidad', 'Seguridad Alimentaria'],
     dietaryPreferences: [],
     subprofiles: [],

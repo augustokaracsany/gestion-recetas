@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { UserRole } from '../types';
+import { Crown } from 'lucide-react';
 
 interface NavbarProps {
   activeView: string;
@@ -8,6 +9,7 @@ interface NavbarProps {
   onOpenCreateRecipe: () => void;
   onOpenCart: () => void;
   onOpenAuth: (mode?: 'login' | 'register') => void;
+  onOpenSubscription: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -16,11 +18,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCreateRecipe,
   onOpenCart,
   onOpenAuth,
+  onOpenSubscription,
 }) => {
   const {
     currentUser,
-    allUsers,
-    selectSpecificUser,
     logoutUser,
     comparingRecipeIds,
     cart,
@@ -272,6 +273,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                   )}
                 </div>
 
+                {/* Upgrade to Premium Button for Basic Users */}
+                {currentUser.role === 'usuario' && (
+                  <button
+                    onClick={onOpenSubscription}
+                    className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-[#835500] hover:bg-amber-50 font-bold text-xs shadow-sm transition-all cursor-pointer"
+                    type="button"
+                    title="Subir a Chef Premium"
+                  >
+                    <Crown className="w-3.5 h-3.5 text-[#E09F3E]" />
+                    <span>Mejorar a Premium</span>
+                  </button>
+                )}
+
                 {/* Profile Avatar & Account Menu Trigger */}
                 <div className="relative">
                   <div
@@ -308,40 +322,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                         )}
                       </div>
 
-                      {/* Switch active persona for testing roles */}
-                      <div className="space-y-1">
-                        <span className="text-[10px] uppercase font-bold text-stone-400 px-3 block">
-                          Cambiar Perfil de Prueba:
-                        </span>
-                        {allUsers.map((u) => (
+                      {/* Subscription upgrade CTA if basic user */}
+                      {currentUser.role === 'usuario' && (
+                        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 space-y-1.5">
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-[#835500]">
+                            <Crown className="w-3.5 h-3.5 text-[#E09F3E]" />
+                            <span>Plan Actual: Nivel Básico</span>
+                          </div>
+                          <p className="text-[11px] text-stone-600 leading-snug">
+                            Sube a Chef Premium ingresando un método de pago ($ ARS) para desbloquear recetas destacadas y beneficios.
+                          </p>
                           <button
-                            key={u.id}
+                            type="button"
                             onClick={() => {
-                              selectSpecificUser(u.id);
+                              onOpenSubscription();
                               setShowRoleMenu(false);
                             }}
-                            className={`w-full flex items-center justify-between p-2 rounded-xl text-left text-xs transition-colors cursor-pointer ${
-                              u.id === currentUser.id
-                                ? 'bg-[#FFDDB9]/50 font-bold text-[#5A3900]'
-                                : 'hover:bg-stone-50 text-stone-700'
-                            }`}
-                            type="button"
+                            className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-[#E09F3E] to-[#835500] hover:from-[#d58e2d] hover:to-[#704800] text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors cursor-pointer"
                           >
-                            <div className="flex items-center gap-2">
-                              <img src={u.avatar} alt={u.name} className="w-6 h-6 rounded-full object-cover" />
-                              <div className="truncate">
-                                <div className="truncate">{u.name}</div>
-                                <div className="text-[10px] text-stone-400 capitalize">{u.role}</div>
-                              </div>
-                            </div>
-                            {u.id === currentUser.id && (
-                              <span className="material-symbols-outlined text-[#835500] text-[18px]">
-                                check
-                              </span>
-                            )}
+                            <Crown className="w-3.5 h-3.5 text-amber-200" />
+                            <span>⭐ Subir a Chef Premium</span>
                           </button>
-                        ))}
-                      </div>
+                        </div>
+                      )}
 
                       <div className="pt-2 border-t border-stone-100 flex items-center justify-between px-2 text-xs">
                         <button

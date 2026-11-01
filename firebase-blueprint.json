@@ -1,0 +1,204 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Perfil del usuario con información culinaria y preferencias",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "username": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "maxLength": 150 },
+        "avatar": { "type": "string", "maxLength": 1000 },
+        "role": { "type": "string", "enum": ["usuario", "premium", "editor", "admin"] },
+        "bio": { "type": "string", "maxLength": 500 },
+        "specialties": { "type": "array" },
+        "dietaryPreferences": { "type": "array" },
+        "followersCount": { "type": "number" },
+        "followingUserIds": { "type": "array" },
+        "pinnedRecipeId": { "type": "string" },
+        "wishlistRecipeIds": { "type": "array" },
+        "location": { "type": "string", "maxLength": 150 },
+        "preferredPostalCode": { "type": "string", "maxLength": 20 },
+        "preferredCity": { "type": "string", "maxLength": 100 },
+        "preferredStoreId": { "type": "string", "maxLength": 50 },
+        "isBanned": { "type": "boolean" }
+      },
+      "required": ["id", "name", "username", "email", "role"]
+    },
+    "UserAddress": {
+      "title": "UserAddress",
+      "description": "Dirección física de entrega para pedidos de ingredientes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "alias": { "type": "string", "maxLength": 60 },
+        "street": { "type": "string", "maxLength": 120 },
+        "number": { "type": "string", "maxLength": 20 },
+        "apartment": { "type": "string", "maxLength": 30 },
+        "city": { "type": "string", "maxLength": 80 },
+        "province": { "type": "string", "maxLength": 80 },
+        "postalCode": { "type": "string", "maxLength": 20 },
+        "isDefault": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "street", "number", "city", "province", "postalCode"]
+    },
+    "Recipe": {
+      "title": "Recipe",
+      "description": "Receta gastronómica con ingredientes, pasos e información nutricional",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 1500 },
+        "coverImage": { "type": "string", "maxLength": 1000 },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorAvatar": { "type": "string", "maxLength": 1000 },
+        "coAuthors": { "type": "array" },
+        "status": { "type": "string", "enum": ["draft", "published", "scheduled"] },
+        "scheduledPublishDate": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "prepTimeMin": { "type": "number" },
+        "cookTimeMin": { "type": "number" },
+        "servings": { "type": "number" },
+        "difficulty": { "type": "string", "enum": ["facil", "media", "dificil"] },
+        "category": { "type": "string" },
+        "tags": { "type": "array" },
+        "ingredients": { "type": "array" },
+        "steps": { "type": "array" },
+        "nutrition": { "type": "object" },
+        "likesCount": { "type": "number" },
+        "dislikesCount": { "type": "number" },
+        "likedUserIds": { "type": "array" },
+        "dislikedUserIds": { "type": "array" },
+        "commentsCount": { "type": "number" },
+        "isFeaturedDay": { "type": "boolean" },
+        "isFeaturedWeek": { "type": "boolean" },
+        "isFeaturedMonth": { "type": "boolean" },
+        "videoUrl": { "type": "string" }
+      },
+      "required": ["id", "title", "authorId", "status", "category", "ingredients", "steps"]
+    },
+    "RecipeComment": {
+      "title": "RecipeComment",
+      "description": "Comentario o reseña de una receta",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "recipeId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorAvatar": { "type": "string", "maxLength": 1000 },
+        "content": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "likes": { "type": "number" },
+        "likedUserIds": { "type": "array" },
+        "dislikedUserIds": { "type": "array" },
+        "parentCommentId": { "type": "string" }
+      },
+      "required": ["id", "recipeId", "authorId", "authorName", "content", "createdAt"]
+    },
+    "PurchaseOrder": {
+      "title": "PurchaseOrder",
+      "description": "Orden de compra de ingredientes en tiendas asociadas con entrega a domicilio",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "orderNumber": { "type": "string", "maxLength": 50 },
+        "storeId": { "type": "string", "maxLength": 50 },
+        "storeName": { "type": "string", "maxLength": 100 },
+        "items": { "type": "array" },
+        "subtotalARS": { "type": "number" },
+        "deliveryFeeARS": { "type": "number" },
+        "pantrySavingsARS": { "type": "number" },
+        "totalARS": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pendiente_pago",
+            "en_preparacion",
+            "despachado",
+            "en_camino",
+            "entregado",
+            "cancelado"
+          ]
+        },
+        "deliveryAddress": { "type": "object" },
+        "createdAt": { "type": "string" },
+        "estimatedDeliveryTime": { "type": "string", "maxLength": 100 },
+        "statusHistory": { "type": "array" }
+      },
+      "required": ["id", "userId", "orderNumber", "storeId", "items", "totalARS", "status", "deliveryAddress", "createdAt"]
+    },
+    "RecipeCollection": {
+      "title": "RecipeCollection",
+      "description": "Colección temática de recetas guardadas por un usuario",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 300 },
+        "userId": { "type": "string" },
+        "recipeIds": { "type": "array" },
+        "isPrivate": { "type": "boolean" },
+        "coverImage": { "type": "string" }
+      },
+      "required": ["id", "name", "userId", "recipeIds"]
+    },
+    "ModerationReport": {
+      "title": "ModerationReport",
+      "description": "Reporte de moderación de contenido comunitario",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["recipe", "profile"] },
+        "targetId": { "type": "string" },
+        "targetTitleOrName": { "type": "string", "maxLength": 150 },
+        "reporterId": { "type": "string" },
+        "reporterName": { "type": "string", "maxLength": 100 },
+        "reason": { "type": "string" },
+        "details": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["pending", "resolved_removed", "dismissed"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "targetType", "targetId", "reporterId", "reason", "details", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Documentos de perfiles de usuario"
+    },
+    "/users/{userId}/addresses/{addressId}": {
+      "schema": { "$ref": "#/entities/UserAddress" },
+      "description": "Direcciones de entrega del usuario"
+    },
+    "/recipes/{recipeId}": {
+      "schema": { "$ref": "#/entities/Recipe" },
+      "description": "Catálogo de recetas culinarias"
+    },
+    "/recipes/{recipeId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/RecipeComment" },
+      "description": "Comentarios de recetas"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/PurchaseOrder" },
+      "description": "Órdenes de compra de ingredientes"
+    },
+    "/collections/{collectionId}": {
+      "schema": { "$ref": "#/entities/RecipeCollection" },
+      "description": "Colecciones y recetarios personales"
+    },
+    "/moderationReports/{reportId}": {
+      "schema": { "$ref": "#/entities/ModerationReport" },
+      "description": "Reportes enviados a moderadores y administradores"
+    }
+  }
+}

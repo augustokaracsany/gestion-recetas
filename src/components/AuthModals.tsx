@@ -115,14 +115,14 @@ export const AuthModals: React.FC<AuthModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
     if (!loginEmail.trim()) {
       setLoginError('Por favor introduce tu correo electrónico.');
       return;
     }
-    const res = loginUser(loginEmail, loginPass);
+    const res = await loginUser(loginEmail, loginPass);
     if (res.success) {
       onClose();
     } else {
@@ -130,7 +130,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
     }
   };
 
-  const handleRegisterSubmit = (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setRegError('');
 
@@ -159,7 +159,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
       return;
     }
 
-    const res = registerUser({
+    const res = await registerUser({
       name: regName,
       username: regUsername,
       email: regEmail,
@@ -320,44 +320,6 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           </button>
         </div>
 
-        {/* Quick Demo Role Switcher for Test Audits */}
-        <div className="bg-[#FFF8F0] px-6 py-2.5 border-b border-amber-100 shrink-0">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-bold text-[#835500] tracking-wide uppercase flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-[#E09F3E]" />
-              Acceso Rápido de Prueba (Demo Roles):
-            </span>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
-            {allUsers.slice(0, 4).map((u) => {
-              const isActive = currentUser?.id === u.id;
-              return (
-                <button
-                  key={u.id}
-                  type="button"
-                  onClick={() => {
-                    selectSpecificUser(u.id);
-                    onClose();
-                  }}
-                  className={`flex items-center gap-1.5 p-1.5 rounded-xl text-left border transition-all cursor-pointer ${
-                    isActive
-                      ? 'bg-[#E09F3E] text-white border-[#835500] shadow-xs'
-                      : 'bg-white text-stone-700 border-amber-200/70 hover:bg-amber-100/60'
-                  }`}
-                >
-                  <img src={u.avatar} alt={u.name} className="w-6 h-6 rounded-full object-cover shrink-0" />
-                  <div className="truncate">
-                    <div className="font-bold text-[11px] truncate leading-tight">{u.name.split(' ')[0]}</div>
-                    <div className={`text-[9px] capitalize ${isActive ? 'text-amber-100' : 'text-stone-400'}`}>
-                      {u.role}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Modal Scrollable Body */}
         <div className="p-6 overflow-y-auto space-y-4">
           
@@ -367,8 +329,8 @@ export const AuthModals: React.FC<AuthModalProps> = ({
               <div className="grid grid-cols-2 gap-2.5">
                 <button
                   type="button"
-                  onClick={() => {
-                    loginWithProvider('google');
+                  onClick={async () => {
+                    await loginWithProvider('google');
                     onClose();
                   }}
                   className="flex items-center justify-center gap-2 py-2 px-3 border border-stone-300 rounded-xl bg-white hover:bg-stone-50 text-xs font-semibold text-stone-700 shadow-xs transition-colors cursor-pointer"
@@ -570,17 +532,19 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">Tipo de Plan / Rol Culinario:</label>
-                <select
-                  value={regRole}
-                  onChange={(e) => setRegRole(e.target.value as UserRole)}
-                  className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
-                >
-                  <option value="usuario">👨‍🍳 Usuario Estándar (Acceso Libre y Compartir Recetas)</option>
-                  <option value="premium">⭐ Usuario Premium (Videos HD, Exportación JSON/TXT, Subperfiles ilimitados)</option>
-                  <option value="editor">🖋️ Usuario Editor (Curación de recetas, Fijar y Destacar en Podio)</option>
-                </select>
+              <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-2xl flex items-start gap-2.5">
+                <ChefHat className="w-5 h-5 text-[#835500] shrink-0 mt-0.5" />
+                <div className="text-xs">
+                  <div className="font-bold text-stone-800 flex items-center gap-2">
+                    <span>Nivel de Cuenta: Básico</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 bg-stone-200 text-stone-700 rounded-full">
+                      Gratuito
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-stone-600 mt-0.5 leading-snug">
+                    Tu cuenta se creará en el nivel básico. Para subir a <strong>Chef Premium</strong> podrás ingresar tus datos de pago en cualquier momento desde tu perfil o barra superior.
+                  </p>
+                </div>
               </div>
 
               {/* Photo Upload & Presets */}

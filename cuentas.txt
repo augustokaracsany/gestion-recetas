@@ -1,0 +1,69 @@
+================================================================================
+                        GUSTO - CUENTAS DE ACCESO POR ROL
+================================================================================
+
+A continuación se detallan las cuentas creadas para pruebas del sistema,
+cubriendo cada uno de los roles disponibles:
+
+--------------------------------------------------------------------------------
+1. ROL: USUARIO BÁSICO (Nivel estándar / Gratuito)
+--------------------------------------------------------------------------------
+* Nombre:        Camila Ríos
+* Alias:         @camicocina
+* Correo:        usuario.basico@gusto.app
+* Contraseña:    GustoUser2026!
+* Nivel/Rol:     usuario (Básico)
+* Características:
+  - Nivel inicial asignado por defecto a todo nuevo registro.
+  - Puede explorar recetas, guardar favoritos y comprar ingredientes.
+  - Para subir de nivel, puede acceder al botón "Mejorar a Premium"
+    e ingresar los datos de un método de pago ($ ARS).
+
+--------------------------------------------------------------------------------
+2. ROL: USUARIO PREMIUM (Chef con Suscripción Paga Activa)
+--------------------------------------------------------------------------------
+* Nombre:        Mateo Rossi
+* Alias:         @mateochef
+* Correo:        chef.premium@gusto.app
+* Contraseña:    GustoPremium2026!
+* Nivel/Rol:     premium (Suscripción Activa)
+* Características:
+  - Acceso total a recetas destacadas exclusivas.
+  - Descuentos en delivery con supermercados asociados.
+  - Insignia dorada "Chef Premium" en su perfil y comentarios.
+  - Creación de subperfiles familiares ilimitados.
+
+--------------------------------------------------------------------------------
+3. ROL: EDITOR GASTRONÓMICO
+--------------------------------------------------------------------------------
+* Nombre:        Lucía Valenzuela
+* Alias:         @lucianutri
+* Correo:        editor.recetas@gusto.app
+* Contraseña:    GustoEditor2026!
+* Nivel/Rol:     editor
+* Características:
+  - Curaduría de contenido culinario y revisión editorial.
+  - Capacidad de publicar, editar o fijar recetas en el catálogo general.
+
+--------------------------------------------------------------------------------
+4. ROL: ADMINISTRADOR DEL SISTEMA
+--------------------------------------------------------------------------------
+* Nombre:        Ignacio Gómez
+* Alias:         @ignacioadmin
+* Correo:        admin@gusto.app
+* Contraseña:    GustoAdmin2026!
+* Nivel/Rol:     admin
+* Características:
+  - Control global de la plataforma.
+  - Acceso directo al Panel de Moderación de la comunidad y resolución de reportes.
+  - Capacidad de moderar perfiles y dar de baja publicaciones inapropiadas.
+
+================================================================================
+INSTRUCCIONES DE USO:
+1. Para ingresar con cualquiera de estas cuentas, haz clic en "Iniciar Sesión"
+   e ingresa el correo y la contraseña indicados arriba.
+2. Si creas una cuenta nueva mediante "Registrarse" o "Google", comenzará siempre
+   en nivel básico ('usuario').
+3. Para subir de nivel básico a Premium, haz clic en "Mejorar a Premium" en la
+   barra superior o en tu perfil e ingresa el método de pago ficticio deseado.
+================================================================================

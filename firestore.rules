@@ -1,0 +1,177 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all unknown paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // ----------------- USERS -----------------
+    function isValidUserProfile(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.username is string && data.username.size() > 0 && data.username.size() <= 50 &&
+             data.email is string && data.email.size() <= 150 &&
+             data.role in ['usuario', 'premium', 'editor', 'admin'];
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isOwner(userId) && isValidId(userId) &&
+                       isValidUserProfile(incoming()) && incoming().id == userId;
+      allow update: if (isOwner(userId) || isAdmin()) && isValidId(userId) &&
+                       isValidUserProfile(incoming()) && incoming().id == userId &&
+                       (isAdmin() || incoming().role == existing().role || (existing().role == 'usuario' && incoming().role == 'premium'));
+      allow delete: if isAdmin();
+
+      // Subcollection: Addresses
+      match /addresses/{addressId} {
+        allow read, write: if isOwner(userId) && isValidId(addressId);
+      }
+    }
+
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ----------------- RECIPES -----------------
+    function isValidRecipe(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.authorId is string && data.authorId.size() <= 128 &&
+             data.status in ['draft', 'published', 'scheduled'] &&
+             data.category is string &&
+             data.ingredients is list &&
+             data.steps is list;
+    }
+
+    match /recipes/{recipeId} {
+      allow get: if isValidId(recipeId) && (
+        resource.data.status == 'published' ||
+        (isSignedIn() && (resource.data.authorId == request.auth.uid || isAdmin()))
+      );
+      allow list: if true;
+
+      allow create: if isSignedIn() && isValidId(recipeId) &&
+                       isValidRecipe(incoming()) &&
+                       incoming().id == recipeId &&
+                       incoming().authorId == request.auth.uid;
+
+      allow update: if isSignedIn() && isValidId(recipeId) && isValidRecipe(incoming()) && (
+        isAdmin() ||
+        (existing().authorId == request.auth.uid && incoming().authorId == existing().authorId) ||
+        incoming().diff(existing()).affectedKeys().hasOnly(['likesCount', 'dislikesCount', 'likedUserIds', 'dislikedUserIds']) ||
+        incoming().diff(existing()).affectedKeys().hasOnly(['commentsCount'])
+      );
+
+      allow delete: if isSignedIn() && isValidId(recipeId) &&
+                       (existing().authorId == request.auth.uid || isAdmin());
+
+      // Comments subcollection
+      match /comments/{commentId} {
+        allow read: if isValidId(commentId);
+        allow create: if isSignedIn() && isValidId(commentId) &&
+                         incoming().recipeId == recipeId &&
+                         incoming().authorId == request.auth.uid &&
+                         incoming().content is string && incoming().content.size() > 0 && incoming().content.size() <= 1000;
+        allow update: if isSignedIn() && isValidId(commentId) && (
+          (existing().authorId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['content', 'updatedAt'])) ||
+          incoming().diff(existing()).affectedKeys().hasOnly(['likes', 'likedUserIds', 'dislikedUserIds']) ||
+          isAdmin()
+        );
+        allow delete: if isSignedIn() && isValidId(commentId) &&
+                         (existing().authorId == request.auth.uid || isAdmin());
+      }
+    }
+
+    // ----------------- ORDERS -----------------
+    function isValidOrder(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.orderNumber is string && data.orderNumber.size() <= 50 &&
+             data.storeId is string &&
+             data.items is list &&
+             data.totalARS is number &&
+             data.status in ['pendiente_pago', 'en_preparacion', 'despachado', 'en_camino', 'entregado', 'cancelado'];
+    }
+
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && isValidId(orderId) &&
+                    (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() &&
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidId(orderId) &&
+                       isValidOrder(incoming()) &&
+                       incoming().id == orderId &&
+                       incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(orderId) && isValidOrder(incoming()) && (
+        isAdmin() ||
+        (existing().userId == request.auth.uid &&
+         (existing().status != 'entregado' && existing().status != 'cancelado'))
+      );
+      allow delete: if isAdmin();
+    }
+
+    // ----------------- COLLECTIONS -----------------
+    match /collections/{collectionId} {
+      allow get: if isValidId(collectionId) &&
+                    (resource.data.isPrivate == false || (isSignedIn() && resource.data.userId == request.auth.uid));
+      allow list: if resource.data.isPrivate == false || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isSignedIn() && isValidId(collectionId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().name is string && incoming().name.size() > 0 && incoming().name.size() <= 100;
+      allow update: if isSignedIn() && isValidId(collectionId) &&
+                       (existing().userId == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && isValidId(collectionId) &&
+                       (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // ----------------- MODERATION REPORTS -----------------
+    match /moderationReports/{reportId} {
+      allow get: if isAdmin() || (isSignedIn() && resource.data.reporterId == request.auth.uid);
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && isValidId(reportId) &&
+                       incoming().reporterId == request.auth.uid &&
+                       incoming().details is string && incoming().details.size() <= 1000;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ----------------- CONNECTION TEST -----------------
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
