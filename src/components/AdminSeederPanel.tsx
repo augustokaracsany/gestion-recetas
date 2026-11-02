@@ -4,6 +4,7 @@ import { db } from '../firebase/config';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { UserProfile, Recipe, DietaryTag } from '../types';
 import { INITIAL_RECIPES } from '../data/seedData';
+import { seedCommentsForRecipes, seedMassiveRecipesWithComments } from '../firebase/firestoreService';
 import {
   ShieldCheck,
   Database,
@@ -14,7 +15,9 @@ import {
   AlertCircle,
   Loader2,
   Server,
-  Lock
+  Lock,
+  MessageSquare,
+  ChefHat
 } from 'lucide-react';
 
 const FIRST_NAMES = ['Sofía', 'Mateo', 'Lucía', 'Lucas', 'Valentina', 'Benjamín', 'Martina', 'Joaquín', 'Catalina', 'Thiago', 'Emma', 'Santino', 'Juana', 'Bautista', 'Olivia', 'Felipe'];
@@ -41,6 +44,8 @@ export const AdminSeederPanel: React.FC = () => {
   const { currentUser, showToast } = useApp();
 
   const [isSeeding, setIsSeeding] = useState(false);
+  const [isSeedingComments, setIsSeedingComments] = useState(false);
+  const [isSeedingMassive, setIsSeedingMassive] = useState(false);
   const [progressText, setProgressText] = useState('');
   const [stats, setStats] = useState<{ usersCreated: number; recipesCreated: number } | null>(null);
 
@@ -48,6 +53,42 @@ export const AdminSeederPanel: React.FC = () => {
   if (!currentUser || currentUser.role !== 'admin') {
     return null;
   }
+
+  const handleSeedComments = async () => {
+    setIsSeedingComments(true);
+    setProgressText('Inyectando comentarios de prueba en subcolecciones...');
+    try {
+      const res = await seedCommentsForRecipes((msg) => setProgressText(msg));
+      setIsSeedingComments(false);
+      if (res.success) {
+        showToast(res.message);
+      } else {
+        showToast(res.message || 'Error al inyectar comentarios.');
+      }
+    } catch (err: any) {
+      console.error('Error seeding comments:', err);
+      setIsSeedingComments(false);
+      showToast('Error al inyectar comentarios de prueba.');
+    }
+  };
+
+  const handleSeedMassive = async () => {
+    setIsSeedingMassive(true);
+    setProgressText('Generando recetas masivas con comentarios en subcolecciones...');
+    try {
+      const res = await seedMassiveRecipesWithComments(25, (msg) => setProgressText(msg));
+      setIsSeedingMassive(false);
+      if (res.success) {
+        showToast(res.message);
+      } else {
+        showToast(res.message || 'Error en la generación masiva.');
+      }
+    } catch (err: any) {
+      console.error('Error seeding massive recipes:', err);
+      setIsSeedingMassive(false);
+      showToast('Error al generar recetas masivas con comentarios.');
+    }
+  };
 
   const handleRunSeeder = async () => {
     setIsSeeding(true);
@@ -295,8 +336,10 @@ export const AdminSeederPanel: React.FC = () => {
     }
   };
 
+  const isAnySeeding = isSeeding || isSeedingComments || isSeedingMassive;
+
   return (
-    <div className="bg-gradient-to-br from-amber-50 via-white to-orange-50 border border-amber-200/80 rounded-3xl p-6 shadow-sm space-y-4 my-6">
+    <div className="bg-gradient-to-br from-amber-50 via-white to-orange-50 border border-amber-200/80 rounded-3xl p-6 shadow-sm space-y-5 my-6">
       <div className="flex items-center justify-between border-b border-amber-200/60 pb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-[#E09F3E] text-white flex items-center justify-center shadow-md">
@@ -304,7 +347,7 @@ export const AdminSeederPanel: React.FC = () => {
           </div>
           <div>
             <h3 className="font-display font-bold text-lg text-stone-900">
-              Panel de Administración y Seeder Masivo
+              Panel de Administración y Seeder Avanzado
             </h3>
             <p className="text-xs text-stone-600">
               Herramienta exclusiva para administradores (Role: <span className="font-mono font-bold text-[#835500]">admin</span>)
@@ -322,7 +365,7 @@ export const AdminSeederPanel: React.FC = () => {
           <Users className="w-8 h-8 text-[#E09F3E]" />
           <div>
             <div className="font-bold text-stone-800">100 Cuentas de Usuario</div>
-            <div className="text-stone-500 text-[11px]">Basicas, Premium, Editors & Admin</div>
+            <div className="text-stone-500 text-[11px]">Básicas, Premium, Editors & Admin</div>
           </div>
         </div>
 
@@ -335,45 +378,73 @@ export const AdminSeederPanel: React.FC = () => {
         </div>
 
         <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-2xs flex items-center gap-3">
-          <Database className="w-8 h-8 text-[#E09F3E]" />
+          <MessageSquare className="w-8 h-8 text-[#E09F3E]" />
           <div>
-            <div className="font-bold text-stone-800">Escritura por Lotes (Batches)</div>
-            <div className="text-stone-500 text-[11px]">Optimizado para límites de Firestore</div>
+            <div className="font-bold text-stone-800">Subcolección de Comentarios</div>
+            <div className="text-stone-500 text-[11px]">comentarios de prueba en subcolecciones</div>
           </div>
         </div>
       </div>
 
-      <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-xs text-stone-600">
-          {isSeeding ? (
-            <span className="flex items-center gap-2 font-bold text-[#835500]">
-              <Loader2 className="w-4 h-4 animate-spin text-[#E09F3E]" />
-              {progressText}
-            </span>
-          ) : stats ? (
-            <span className="flex items-center gap-2 font-bold text-emerald-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              ¡Se inyectaron con éxito {stats.usersCreated} usuarios y {stats.recipesCreated} recetas en Firestore!
-            </span>
-          ) : (
-            <span>Haz clic para poblar tu base de datos con el dataset completo de prueba.</span>
-          )}
+      {isAnySeeding && (
+        <div className="p-3 bg-amber-100/70 border border-amber-300 rounded-2xl text-xs font-bold text-[#835500] flex items-center gap-2">
+          <Loader2 className="w-4 h-4 animate-spin text-[#E09F3E]" />
+          <span>{progressText}</span>
         </div>
+      )}
 
+      {stats && !isAnySeeding && (
+        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-bold text-emerald-800 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <span>¡Se inyectaron con éxito {stats.usersCreated} usuarios y {stats.recipesCreated} recetas en Firestore!</span>
+        </div>
+      )}
+
+      {/* Buttons Grid for Seeder Actions */}
+      <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {/* Button 1: Inyectar 100 Usuarios y 500 Recetas */}
         <button
           type="button"
-          disabled={isSeeding}
+          disabled={isAnySeeding}
           onClick={handleRunSeeder}
-          className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-[#E09F3E] to-[#835500] hover:from-[#d58e2d] hover:to-[#704800] text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 shrink-0"
+          className="px-4 py-3 rounded-2xl bg-gradient-to-r from-[#E09F3E] to-[#835500] hover:from-[#d58e2d] hover:to-[#704800] text-white font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {isSeeding ? (
-            <span>Inyectando datos...</span>
+            <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <>
-              <Sparkles className="w-4 h-4 text-amber-200" />
-              <span>Inyectar 100 usuarios y 500 recetas</span>
-            </>
+            <Sparkles className="w-4 h-4 text-amber-200" />
           )}
+          <span>Inyectar 100 usuarios y 500 recetas</span>
+        </button>
+
+        {/* Button 2: 💬 Inyectar Comentarios de Prueba */}
+        <button
+          type="button"
+          disabled={isAnySeeding}
+          onClick={handleSeedComments}
+          className="px-4 py-3 rounded-2xl bg-white border border-amber-300 hover:bg-amber-50 text-[#835500] font-bold text-xs shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {isSeedingComments ? (
+            <Loader2 className="w-4 h-4 animate-spin text-[#E09F3E]" />
+          ) : (
+            <MessageSquare className="w-4 h-4 text-[#E09F3E]" />
+          )}
+          <span>💬 Inyectar Comentarios de Prueba</span>
+        </button>
+
+        {/* Button 3: 🍳 Generar Recetas Masivas con Comentarios */}
+        <button
+          type="button"
+          disabled={isAnySeeding}
+          onClick={handleSeedMassive}
+          className="px-4 py-3 rounded-2xl bg-amber-950 hover:bg-black text-amber-100 font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {isSeedingMassive ? (
+            <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+          ) : (
+            <ChefHat className="w-4 h-4 text-amber-400" />
+          )}
+          <span>🍳 Generar Recetas Masivas con Comentarios</span>
         </button>
       </div>
     </div>

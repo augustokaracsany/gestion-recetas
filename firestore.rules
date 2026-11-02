@@ -87,7 +87,7 @@ service cloud.firestore {
       allow create: if isSignedIn() && isValidId(recipeId) &&
                        isValidRecipe(incoming()) &&
                        incoming().id == recipeId &&
-                       incoming().authorId == request.auth.uid;
+                       (incoming().authorId == request.auth.uid || isAdmin());
 
       allow update: if isSignedIn() && isValidId(recipeId) && isValidRecipe(incoming()) && (
         isAdmin() ||
@@ -104,7 +104,7 @@ service cloud.firestore {
         allow read: if isValidId(commentId);
         allow create: if isSignedIn() && isValidId(commentId) &&
                          incoming().recipeId == recipeId &&
-                         incoming().authorId == request.auth.uid &&
+                         (incoming().authorId == request.auth.uid || isAdmin()) &&
                          incoming().content is string && incoming().content.size() > 0 && incoming().content.size() <= 1000;
         allow update: if isSignedIn() && isValidId(commentId) && (
           (existing().authorId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['content', 'updatedAt'])) ||
