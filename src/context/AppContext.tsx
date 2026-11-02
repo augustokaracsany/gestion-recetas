@@ -588,9 +588,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const currentUser = users.find(u => u.id === currentUserId) || null;
 
-  const hasPremiumAccess = currentUser ? (currentUser.role === 'admin' || currentUser.role === 'premium') : false;
-  const hasEditorAccess = currentUser ? (currentUser.role === 'admin' || currentUser.role === 'editor') : false;
-  const hasAdminAccess = currentUser ? currentUser.role === 'admin' : false;
+  const cleanRole = currentUser?.role ? String(currentUser.role).trim().toLowerCase() : '';
+  const hasPremiumAccess = currentUser ? (
+    cleanRole === 'admin' ||
+    cleanRole === 'editor' ||
+    cleanRole === 'premium' ||
+    (currentUser as any).isPremium === true
+  ) : false;
+
+  const hasEditorAccess = currentUser ? (
+    cleanRole === 'admin' ||
+    cleanRole === 'editor'
+  ) : false;
+
+  const hasAdminAccess = currentUser ? (
+    cleanRole === 'admin'
+  ) : false;
 
   // Role quick switch
   const switchUserRole = (role: UserRole) => {
