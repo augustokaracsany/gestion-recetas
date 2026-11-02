@@ -12,26 +12,37 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from './config';
 import { handleFirestoreError, OperationType } from './firestoreErrors';
-import { Recipe, PurchaseOrder, UserProfile, RecipeComment } from '../types';
+import { Recipe, PurchaseOrder, UserProfile, UserRole, RecipeComment } from '../types';
 
 /**
- * Sync user profile to Firestore
+ * Sync user profile to Firestore, preserving existing Firestore roles (e.g. admin privileges)
  */
-export async function syncUserProfile(user: UserProfile): Promise<void> {
+export async function syncUserProfile(user: UserProfile): Promise<UserProfile> {
   // Only sync to Firestore if user is logged into Firebase and owns the profile
   if (!auth.currentUser || auth.currentUser.uid !== user.id) {
-    return;
+    return user;
   }
   const path = `users/${user.id}`;
   try {
     const userDocRef = doc(db, 'users', user.id);
+    const snap = await getDoc(userDocRef);
+    let effectiveRole: UserRole = user.role || 'usuario';
+
+    if (snap.exists()) {
+      const remote = snap.data() as UserProfile;
+      // If remote user document already has a defined role, respect remote role
+      if (remote.role) {
+        effectiveRole = remote.role;
+      }
+    }
+
     const dataToSave = {
       id: user.id,
       name: user.name || 'Chef',
       username: user.username || user.id,
       email: user.email || '',
       avatar: user.avatar || '',
-      role: user.role || 'usuario',
+      role: effectiveRole,
       bio: user.bio || '',
       specialties: user.specialties || [],
       dietaryPreferences: user.dietaryPreferences || [],
@@ -45,14 +56,28 @@ export async function syncUserProfile(user: UserProfile): Promise<void> {
       preferredStoreId: user.preferredStoreId || 'coto-digital',
       isBanned: user.isBanned || false,
     };
+
     await setDoc(userDocRef, dataToSave, { merge: true });
+
+    // If user has admin role, also sync to admins collection for security rules
+    if (effectiveRole === 'admin') {
+      await setDoc(doc(db, 'admins', user.id), {
+        userId: user.id,
+        email: user.email || '',
+        role: 'admin',
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    }
+
+    return { ...user, ...dataToSave, role: effectiveRole };
   } catch (error) {
     handleFirestoreError(error, OperationType.WRITE, path);
+    return user;
   }
 }
 
 /**
- * Fetch a user profile from Firestore
+ * Fetch a user profile directly from Firestore
  */
 export async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
   if (!auth.currentUser) {
@@ -62,11 +87,57 @@ export async function fetchUserProfile(userId: string): Promise<UserProfile | nu
   try {
     const snap = await getDoc(doc(db, 'users', userId));
     if (snap.exists()) {
-      return snap.data() as UserProfile;
+      const userData = snap.data() as UserProfile;
+      // Double check admins collection if role is not set
+      if (userData.role !== 'admin') {
+        const adminSnap = await getDoc(doc(db, 'admins', userId));
+        if (adminSnap.exists()) {
+          userData.role = 'admin';
+        }
+      }
+      return userData;
     }
     return null;
   } catch (error) {
     handleFirestoreError(error, OperationType.GET, path);
+    return null;
+  }
+}
+
+/**
+ * Subscribe to real-time changes on a specific user profile document in Firestore
+ */
+export function subscribeToUserProfile(
+  userId: string,
+  onUpdate: (profile: UserProfile) => void
+): () => void {
+  if (!auth.currentUser) return () => {};
+  try {
+    const userDocRef = doc(db, 'users', userId);
+    return onSnapshot(
+      userDocRef,
+      async (snap) => {
+        if (snap.exists()) {
+          const profile = snap.data() as UserProfile;
+          // Check if registered as admin in admins collection
+          if (profile.role !== 'admin') {
+            try {
+              const adminSnap = await getDoc(doc(db, 'admins', userId));
+              if (adminSnap.exists()) {
+                profile.role = 'admin';
+              }
+            } catch (e) {
+              /* ignore permission warnings */
+            }
+          }
+          onUpdate(profile);
+        }
+      },
+      (err) => console.warn('subscribeToUserProfile notice:', err)
+    );
+  } catch (err) {
+    console.warn('subscribeToUserProfile error:', err);
+    return () => {};
   }
 }
 
@@ -108,14 +179,44 @@ export function subscribeToRecipes(
  * Save or update a recipe in Firestore
  */
 export async function saveRecipeToFirestore(recipe: Recipe): Promise<void> {
-  if (!auth.currentUser || auth.currentUser.uid !== recipe.authorId) {
+  if (!auth.currentUser) {
+    console.warn('[saveRecipeToFirestore] Cannot save: Firebase Auth user is not authenticated.');
     return;
   }
   const path = `recipes/${recipe.id}`;
   try {
     const recipeRef = doc(db, 'recipes', recipe.id);
-    await setDoc(recipeRef, recipe, { merge: true });
+    const dataToSave = {
+      id: recipe.id,
+      title: recipe.title || 'Receta de autor',
+      description: recipe.description || '',
+      coverImage: recipe.coverImage || '',
+      authorId: recipe.authorId || auth.currentUser.uid,
+      authorName: recipe.authorName || 'Chef',
+      authorAvatar: recipe.authorAvatar || '',
+      coAuthors: recipe.coAuthors || [],
+      status: recipe.status || 'published',
+      createdAt: recipe.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      prepTimeMin: recipe.prepTimeMin || 15,
+      cookTimeMin: recipe.cookTimeMin || 20,
+      servings: recipe.servings || 4,
+      difficulty: recipe.difficulty || 'media',
+      category: recipe.category || 'todas',
+      tags: recipe.tags || [],
+      ingredients: recipe.ingredients || [],
+      steps: recipe.steps || [],
+      nutrition: recipe.nutrition || { calories: 300, proteinG: 10, carbsG: 30, fatG: 10, fiberG: 2 },
+      likesCount: recipe.likesCount ?? 0,
+      dislikesCount: recipe.dislikesCount ?? 0,
+      likedUserIds: recipe.likedUserIds || [],
+      dislikedUserIds: recipe.dislikedUserIds || [],
+      commentsCount: recipe.commentsCount ?? 0,
+    };
+    await setDoc(recipeRef, dataToSave, { merge: true });
+    console.log(`[saveRecipeToFirestore] Recipe "${recipe.title}" (${recipe.id}) saved to Firestore successfully.`);
   } catch (error) {
+    console.error(`[saveRecipeToFirestore Error] Failed to persist recipe ${recipe.id}:`, error);
     handleFirestoreError(error, OperationType.WRITE, path);
   }
 }
@@ -233,7 +334,7 @@ export async function seedInitialRecipesIfEmpty(initialRecipes: Recipe[]): Promi
 }
 
 /**
- * Seed initial role accounts into Firestore if signed in
+ * Seed initial role accounts into Firestore if signed in without overwriting existing profiles or roles
  */
 export async function seedInitialUsersToFirestore(initialUsers: UserProfile[]): Promise<void> {
   if (!auth.currentUser) return;
@@ -241,6 +342,7 @@ export async function seedInitialUsersToFirestore(initialUsers: UserProfile[]): 
     for (const u of initialUsers) {
       const uRef = doc(db, 'users', u.id);
       const snap = await getDoc(uRef);
+
       if (!snap.exists()) {
         await setDoc(uRef, {
           id: u.id,
@@ -249,7 +351,7 @@ export async function seedInitialUsersToFirestore(initialUsers: UserProfile[]): 
           email: u.email,
           avatar: u.avatar,
           role: u.role,
-          bio: u.bio,
+          bio: u.bio || '',
           specialties: u.specialties || [],
           dietaryPreferences: u.dietaryPreferences || [],
           followersCount: u.followersCount || 0,
@@ -260,15 +362,30 @@ export async function seedInitialUsersToFirestore(initialUsers: UserProfile[]): 
           preferredStoreId: u.preferredStoreId || 'coto',
           isBanned: false
         });
+
+        if (u.role === 'admin') {
+          await setDoc(doc(db, 'admins', u.id), {
+            userId: u.id,
+            email: u.email,
+            role: 'admin',
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+        }
+      } else {
+        const existingData = snap.data();
+        // If user already exists in Firestore and has role 'admin', ensure admins collection is registered
+        if (existingData.role === 'admin' || u.role === 'admin') {
+          await setDoc(doc(db, 'admins', u.id), {
+            userId: u.id,
+            email: u.email || existingData.email,
+            role: 'admin',
+            updatedAt: new Date().toISOString()
+          }, { merge: true });
+        }
       }
     }
-    // Also seed admin document
-    await setDoc(doc(db, 'admins', 'user-ignacio'), {
-      userId: 'user-ignacio',
-      role: 'admin',
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
+    console.log('[Firestore] Initial user seeding complete without clobbering existing Firestore roles.');
   } catch (error) {
-    console.warn('Initial users seeding notice:', error);
+    console.warn('[Firestore] Users seeding notice:', error);
   }
 }

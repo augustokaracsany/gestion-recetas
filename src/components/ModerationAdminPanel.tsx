@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { ModerationReport } from '../types';
+import { AdminSeederPanel } from './AdminSeederPanel';
 import {
   ShieldAlert,
   CheckCircle,
@@ -16,7 +17,8 @@ import {
   PlusCircle,
   Eye,
   Info,
-  Shield
+  Shield,
+  Server
 } from 'lucide-react';
 
 export const ModerationAdminPanel: React.FC = () => {
@@ -33,7 +35,7 @@ export const ModerationAdminPanel: React.FC = () => {
   } = useApp();
 
   const [filterStatus, setFilterStatus] = useState<'pending' | 'resolved' | 'dismissed' | 'all'>('pending');
-  const [activeTab, setActiveTab] = useState<'denuncias' | 'politicas'>('denuncias');
+  const [activeTab, setActiveTab] = useState<'denuncias' | 'politicas' | 'seeder'>('denuncias');
 
   const isAdminOrEditor = currentUser?.role === 'admin' || currentUser?.role === 'editor';
 
@@ -202,7 +204,23 @@ export const ModerationAdminPanel: React.FC = () => {
           <ShieldCheck className="w-4 h-4" />
           <span>Políticas de Seguridad & Convivencia</span>
         </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('seeder')}
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+            activeTab === 'seeder'
+              ? 'bg-[#801318] text-white shadow-2xs'
+              : 'text-stone-600 hover:bg-stone-100'
+          }`}
+        >
+          <Server className="w-4 h-4" />
+          <span>Panel Seeder Masivo (100 Usuarios / 500 Recetas)</span>
+        </button>
       </div>
+
+      {/* TAB 3: ADMIN SEEDER PANEL */}
+      {activeTab === 'seeder' && <AdminSeederPanel />}
 
       {/* TAB 1: DENUNCIAS */}
       {activeTab === 'denuncias' && (

@@ -146,18 +146,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 Mi espacio
               </button>
 
-              <button
-                onClick={() => setActiveView('moderacion')}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-                  activeView === 'moderacion'
-                    ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)] font-bold'
-                    : 'text-white hover:bg-white/20'
-                }`}
-                type="button"
-              >
-                <span className="material-symbols-outlined text-[16px]">verified_user</span>
-                <span>Moderación</span>
-              </button>
+              {currentUser?.role === 'admin' && (
+                <button
+                  onClick={() => setActiveView('moderacion')}
+                  className={`px-3.5 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    activeView === 'moderacion'
+                      ? 'bg-white text-[#5A3900] shadow-[0_2px_8px_rgba(0,0,0,0.08)] font-bold'
+                      : 'text-white hover:bg-white/20'
+                  }`}
+                  type="button"
+                >
+                  <span className="material-symbols-outlined text-[16px]">verified_user</span>
+                  <span>Moderación</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -379,10 +381,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Mobile Navigation Bar */}
-        <div className="lg:hidden flex items-center justify-around py-2 px-2 bg-[#D08F2E] text-white text-xs font-semibold overflow-x-auto">
+        <div className="lg:hidden flex flex-wrap items-center justify-center gap-1.5 py-2 px-3 bg-[#D08F2E] text-white text-xs font-semibold">
           <button
             onClick={() => setActiveView('explorar')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
               activeView === 'explorar'
                 ? 'bg-white text-[#5A3900] shadow-sm font-bold'
                 : 'text-white hover:bg-white/20'
@@ -393,7 +395,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => setActiveView('destacadas')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
               activeView === 'destacadas'
                 ? 'bg-white text-[#5A3900] shadow-sm font-bold'
                 : 'text-white hover:bg-white/20'
@@ -404,7 +406,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => setActiveView('foro')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
               activeView === 'foro'
                 ? 'bg-white text-[#5A3900] shadow-sm font-bold'
                 : 'text-white hover:bg-white/20'
@@ -415,7 +417,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => setActiveView('comparar')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
               activeView === 'comparar'
                 ? 'bg-white text-[#5A3900] shadow-sm font-bold'
                 : 'text-white hover:bg-white/20'
@@ -426,7 +428,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => setActiveView('perfil')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
               activeView === 'perfil'
                 ? 'bg-white text-[#5A3900] shadow-sm font-bold'
                 : 'text-white hover:bg-white/20'
@@ -435,17 +437,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             Mi espacio
           </button>
-          <button
-            onClick={() => setActiveView('moderacion')}
-            className={`px-3 py-1 rounded-full transition-all shrink-0 cursor-pointer ${
-              activeView === 'moderacion'
-                ? 'bg-white text-[#5A3900] shadow-sm font-bold'
-                : 'text-white hover:bg-white/20'
-            }`}
-            type="button"
-          >
-            Moderación
-          </button>
+          {currentUser?.role === 'admin' && (
+            <button
+              onClick={() => setActiveView('moderacion')}
+              className={`px-3 py-1 rounded-full transition-all cursor-pointer ${
+                activeView === 'moderacion'
+                  ? 'bg-white text-[#5A3900] shadow-sm font-bold'
+                  : 'text-white hover:bg-white/20'
+              }`}
+              type="button"
+            >
+              Moderación
+            </button>
+          )}
         </div>
       </nav>
     </header>

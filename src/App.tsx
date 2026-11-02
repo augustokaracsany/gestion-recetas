@@ -21,6 +21,7 @@ import { ModerationAdminPanel } from './components/ModerationAdminPanel';
 import { PrintRecipeView } from './components/PrintRecipeView';
 import { AuthModals } from './components/AuthModals';
 import { ReportModal } from './components/ReportModal';
+import { SubscriptionModal } from './components/SubscriptionModal';
 import {
   Sparkles,
   ChefHat,
@@ -61,6 +62,7 @@ function AppContent() {
   const [isMultiRecipeOpen, setIsMultiRecipeOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState<'login' | 'register'>('login');
+  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
   
   // Report modal state
   const [isReportOpen, setIsReportOpen] = useState(false);
@@ -189,6 +191,7 @@ function AppContent() {
           setAuthInitialMode(mode || 'login');
           setIsAuthOpen(true);
         }}
+        onOpenSubscription={() => setIsSubscriptionOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -340,7 +343,24 @@ function AppContent() {
 
         {/* VIEW 6: Panel de Moderación */}
         {activeView === 'moderacion' && (
-          <ModerationAdminPanel />
+          currentUser?.role === 'admin' ? (
+            <ModerationAdminPanel />
+          ) : (
+            <div className="bg-white rounded-3xl p-12 text-center border border-stone-200/90 space-y-3 max-w-lg mx-auto my-12 shadow-2xs">
+              <ShieldCheck className="w-12 h-12 text-red-600 mx-auto" />
+              <h3 className="font-bold text-stone-900 text-lg">Acceso Restringido</h3>
+              <p className="text-xs text-stone-500">
+                La sección de moderación está reservada exclusivamente para administradores de la plataforma.
+              </p>
+              <button
+                type="button"
+                onClick={() => setActiveView('explorar')}
+                className="px-6 py-2.5 bg-stone-900 text-white rounded-full text-xs font-bold transition-colors cursor-pointer"
+              >
+                Volver a Explorar
+              </button>
+            </div>
+          )
         )}
       </main>
 
@@ -415,6 +435,11 @@ function AppContent() {
         targetType={reportTarget.type}
         targetId={reportTarget.id}
         targetTitle={reportTarget.title}
+      />
+
+      <SubscriptionModal
+        isOpen={isSubscriptionOpen}
+        onClose={() => setIsSubscriptionOpen(false)}
       />
 
       {/* Toast Notification Popup */}

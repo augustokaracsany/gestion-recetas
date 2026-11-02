@@ -50,6 +50,8 @@ import {
 } from '../firebase/authService';
 import {
   syncUserProfile,
+  fetchUserProfile,
+  subscribeToUserProfile,
   subscribeToRecipes,
   saveRecipeToFirestore,
   deleteRecipeFromFirestore,
@@ -88,7 +90,7 @@ interface AppContextType {
       notes?: string;
     };
   }) => Promise<{ success: boolean; message: string }> | { success: boolean; message: string };
-  loginWithProvider: (provider: 'google' | 'apple') => Promise<void> | void;
+  loginWithProvider: (provider: 'google') => Promise<void> | void;
   logoutUser: () => void;
   updateUserProfile: (data: Partial<UserProfile>) => void;
   upgradeToPremium: (paymentDetails: {
@@ -383,18 +385,47 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       (err) => console.warn('Firestore recipes subscription note:', err)
     );
 
+    let unsubProfileDoc: (() => void) | null = null;
+
     // Listen to Firebase Auth state
-    const unsubAuth = onAuthStateChanged(auth, (fbUser) => {
+    const unsubAuth = onAuthStateChanged(auth, async (fbUser) => {
+      if (unsubProfileDoc) {
+        unsubProfileDoc();
+        unsubProfileDoc = null;
+      }
+
       if (fbUser) {
+        setCurrentUserId(fbUser.uid);
+
+        // Fetch live user profile document from Firestore to ensure role and permissions are updated
+        const remoteProfile = await fetchUserProfile(fbUser.uid);
+
         setUsers((prev) => {
           const cleanEmail = (fbUser.email || '').toLowerCase();
           const existing = prev.find(
             (u) => u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail)
           );
+
+          if (remoteProfile) {
+            const merged: UserProfile = {
+              ...(existing || {}),
+              ...remoteProfile,
+              id: fbUser.uid,
+              role: remoteProfile.role || existing?.role || 'usuario',
+            };
+            syncUserProfile(merged).catch(console.warn);
+            if (existing) {
+              return prev.map((u) => (u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail) ? merged : u));
+            } else {
+              return [merged, ...prev];
+            }
+          }
+
           if (existing) {
             syncUserProfile(existing).catch(console.warn);
             return prev;
           }
+
           const newUser: UserProfile = {
             id: fbUser.uid,
             name: fbUser.displayName || 'Chef Gusto',
@@ -428,16 +459,33 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             wishlistRecipeIds: [],
             location: 'Buenos Aires, CABA',
           };
+
           syncUserProfile(newUser).catch(console.warn);
           return [newUser, ...prev];
         });
-        setCurrentUserId(fbUser.uid);
+
+        // Real-time listener for current user document in Firestore (updates role dynamically when changed in Firestore)
+        unsubProfileDoc = subscribeToUserProfile(fbUser.uid, (updatedProfile) => {
+          setUsers((prev) =>
+            prev.map((u) => {
+              if (u.id === fbUser.uid) {
+                return {
+                  ...u,
+                  ...updatedProfile,
+                  role: updatedProfile.role || u.role,
+                };
+              }
+              return u;
+            })
+          );
+        });
       }
     });
 
     return () => {
       unsubRecipes?.();
       unsubAuth?.();
+      if (unsubProfileDoc) unsubProfileDoc();
     };
   }, []);
 
@@ -673,100 +721,58 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return { success: true, message: 'Cuenta creada con éxito.' };
   };
 
-  const loginWithProvider = async (provider: 'google' | 'apple') => {
-    if (provider === 'google') {
-      const googleRes = await loginWithGoogle();
-      if (googleRes.success && googleRes.user) {
-        const fbUser = googleRes.user;
-        const cleanEmail = (fbUser.email || '').toLowerCase();
-        let target = users.find(u => u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail));
+  const loginWithProvider = async (provider: 'google') => {
+    const googleRes = await loginWithGoogle();
+    if (googleRes.success && googleRes.user) {
+      const fbUser = googleRes.user;
+      const cleanEmail = (fbUser.email || '').toLowerCase();
+      let target = users.find(u => u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail));
 
-        if (!target) {
-          target = {
-            id: fbUser.uid,
-            name: fbUser.displayName || 'Cocinero Google',
-            username: (cleanEmail ? cleanEmail.split('@')[0] : `google_${fbUser.uid.slice(0, 5)}`)
-              .toLowerCase()
-              .replace(/[^a-z0-9_]/g, '_'),
-            email: cleanEmail || `${fbUser.uid}@gusto.app`,
-            password: 'oauth_firebase_google',
-            avatar:
-              fbUser.photoURL ||
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
-            role: 'usuario',
-            bio: 'Cuenta autenticada vía Google y Firebase.',
-            specialties: ['Cocina Express', 'Sabor de Temporada'],
-            dietaryPreferences: [],
-            subprofiles: [],
-            addresses: [
-              {
-                id: `addr-google-${Date.now()}`,
-                alias: 'Principal',
-                street: 'Av. Corrientes',
-                number: '1450',
-                city: 'CABA',
-                province: 'Buenos Aires',
-                postalCode: '1042',
-                isDefault: true,
-                createdAt: new Date().toISOString(),
-              }
-            ],
-            followersCount: 24,
-            followingUserIds: ['user-mateo'],
-            wishlistRecipeIds: [],
-            location: 'Buenos Aires, CABA',
-          };
-          setUsers(prev => [target!, ...prev]);
-        }
-        setCurrentUserId(target.id);
-        syncUserProfile(target).catch(console.warn);
-        showToast(`¡Sesión iniciada exitosamente con Google (${target.name})!`);
-        return;
-      } else {
-        showToast(`Error al iniciar con Google: ${googleRes.message}`);
-        return;
+      if (!target) {
+        target = {
+          id: fbUser.uid,
+          name: fbUser.displayName || 'Cocinero Google',
+          username: (cleanEmail ? cleanEmail.split('@')[0] : `google_${fbUser.uid.slice(0, 5)}`)
+            .toLowerCase()
+            .replace(/[^a-z0-9_]/g, '_'),
+          email: cleanEmail || `${fbUser.uid}@gusto.app`,
+          password: 'oauth_firebase_google',
+          avatar:
+            fbUser.photoURL ||
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+          role: 'usuario',
+          bio: 'Cuenta autenticada vía Google y Firebase.',
+          specialties: ['Cocina Express', 'Sabor de Temporada'],
+          dietaryPreferences: [],
+          subprofiles: [],
+          addresses: [
+            {
+              id: `addr-google-${Date.now()}`,
+              alias: 'Principal',
+              street: 'Av. Corrientes',
+              number: '1450',
+              city: 'CABA',
+              province: 'Buenos Aires',
+              postalCode: '1042',
+              isDefault: true,
+              createdAt: new Date().toISOString(),
+            }
+          ],
+          followersCount: 24,
+          followingUserIds: ['user-mateo'],
+          wishlistRecipeIds: [],
+          location: 'Buenos Aires, CABA',
+        };
+        setUsers(prev => [target!, ...prev]);
       }
+      setCurrentUserId(target.id);
+      syncUserProfile(target).catch(console.warn);
+      showToast(`¡Sesión iniciada exitosamente con Google (${target.name})!`);
+      return;
+    } else {
+      showToast(`Error al iniciar con Google: ${googleRes.message}`);
+      return;
     }
-
-    const providerName = 'Apple';
-    const email = 'usuario.apple@gusto.app';
-    let target = users.find(u => u.email.toLowerCase() === email);
-
-    if (!target) {
-      target = {
-        id: `user-${provider}-${Date.now()}`,
-        name: 'Chef Apple ID',
-        username: 'apple_chef',
-        email,
-        password: 'oauth_secure_provider',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80',
-        role: 'usuario',
-        bio: `Cuenta vinculada mediante inicio de sesión con ${providerName}.`,
-        specialties: ['Cocina Express', 'Sabor de Temporada'],
-        dietaryPreferences: [],
-        subprofiles: [],
-        addresses: [
-          {
-            id: `addr-${provider}-${Date.now()}`,
-            alias: 'Principal',
-            street: 'Av. Corrientes',
-            number: '1450',
-            city: 'CABA',
-            province: 'Buenos Aires',
-            postalCode: '1042',
-            isDefault: true,
-            createdAt: new Date().toISOString(),
-          }
-        ],
-        followersCount: 24,
-        followingUserIds: ['user-mateo'],
-        wishlistRecipeIds: [],
-        location: 'Buenos Aires, CABA',
-      };
-      setUsers(prev => [target!, ...prev]);
-    }
-    setCurrentUserId(target.id);
-    showToast(`Sesión iniciada exitosamente con ${providerName}.`);
   };
 
   const logoutUser = () => {
@@ -1365,29 +1371,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       showToast('Inicia sesión para votar por esta receta.');
       return;
     }
-    setRecipes(prev => prev.map(r => {
-      if (r.id !== recipeId) return r;
-      const alreadyLiked = r.likedUserIds.includes(currentUser.id);
-      const alreadyDisliked = r.dislikedUserIds.includes(currentUser.id);
+    setRecipes(prev => {
+      const updated = prev.map(r => {
+        if (r.id !== recipeId) return r;
+        const alreadyLiked = r.likedUserIds.includes(currentUser.id);
+        const alreadyDisliked = r.dislikedUserIds.includes(currentUser.id);
 
-      const nextLiked = alreadyLiked
-        ? r.likedUserIds.filter(id => id !== currentUser.id)
-        : [...r.likedUserIds, currentUser.id];
-      const nextDisliked = alreadyDisliked
-        ? r.dislikedUserIds.filter(id => id !== currentUser.id)
-        : r.dislikedUserIds;
+        const nextLiked = alreadyLiked
+          ? r.likedUserIds.filter(id => id !== currentUser.id)
+          : [...r.likedUserIds, currentUser.id];
+        const nextDisliked = alreadyDisliked
+          ? r.dislikedUserIds.filter(id => id !== currentUser.id)
+          : r.dislikedUserIds;
 
-      const diffLikes = alreadyLiked ? -1 : 1;
-      const diffDislikes = alreadyDisliked ? -1 : 0;
+        const diffLikes = alreadyLiked ? -1 : 1;
+        const diffDislikes = alreadyDisliked ? -1 : 0;
 
-      return {
-        ...r,
-        likedUserIds: nextLiked,
-        dislikedUserIds: nextDisliked,
-        likesCount: Math.max(0, (r.likesCount ?? 0) + diffLikes),
-        dislikesCount: Math.max(0, (r.dislikesCount ?? 0) + diffDislikes)
-      };
-    }));
+        const updatedRecipe: Recipe = {
+          ...r,
+          likedUserIds: nextLiked,
+          dislikedUserIds: nextDisliked,
+          likesCount: Math.max(0, (r.likesCount ?? 0) + diffLikes),
+          dislikesCount: Math.max(0, (r.dislikesCount ?? 0) + diffDislikes)
+        };
+        saveRecipeToFirestore(updatedRecipe).catch(console.warn);
+        return updatedRecipe;
+      });
+      return updated;
+    });
   };
 
   const toggleDislikeRecipe = (recipeId: string) => {
@@ -1395,29 +1406,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       showToast('Inicia sesión para votar por esta receta.');
       return;
     }
-    setRecipes(prev => prev.map(r => {
-      if (r.id !== recipeId) return r;
-      const alreadyLiked = r.likedUserIds.includes(currentUser.id);
-      const alreadyDisliked = r.dislikedUserIds.includes(currentUser.id);
+    setRecipes(prev => {
+      const updated = prev.map(r => {
+        if (r.id !== recipeId) return r;
+        const alreadyLiked = r.likedUserIds.includes(currentUser.id);
+        const alreadyDisliked = r.dislikedUserIds.includes(currentUser.id);
 
-      const nextDisliked = alreadyDisliked
-        ? r.dislikedUserIds.filter(id => id !== currentUser.id)
-        : [...r.dislikedUserIds, currentUser.id];
-      const nextLiked = alreadyLiked
-        ? r.likedUserIds.filter(id => id !== currentUser.id)
-        : r.likedUserIds;
+        const nextDisliked = alreadyDisliked
+          ? r.dislikedUserIds.filter(id => id !== currentUser.id)
+          : [...r.dislikedUserIds, currentUser.id];
+        const nextLiked = alreadyLiked
+          ? r.likedUserIds.filter(id => id !== currentUser.id)
+          : r.likedUserIds;
 
-      const diffDislikes = alreadyDisliked ? -1 : 1;
-      const diffLikes = alreadyLiked ? -1 : 0;
+        const diffDislikes = alreadyDisliked ? -1 : 1;
+        const diffLikes = alreadyLiked ? -1 : 0;
 
-      return {
-        ...r,
-        likedUserIds: nextLiked,
-        dislikedUserIds: nextDisliked,
-        likesCount: Math.max(0, (r.likesCount ?? 0) + diffLikes),
-        dislikesCount: Math.max(0, (r.dislikesCount ?? 0) + diffDislikes)
-      };
-    }));
+        const updatedRecipe: Recipe = {
+          ...r,
+          likedUserIds: nextLiked,
+          dislikedUserIds: nextDisliked,
+          likesCount: Math.max(0, (r.likesCount ?? 0) + diffLikes),
+          dislikesCount: Math.max(0, (r.dislikesCount ?? 0) + diffDislikes)
+        };
+        saveRecipeToFirestore(updatedRecipe).catch(console.warn);
+        return updatedRecipe;
+      });
+      return updated;
+    });
   };
 
   const toggleFeaturedRecipe = (recipeId: string, timeframe: 'day' | 'week' | 'month') => {
