@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Recipe } from '../types';
 import { formatARS } from '../utils/currency';
 import {
   X,
@@ -8,8 +7,6 @@ import {
   CheckCircle2,
   Layers,
   Sparkles,
-  Store,
-  ChefHat,
   Search
 } from 'lucide-react';
 
@@ -52,7 +49,6 @@ export const MultiRecipeShoppingModal: React.FC<MultiRecipeShoppingModalProps> =
 
   const selectedRecipes = publishedRecipes.filter(r => selectedRecipeIds.includes(r.id));
 
-  // Compute total ingredients and consolidated summary
   const totalIngredientsCount = selectedRecipes.reduce((sum, r) => sum + r.ingredients.length, 0);
   const totalCost = selectedRecipes.reduce(
     (sum, r) => sum + r.ingredients.reduce((iSum, ing) => iSum + ing.estimatedPrice, 0),
@@ -70,55 +66,55 @@ export const MultiRecipeShoppingModal: React.FC<MultiRecipeShoppingModalProps> =
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="bg-zinc-900 text-zinc-100 w-full max-w-2xl rounded-3xl shadow-2xl border border-zinc-800 overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="p-6 bg-gradient-to-r from-amber-600 to-amber-700 text-white flex items-center justify-between shrink-0">
+        <div className="p-6 bg-zinc-950 border-b border-zinc-800 text-zinc-100 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-xs">
-              <Layers className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
+              <Layers className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <h3 className="font-bold text-lg font-display leading-tight">
+              <h3 className="font-bold text-lg font-display leading-tight text-zinc-100">
                 Compra Multi-Receta Consolidada
               </h3>
-              <p className="text-xs text-amber-100">
+              <p className="text-xs text-zinc-400">
                 Selecciona varias recetas para unificar sus ingredientes en una única lista de compra
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Feature Explanatory Banner */}
-        <div className="bg-amber-50 px-6 py-3 border-b border-amber-200/80 flex items-center gap-2.5 text-xs text-amber-950">
-          <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+        <div className="bg-zinc-950 px-6 py-3 border-b border-zinc-800 flex items-center gap-2.5 text-xs text-amber-400">
+          <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
           <span>
             <strong>Consolidación automática:</strong> Si dos recetas utilizan el mismo ingrediente (ej. 200g y 300g de harina), se consolidarán en 500g con el detalle de cada plato.
           </span>
         </div>
 
         {/* Search & Actions Bar */}
-        <div className="p-4 border-b border-stone-200 flex items-center justify-between gap-3 bg-stone-50">
+        <div className="p-4 border-b border-zinc-800 flex items-center justify-between gap-3 bg-zinc-950">
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
               placeholder="Buscar recetas por nombre o categoría..."
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-stone-300 bg-white focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:outline-hidden focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500"
             />
           </div>
           <button
             type="button"
             onClick={handleSelectAll}
-            className="text-xs font-semibold text-amber-800 hover:text-amber-950 px-3 py-2 rounded-xl bg-white border border-stone-200 hover:bg-amber-50 transition-colors shrink-0"
+            className="text-xs font-semibold text-amber-400 hover:text-amber-300 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors shrink-0 cursor-pointer"
           >
             {selectedRecipeIds.length === filteredRecipes.length ? 'Deseleccionar todas' : 'Seleccionar todas'}
           </button>
@@ -127,7 +123,7 @@ export const MultiRecipeShoppingModal: React.FC<MultiRecipeShoppingModalProps> =
         {/* Recipes Grid */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3">
           {filteredRecipes.length === 0 ? (
-            <div className="text-center py-10 text-stone-400 text-xs">
+            <div className="text-center py-10 text-zinc-500 text-xs">
               No se encontraron recetas con ese término.
             </div>
           ) : (
@@ -141,8 +137,8 @@ export const MultiRecipeShoppingModal: React.FC<MultiRecipeShoppingModalProps> =
                   onClick={() => toggleSelectRecipe(recipe.id)}
                   className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                     isSelected
-                      ? 'bg-amber-50 border-amber-400 ring-2 ring-amber-300 shadow-sm'
-                      : 'bg-white border-stone-200 hover:border-stone-300'
+                      ? 'bg-zinc-950 border-amber-500 ring-2 ring-amber-500/30 shadow-md'
+                      : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -150,44 +146,30 @@ export const MultiRecipeShoppingModal: React.FC<MultiRecipeShoppingModalProps> =
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => {}}
-                      className="w-4 h-4 rounded-md text-amber-600 border-stone-300 focus:ring-amber-500 cursor-pointer"
+                      className="w-4 h-4 text-amber-500 bg-zinc-900 border-zinc-700 rounded-md focus:ring-amber-500 cursor-pointer"
                     />
                     <img
                       src={recipe.coverImage}
                       alt={recipe.title}
-                      className="w-14 h-14 rounded-xl object-cover shrink-0 border border-stone-200"
+                      className="w-12 h-12 rounded-xl object-cover shrink-0 border border-zinc-800"
                     />
                     <div className="min-w-0">
-                      <h4 className="font-bold text-xs sm:text-sm text-stone-900 truncate">
+                      <h4 className="font-bold text-xs sm:text-sm text-zinc-100 truncate">
                         {recipe.title}
                       </h4>
-                      <p className="text-[11px] text-stone-500 flex items-center gap-1.5 mt-0.5">
-                        <span>Por {recipe.authorName}</span>
-                        <span>•</span>
-                        <span className="capitalize">{recipe.category}</span>
+                      <p className="text-[11px] text-zinc-400 capitalize truncate mt-0.5">
+                        {recipe.category} • {recipe.ingredients.length} ingredientes
                       </p>
-                      <div className="text-[11px] text-stone-600 font-medium mt-1 flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-700 text-[10px]">
-                          {recipe.ingredients.length} ingredientes
-                        </span>
-                        <span className="text-emerald-700 font-bold">
-                          {formatARS(recipeCost)}
-                        </span>
-                      </div>
                     </div>
                   </div>
 
-                  <div className="shrink-0 text-right">
-                    {isSelected ? (
-                      <span className="px-2.5 py-1 rounded-full bg-amber-600 text-white text-[10px] font-bold flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3" />
-                        Seleccionada
-                      </span>
-                    ) : (
-                      <span className="text-[11px] text-stone-400 hover:text-stone-600">
-                        Hacer clic para sumar
-                      </span>
-                    )}
+                  <div className="text-right shrink-0">
+                    <span className="text-xs font-bold text-amber-400 block">
+                      ~{formatARS(recipeCost)}
+                    </span>
+                    <span className="text-[10px] text-zinc-500 font-medium">
+                      {recipe.servings} raciones
+                    </span>
                   </div>
                 </div>
               );
@@ -195,38 +177,26 @@ export const MultiRecipeShoppingModal: React.FC<MultiRecipeShoppingModalProps> =
           )}
         </div>
 
-        {/* Footer Summary & Action */}
-        <div className="p-5 bg-stone-50 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
-          <div className="text-xs text-stone-600 space-y-0.5 text-center sm:text-left w-full sm:w-auto">
-            <div>
-              <strong className="text-stone-900 text-sm">
-                {selectedRecipes.length} recetas seleccionadas
-              </strong>{' '}
-              ({totalIngredientsCount} ítems)
-            </div>
-            <div className="text-emerald-700 font-bold text-sm">
-              Costo total aproximado: {formatARS(totalCost)}
+        {/* Bottom Consolidated Footer */}
+        <div className="p-4 bg-zinc-950 border-t border-zinc-800 flex items-center justify-between gap-4 shrink-0">
+          <div>
+            <span className="text-xs text-zinc-400 block">
+              {selectedRecipeIds.length} receta(s) seleccionada(s)
+            </span>
+            <div className="text-base font-extrabold text-amber-400 font-display">
+              {totalIngredientsCount} ingrediente(s) • {formatARS(totalCost)}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold text-stone-700 hover:bg-stone-100 transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              type="button"
-              onClick={handleConfirmAddToCart}
-              disabled={selectedRecipes.length === 0}
-              className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 disabled:bg-stone-300 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <ShoppingCart className="w-4 h-4" />
-              Consolidar y Abrir Carrito
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleConfirmAddToCart}
+            disabled={selectedRecipeIds.length === 0}
+            className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-amber-500/20 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+          >
+            <ShoppingCart className="w-4 h-4" />
+            <span>Añadir al Carrito</span>
+          </button>
         </div>
       </div>
     </div>

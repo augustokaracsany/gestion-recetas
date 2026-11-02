@@ -63,8 +63,11 @@ import {
 } from '../firebase/firestoreService';
 
 interface AppContextType {
-  // Authentication & Users
+  // Authentication & Permissions
   currentUser: UserProfile | null;
+  hasPremiumAccess: boolean;
+  hasEditorAccess: boolean;
+  hasAdminAccess: boolean;
   allUsers: UserProfile[];
   switchUserRole: (role: UserRole) => void;
   selectSpecificUser: (userId: string) => void;
@@ -133,6 +136,7 @@ interface AppContextType {
   recipes: Recipe[];
   createRecipe: (recipeData: Omit<Recipe, 'id' | 'createdAt' | 'updatedAt' | 'likesCount' | 'dislikesCount' | 'likedUserIds' | 'dislikedUserIds' | 'commentsCount'>) => string;
   updateRecipe: (id: string, recipeData: Partial<Recipe>) => void;
+  reviewRecipeApproval: (recipeId: string, status: 'approved' | 'rejected', note?: string) => void;
   deleteRecipe: (id: string) => boolean;
   togglePinRecipe: (recipeId: string) => void;
   toggleLikeRecipe: (recipeId: string) => void;
@@ -583,6 +587,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const currentUser = users.find(u => u.id === currentUserId) || null;
+
+  const hasPremiumAccess = currentUser ? (currentUser.role === 'admin' || currentUser.role === 'premium') : false;
+  const hasEditorAccess = currentUser ? (currentUser.role === 'admin' || currentUser.role === 'editor') : false;
+  const hasAdminAccess = currentUser ? currentUser.role === 'admin' : false;
 
   // Role quick switch
   const switchUserRole = (role: UserRole) => {
@@ -1323,14 +1331,102 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateRecipe = (id: string, recipeData: Partial<Recipe>) => {
     setRecipes(prev => {
-      const updated = prev.map(r => r.id === id ? { ...r, ...recipeData, updatedAt: new Date().toISOString() } : r);
-      const target = updated.find(r => r.id === id);
-      if (target) {
-        saveRecipeToFirestore(target).catch(console.warn);
-      }
+      const updated = prev.map(r => {
+        if (r.id !== id) return r;
+
+        let extraAudit: Partial<Recipe> = {};
+        if (currentUser && (currentUser.role === 'editor' || currentUser.role === 'admin')) {
+          const logEntry = {
+            id: `mod-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+            editorId: currentUser.id,
+            editorName: currentUser.name,
+            action: 'edited' as const,
+            timestamp: new Date().toISOString(),
+            note: 'Receta editada por editor.',
+          };
+          const existingHistory = r.moderationHistory || [];
+          extraAudit = {
+            moderationHistory: [logEntry, ...existingHistory],
+            lastEditedBy: {
+              editorId: currentUser.id,
+              editorName: currentUser.name,
+              action: 'edited' as const,
+              timestamp: new Date().toISOString(),
+              note: logEntry.note,
+            },
+          };
+        }
+
+        const merged: Recipe = {
+          ...r,
+          ...recipeData,
+          ...extraAudit,
+          updatedAt: new Date().toISOString(),
+        };
+        saveRecipeToFirestore(merged).catch(console.warn);
+        return merged;
+      });
       return updated;
     });
     showToast('Receta actualizada correctamente.');
+  };
+
+  const reviewRecipeApproval = (recipeId: string, status: 'approved' | 'rejected', note?: string) => {
+    if (!currentUser || (currentUser.role !== 'editor' && currentUser.role !== 'admin')) {
+      showToast('Solo los editores o administradores pueden cambiar el dictamen de aprobación.');
+      return;
+    }
+
+    setRecipes(prev => {
+      return prev.map(r => {
+        if (r.id !== recipeId) return r;
+
+        const logEntry = {
+          id: `mod-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          editorId: currentUser.id,
+          editorName: currentUser.name,
+          action: status,
+          timestamp: new Date().toISOString(),
+          note: note?.trim() || (status === 'approved' ? 'Receta revisada y aprobada para el catálogo.' : 'Receta desaprobada por el equipo editorial.'),
+        };
+
+        const existingHistory = r.moderationHistory || [];
+        const updatedRecipe: Recipe = {
+          ...r,
+          approvalStatus: status,
+          moderationHistory: [logEntry, ...existingHistory],
+          lastEditedBy: {
+            editorId: currentUser.id,
+            editorName: currentUser.name,
+            action: status,
+            timestamp: new Date().toISOString(),
+            note: logEntry.note,
+          },
+          updatedAt: new Date().toISOString(),
+        };
+
+        saveRecipeToFirestore(updatedRecipe).catch(console.warn);
+
+        // Notify author
+        const notif: AppNotification = {
+          id: `notif-mod-${Date.now()}`,
+          userId: r.authorId,
+          title: status === 'approved' ? 'Receta Aprobada' : 'Receta Desaprobada',
+          message: status === 'approved'
+            ? `Tu receta "${r.title}" ha sido aprobada por el editor ${currentUser.name}.`
+            : `Tu receta "${r.title}" fue desaprobada por el editor ${currentUser.name}. Nota: ${logEntry.note}`,
+          createdAt: new Date().toISOString(),
+          read: false,
+          type: 'moderation',
+          linkTarget: r.id,
+        };
+        setNotifications(nPrev => [notif, ...nPrev]);
+
+        return updatedRecipe;
+      });
+    });
+
+    showToast(`Receta ${status === 'approved' ? 'aprobada con éxito' : 'desaprobada y notificada al autor'}.`);
   };
 
   const deleteRecipe = (id: string) => {
@@ -2076,16 +2172,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Todas las notificaciones marcadas como leídas.');
   };
 
-  // Exporting & Printing
+  // Exporting & Printing PDF
   const exportRecipeJson = (recipe: Recipe) => {
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(recipe, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `${recipe.title.toLowerCase().replace(/[^a-z0-9]/gi, '_')}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-    showToast(`Receta "${recipe.title}" exportada en formato JSON.`);
+    setPrintableRecipe(recipe);
+    setTimeout(() => {
+      window.print();
+    }, 300);
+    showToast(`Receta "${recipe.title}" exportada en formato PDF.`);
   };
 
   const exportRecipeText = (recipe: Recipe) => {
@@ -2125,27 +2218,22 @@ Receta generada por Gusto - Sistema de Gestión de Recetas.
 
   const exportCollectionPackage = (collection: RecipeCollection) => {
     const collectionRecipes = recipes.filter(r => collection.recipeIds.includes(r.id));
-    const packageData = {
-      collectionName: collection.name,
-      description: collection.description,
-      exportedAt: new Date().toISOString(),
-      recipesCount: collectionRecipes.length,
-      recipes: collectionRecipes
-    };
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(packageData, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `coleccion_${collection.name.toLowerCase().replace(/[^a-z0-9]/gi, '_')}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-    showToast(`Colección completa "${collection.name}" exportada con sus recetas.`);
+    if (collectionRecipes.length > 0) {
+      setPrintableRecipe(collectionRecipes[0]);
+      setTimeout(() => {
+        window.print();
+      }, 300);
+    }
+    showToast(`Colección completa "${collection.name}" exportada en formato PDF.`);
   };
 
   return (
     <AppContext.Provider
       value={{
         currentUser,
+        hasPremiumAccess,
+        hasEditorAccess,
+        hasAdminAccess,
         allUsers: users,
         switchUserRole,
         selectSpecificUser,
@@ -2185,6 +2273,7 @@ Receta generada por Gusto - Sistema de Gestión de Recetas.
         recipes,
         createRecipe,
         updateRecipe,
+        reviewRecipeApproval,
         deleteRecipe,
         togglePinRecipe,
         toggleLikeRecipe,

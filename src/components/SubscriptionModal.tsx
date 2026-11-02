@@ -6,13 +6,10 @@ import {
   CreditCard,
   ShieldCheck,
   Sparkles,
-  Check,
   Lock,
   ArrowRight,
   Crown,
-  ChefHat,
-  Zap,
-  HelpCircle
+  Zap
 } from 'lucide-react';
 
 interface SubscriptionModalProps {
@@ -21,7 +18,7 @@ interface SubscriptionModalProps {
 }
 
 export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose }) => {
-  const { currentUser, upgradeToPremium } = useApp();
+  const { currentUser, upgradeToPremium, hasPremiumAccess } = useApp();
 
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'mercadopago'>('card');
@@ -36,7 +33,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
   const [installments, setInstallments] = useState('1');
   const [errorMessage, setErrorMessage] = useState('');
 
-  if (!isOpen) return null;
+  if (!isOpen || hasPremiumAccess) return null;
 
   const monthlyPriceARS = 4990;
   const yearlyPriceARS = 49900;
@@ -83,7 +80,6 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
     setIsProcessing(true);
 
     try {
-      // Simulate gateway approval and update user tier
       await upgradeToPremium({
         method: paymentMethod,
         billingCycle,
@@ -100,21 +96,21 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-auto max-h-[94vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-800 overflow-hidden my-auto max-h-[94vh] flex flex-col animate-in fade-in zoom-in-95 duration-200 text-zinc-100">
         
-        {/* Header */}
-        <div className="px-6 py-5 bg-gradient-to-r from-[#E09F3E] via-[#C98020] to-[#835500] text-white flex items-center justify-between shrink-0">
+        {/* Header in Gourmet Amber */}
+        <div className="px-6 py-5 bg-gradient-to-r from-amber-600 via-amber-700 to-amber-900 text-white flex items-center justify-between shrink-0 shadow-md">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-inner">
-              <Crown className="w-6 h-6 text-amber-100" />
+              <Crown className="w-6 h-6 text-amber-200" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-lg leading-tight font-display">
                   Suscripción Chef Premium
                 </h3>
-                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-200/30 text-amber-100 tracking-wider">
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/30 tracking-wider">
                   Acceso Total
                 </span>
               </div>
@@ -137,46 +133,46 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           
           {/* Plan Benefits Overview */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/70 flex flex-col">
-              <div className="flex items-center gap-2 text-[#835500] font-bold text-xs mb-1">
-                <Sparkles className="w-4 h-4 text-[#E09F3E]" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950 border border-amber-500/20 flex flex-col">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs mb-1">
+                <Sparkles className="w-4 h-4 text-amber-400" />
                 Recetas Destacadas
               </div>
-              <p className="text-[11px] text-stone-600 leading-snug">
+              <p className="text-[11px] text-zinc-400 leading-snug">
                 Acceso irrestricto al panel exclusivo del día, semana y mes curado por chefs profesionales.
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/70 flex flex-col">
-              <div className="flex items-center gap-2 text-[#835500] font-bold text-xs mb-1">
-                <Zap className="w-4 h-4 text-[#E09F3E]" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950 border border-amber-500/20 flex flex-col">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs mb-1">
+                <Zap className="w-4 h-4 text-amber-400" />
                 Envíos Bonificados
               </div>
-              <p className="text-[11px] text-stone-600 leading-snug">
+              <p className="text-[11px] text-zinc-400 leading-snug">
                 Descuentos especiales en delivery de ingredientes con supermercados asociados (Coto, Jumbo, Vea).
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/70 flex flex-col">
-              <div className="flex items-center gap-2 text-[#835500] font-bold text-xs mb-1">
-                <Crown className="w-4 h-4 text-[#E09F3E]" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950 border border-amber-500/20 flex flex-col">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs mb-1">
+                <Crown className="w-4 h-4 text-amber-400" />
                 Subperfiles Familiares
               </div>
-              <p className="text-[11px] text-stone-600 leading-snug">
+              <p className="text-[11px] text-zinc-400 leading-snug">
                 Gestiona subperfiles ilimitados con restricciones dietéticas (celíacos, keto, diabéticos).
               </p>
             </div>
           </div>
 
           {/* Billing Cycle Selector */}
-          <div className="bg-[#F8F6F4] p-1.5 rounded-2xl flex items-center border border-stone-200">
+          <div className="bg-zinc-950 p-1.5 rounded-2xl flex items-center border border-zinc-800">
             <button
               type="button"
               onClick={() => setBillingCycle('monthly')}
               className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 billingCycle === 'monthly'
-                  ? 'bg-white text-[#835500] shadow-sm'
-                  : 'text-stone-500 hover:text-stone-800'
+                  ? 'bg-amber-500 text-zinc-950 shadow-sm font-bold'
+                  : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
               <span>Mensual: {formatARS(monthlyPriceARS)} / mes</span>
@@ -186,12 +182,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
               onClick={() => setBillingCycle('yearly')}
               className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                 billingCycle === 'yearly'
-                  ? 'bg-white text-[#835500] shadow-sm'
-                  : 'text-stone-500 hover:text-stone-800'
+                  ? 'bg-amber-500 text-zinc-950 shadow-sm font-bold'
+                  : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
               <span>Anual: {formatARS(yearlyPriceARS)} / año</span>
-              <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md font-extrabold">
+              <span className="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded-md font-extrabold">
                 -17% OFF
               </span>
             </button>
@@ -199,7 +195,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
 
           {/* Payment Method Tabs */}
           <div>
-            <label className="block text-xs font-bold text-stone-700 mb-2">
+            <label className="block text-xs font-bold text-zinc-300 mb-2">
               Seleccionar Método de Pago (Moneda local $ ARS):
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -208,16 +204,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 onClick={() => setPaymentMethod('card')}
                 className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
                   paymentMethod === 'card'
-                    ? 'border-[#E09F3E] bg-[#FFF8F0] ring-2 ring-[#E09F3E]/20'
-                    : 'border-stone-200 bg-white hover:bg-stone-50'
+                    ? 'border-amber-500 bg-amber-500/10 ring-2 ring-amber-500/30'
+                    : 'border-zinc-800 bg-zinc-950 hover:bg-zinc-800/60'
                 }`}
               >
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${paymentMethod === 'card' ? 'bg-[#E09F3E] text-white' : 'bg-stone-100 text-stone-500'}`}>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${paymentMethod === 'card' ? 'bg-amber-500 text-zinc-950' : 'bg-zinc-800 text-zinc-400'}`}>
                   <CreditCard className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-stone-800">Tarjeta de Débito / Crédito</div>
-                  <div className="text-[10px] text-stone-500">Visa, Mastercard, Cabal</div>
+                  <div className="text-xs font-bold text-zinc-100">Tarjeta de Débito / Crédito</div>
+                  <div className="text-[10px] text-zinc-400">Visa, Mastercard, Cabal</div>
                 </div>
               </button>
 
@@ -226,16 +222,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 onClick={() => setPaymentMethod('mercadopago')}
                 className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center gap-3 ${
                   paymentMethod === 'mercadopago'
-                    ? 'border-[#009EE3] bg-[#F0F9FF] ring-2 ring-[#009EE3]/20'
-                    : 'border-stone-200 bg-white hover:bg-stone-50'
+                    ? 'border-sky-500 bg-sky-500/10 ring-2 ring-sky-500/30'
+                    : 'border-zinc-800 bg-zinc-950 hover:bg-zinc-800/60'
                 }`}
               >
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${paymentMethod === 'mercadopago' ? 'bg-[#009EE3] text-white' : 'bg-stone-100 text-stone-500'}`}>
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${paymentMethod === 'mercadopago' ? 'bg-sky-500 text-zinc-950' : 'bg-zinc-800 text-zinc-400'}`}>
                   <span className="font-black text-xs">MP</span>
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-stone-800">Mercado Pago</div>
-                  <div className="text-[10px] text-stone-500">Dinero en cuenta o Débito</div>
+                  <div className="text-xs font-bold text-zinc-100">Mercado Pago</div>
+                  <div className="text-[10px] text-zinc-400">Dinero en cuenta o Débito</div>
                 </div>
               </button>
             </div>
@@ -244,33 +240,33 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           {/* Payment Details Form */}
           <form onSubmit={handleSubmit} className="space-y-3.5">
             {errorMessage && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700">
+              <div className="p-3 bg-rose-950/60 border border-rose-800/80 rounded-xl text-xs text-rose-300">
                 {errorMessage}
               </div>
             )}
 
             {paymentMethod === 'card' ? (
-              <div className="space-y-3 bg-[#FAF8F7] p-4 rounded-2xl border border-stone-200/80">
+              <div className="space-y-3 bg-zinc-950 p-4 rounded-2xl border border-zinc-800">
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-600 mb-1">
+                  <label className="block text-[11px] font-bold text-zinc-300 mb-1">
                     Número de Tarjeta
                   </label>
                   <div className="relative">
-                    <CreditCard className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+                    <CreditCard className="w-4 h-4 text-zinc-500 absolute left-3 top-2.5" />
                     <input
                       type="text"
                       required
                       placeholder="4509 0000 0000 0000"
                       value={cardNumber}
                       onChange={handleCardNumberChange}
-                      className="w-full pl-9 pr-3 py-2 bg-white rounded-xl border border-stone-300 text-xs font-mono focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full pl-9 pr-3 py-2 bg-zinc-900 rounded-xl border border-zinc-800 text-xs font-mono text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-stone-600 mb-1">
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-1">
                       Nombre y Apellido (Titular)
                     </label>
                     <input
@@ -279,12 +275,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                       placeholder="JUAN PÉREZ"
                       value={cardHolder}
                       onChange={(e) => setCardHolder(e.target.value.toUpperCase())}
-                      className="w-full px-3 py-2 bg-white rounded-xl border border-stone-300 text-xs uppercase focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-zinc-900 rounded-xl border border-zinc-800 text-xs uppercase text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-stone-600 mb-1">
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-1">
                       DNI del Titular
                     </label>
                     <input
@@ -293,14 +289,14 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                       placeholder="35.123.456"
                       value={cardDni}
                       onChange={(e) => setCardDni(e.target.value)}
-                      className="w-full px-3 py-2 bg-white rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-zinc-900 rounded-xl border border-zinc-800 text-xs text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-[11px] font-bold text-stone-600 mb-1">
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-1">
                       Vencimiento
                     </label>
                     <input
@@ -309,12 +305,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                       placeholder="MM/AA"
                       value={cardExpiry}
                       onChange={handleExpiryChange}
-                      className="w-full px-3 py-2 bg-white rounded-xl border border-stone-300 text-xs font-mono text-center focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-zinc-900 rounded-xl border border-zinc-800 text-xs font-mono text-center text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold text-stone-600 mb-1">
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-1">
                       Código CVV
                     </label>
                     <input
@@ -324,18 +320,18 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                       placeholder="123"
                       value={cardCvv}
                       onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
-                      className="w-full px-3 py-2 bg-white rounded-xl border border-stone-300 text-xs font-mono text-center focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-zinc-900 rounded-xl border border-zinc-800 text-xs font-mono text-center text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
 
                   <div className="col-span-2 sm:col-span-1">
-                    <label className="block text-[11px] font-bold text-stone-600 mb-1">
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-1">
                       Cuotas
                     </label>
                     <select
                       value={installments}
                       onChange={(e) => setInstallments(e.target.value)}
-                      className="w-full px-2.5 py-2 bg-white rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-2.5 py-2 bg-zinc-900 rounded-xl border border-zinc-800 text-xs text-zinc-100 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 focus:outline-hidden"
                     >
                       <option value="1">1 pago sin interés</option>
                       <option value="3">3 cuotas fijas</option>
@@ -344,31 +340,31 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
                 </div>
               </div>
             ) : (
-              <div className="p-4 bg-sky-50/60 rounded-2xl border border-sky-200 text-xs text-sky-900 space-y-2">
-                <div className="flex items-center gap-2 font-bold text-sky-950">
-                  <Lock className="w-4 h-4 text-sky-600" />
+              <div className="p-4 bg-sky-950/40 rounded-2xl border border-sky-800 text-xs text-sky-200 space-y-2">
+                <div className="flex items-center gap-2 font-bold text-sky-100">
+                  <Lock className="w-4 h-4 text-sky-400" />
                   <span>Pago Seguro con Mercado Pago</span>
                 </div>
-                <p className="text-[11px] text-sky-800">
+                <p className="text-[11px] text-sky-300">
                   Se debitará de tu dinero en cuenta o tarjeta predeterminada vinculada a Mercado Pago por un total de <strong>{formatARS(currentPriceARS)}</strong>.
                 </p>
-                <div className="p-2.5 bg-white rounded-xl border border-sky-100 flex items-center justify-between">
-                  <span className="text-stone-600">Usuario pagador:</span>
-                  <span className="font-semibold text-stone-800">{currentUser?.email || 'usuario@gusto.app'}</span>
+                <div className="p-2.5 bg-zinc-900 rounded-xl border border-sky-800/60 flex items-center justify-between">
+                  <span className="text-zinc-400">Usuario pagador:</span>
+                  <span className="font-semibold text-zinc-100">{currentUser?.email || 'usuario@gusto.app'}</span>
                 </div>
               </div>
             )}
 
             {/* Price Summary Breakdown */}
-            <div className="pt-2 border-t border-stone-200 flex items-center justify-between text-xs">
+            <div className="pt-2 border-t border-zinc-800 flex items-center justify-between text-xs">
               <div>
-                <span className="text-stone-500">Total a abonar en $ ARS:</span>
-                <div className="text-lg font-extrabold text-[#835500] font-display">
+                <span className="text-zinc-400">Total a abonar en $ ARS:</span>
+                <div className="text-lg font-extrabold text-amber-400 font-display">
                   {formatARS(currentPriceARS)}
                 </div>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-stone-500">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <div className="flex items-center gap-1.5 text-[11px] text-zinc-400">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>Encriptación Bancaria SSL 256-bit</span>
               </div>
             </div>
@@ -377,11 +373,11 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
             <button
               type="submit"
               disabled={isProcessing}
-              className="w-full py-3 bg-gradient-to-r from-[#E09F3E] to-[#835500] hover:from-[#d58e2d] hover:to-[#704800] text-white font-bold rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 text-xs sm:text-sm"
+              className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 text-xs sm:text-sm"
             >
               {isProcessing ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-zinc-950 border-t-transparent rounded-full animate-spin" />
                   <span>Validando y Mejorando Cuenta...</span>
                 </>
               ) : (
@@ -394,7 +390,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, on
           </form>
 
           {/* Cancellation Policy Footer */}
-          <p className="text-[10px] text-center text-stone-400">
+          <p className="text-[10px] text-center text-zinc-500">
             Sin permanencia mínima. Puedes cancelar o gestionar tu suscripción en cualquier momento desde los ajustes de tu perfil. Todos los precios están expresados en Pesos Argentinos ($ ARS) e incluyen IVA.
           </p>
         </div>

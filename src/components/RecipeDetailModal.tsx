@@ -20,6 +20,7 @@ import {
   UserPlus,
   UserCheck,
   CheckCircle,
+  ShieldCheck,
   Video,
   ExternalLink,
   MessageSquare,
@@ -38,6 +39,7 @@ interface RecipeDetailModalProps {
   onEditRecipe: (recipe: Recipe) => void;
   onOpenReport: (recipe: Recipe) => void;
   onOpenAuthorProfile?: (authorId: string) => void;
+  onOpenGuidedCooking?: (recipe: Recipe) => void;
 }
 
 export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
@@ -46,6 +48,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
   onEditRecipe,
   onOpenReport,
   onOpenAuthorProfile,
+  onOpenGuidedCooking,
 }) => {
   const {
     currentUser,
@@ -216,8 +219,17 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             </button>
 
             <button
+              onClick={() => onOpenGuidedCooking?.(recipe)}
+              title="Iniciar Modo Cocina Guiada Inmersivo (PRO)"
+              className="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs rounded-xl transition-all cursor-pointer shadow-sm flex items-center gap-1.5"
+            >
+              <span className="material-symbols-outlined text-[16px]">play_circle</span>
+              <span className="hidden sm:inline">Cocina Guiada</span>
+            </button>
+
+            <button
               onClick={() => exportRecipeJson(recipe)}
-              title="Exportar receta JSON"
+              title="Exportar recetas como PDF"
               className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors cursor-pointer"
             >
               <Download className="w-4 h-4" />
@@ -273,7 +285,13 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               className="w-full h-full object-cover opacity-90"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/40 to-transparent flex flex-col justify-end p-6 text-white">
-              <div className="flex flex-wrap gap-2 mb-2">
+              <div className="flex flex-wrap gap-2 mb-2 items-center">
+                {recipe.lastEditedBy && (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/25 backdrop-blur-md text-amber-300 border border-amber-500/40 flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                    Revisado por {recipe.lastEditedBy.editorName}
+                  </span>
+                )}
                 {recipe.tags.map((tag) => (
                   <span
                     key={tag}

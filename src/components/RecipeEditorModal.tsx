@@ -8,12 +8,9 @@ import {
   Calendar,
   Clock,
   Video,
-  Sparkles,
   Users,
-  Image as ImageIcon,
   Save,
   CheckCircle,
-  AlertCircle,
   Upload,
   UserCheck
 } from 'lucide-react';
@@ -164,7 +161,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
     setCoverImage(urlInputText.trim());
     setUrlInputText('');
     setShowUrlInput(false);
-    showToast('Imagen por URL aplicada.');
+    showToast('Enlace de imagen asignado.');
   };
 
   const toggleTag = (tag: DietaryTag) => {
@@ -175,21 +172,25 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
 
   const handleAddIngredient = () => {
     const newIng: Ingredient = {
-      id: `ing-${Date.now()}`,
+      id: `ing-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
       name: '',
       quantity: 1,
       unit: 'unidad',
       estimatedPrice: 1.0,
-      storeName: 'Mercado Fresco Orgánico',
-      storeLocation: 'Centro',
+      storeName: 'Supermercado Central Gourmet',
+      storeLocation: 'Centro Culinario',
       inStock: true,
       stockLevel: 'alto',
-      category: 'frescos'
+      category: 'secos'
     };
     setIngredients((prev) => [...prev, newIng]);
   };
 
   const handleRemoveIngredient = (idx: number) => {
+    if (ingredients.length <= 1) {
+      showToast('La receta debe contener al menos un ingrediente.');
+      return;
+    }
     setIngredients((prev) => prev.filter((_, i) => i !== idx));
   };
 
@@ -235,13 +236,11 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
       return;
     }
 
-    // MANDATORY IMAGE VALIDATION
     if (!coverImage.trim()) {
       showToast('Es obligatorio cargar una imagen propia para la receta.');
       return;
     }
 
-    // Validate scheduled date if scheduling
     if (status === 'scheduled') {
       const scheduledTime = new Date(scheduledDate).getTime();
       if (isNaN(scheduledTime)) {
@@ -288,29 +287,30 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-4xl bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-800 overflow-hidden my-auto max-h-[92vh] flex flex-col text-zinc-100">
+        
         {/* Header */}
-        <div className="bg-[#e09f3e] px-6 py-4 text-white flex items-center justify-between sticky top-0 z-20">
+        <div className="bg-zinc-950 px-6 py-4 text-zinc-100 border-b border-zinc-800 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-2.5">
             <span
-              className="material-symbols-outlined text-[26px] text-white"
+              className="material-symbols-outlined text-[26px] text-amber-400"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               room_service
             </span>
             <div>
-              <h2 className="font-bold text-lg leading-tight">
+              <h2 className="font-bold text-lg leading-tight font-display text-zinc-100">
                 {recipeToEdit ? 'Editar Receta' : 'Creación de Nueva Receta'}
               </h2>
-              <p className="text-xs text-amber-100">
+              <p className="text-xs text-zinc-400">
                 Estructura ingredientes, paso a paso, etiquetas dietéticas y programación
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-white/80 hover:text-white p-1 rounded-xl hover:bg-white/10 transition-colors cursor-pointer"
+            className="text-zinc-400 hover:text-zinc-100 p-1.5 rounded-xl hover:bg-zinc-800 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -325,7 +325,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
             {/* Left column: Title, Description, Times */}
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
+                <label className="block text-xs font-bold text-zinc-300 uppercase mb-1">
                   Título de la Receta *
                 </label>
                 <input
@@ -334,12 +334,12 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                   placeholder="Ej. Tarta de Manzanas Caramelizadas Sin Gluten"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm font-semibold focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm font-semibold focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden placeholder-zinc-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
+                <label className="block text-xs font-bold text-zinc-300 uppercase mb-1">
                   Descripción o Historia de la Receta
                 </label>
                 <textarea
@@ -347,19 +347,19 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                   placeholder="Explica qué hace especial a este plato, texturas, aromas..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden resize-none placeholder-zinc-600"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
+                  <label className="block text-xs font-bold text-zinc-300 uppercase mb-1">
                     Categoría
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as Recipe['category'])}
-                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm bg-white focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden capitalize"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden capitalize"
                   >
                     <option value="platos_fuertes">Platos Fuertes</option>
                     <option value="pastas">Pastas</option>
@@ -372,13 +372,13 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
+                  <label className="block text-xs font-bold text-zinc-300 uppercase mb-1">
                     Dificultad
                   </label>
                   <select
                     value={difficulty}
                     onChange={(e) => setDifficulty(e.target.value as Recipe['difficulty'])}
-                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm bg-white focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden capitalize"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden capitalize"
                   >
                     <option value="facil">Fácil</option>
                     <option value="media">Media</option>
@@ -389,7 +389,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
 
               <div className="grid grid-cols-3 gap-2">
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">
+                  <label className="block text-[11px] font-bold text-zinc-300 uppercase mb-1">
                     Prep (min)
                   </label>
                   <input
@@ -397,11 +397,11 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     min="1"
                     value={prepTimeMin}
                     onChange={(e) => setPrepTimeMin(Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-bold focus:ring-2 focus:ring-[#e09f3e]"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs font-bold focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">
+                  <label className="block text-[11px] font-bold text-zinc-300 uppercase mb-1">
                     Cocción (min)
                   </label>
                   <input
@@ -409,11 +409,11 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     min="0"
                     value={cookTimeMin}
                     onChange={(e) => setCookTimeMin(Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-bold focus:ring-2 focus:ring-[#e09f3e]"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs font-bold focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">
+                  <label className="block text-[11px] font-bold text-zinc-300 uppercase mb-1">
                     Raciones
                   </label>
                   <input
@@ -421,46 +421,44 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     min="1"
                     value={servings}
                     onChange={(e) => setServings(Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-bold focus:ring-2 focus:ring-[#e09f3e]"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs font-bold focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Right column: MANDATORY Cover Image with Platform Icon Empty State */}
+            {/* Right column: MANDATORY Cover Image */}
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase mb-1 flex items-center justify-between">
+                <label className="block text-xs font-bold text-zinc-300 uppercase mb-1 flex items-center justify-between">
                   <span>Foto de Portada (Obligatoria) *</span>
                   {coverImage && (
-                    <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                    <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
                       <CheckCircle className="w-3.5 h-3.5" />
                       Imagen seleccionada
                     </span>
                   )}
                 </label>
 
-                {/* Cover Image Container */}
                 {!coverImage ? (
-                  /* EMPTY STATE WITH PLATFORM ICON AND REQUIRED TEXT */
-                  <div className="w-full h-56 rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50 flex flex-col items-center justify-center text-center p-6 transition-all hover:bg-stone-100/70">
-                    <div className="w-16 h-16 rounded-full bg-[#ffddb9] flex items-center justify-center text-[#835500] mb-3 shadow-xs">
+                  <div className="w-full h-56 rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-950 flex flex-col items-center justify-center text-center p-6 transition-all hover:border-zinc-700">
+                    <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 shadow-xs">
                       <span
-                        className="material-symbols-outlined text-[34px]"
+                        className="material-symbols-outlined text-[30px]"
                         style={{ fontVariationSettings: "'FILL' 1" }}
                       >
                         room_service
                       </span>
                     </div>
-                    <h4 className="text-sm font-bold text-stone-800">
+                    <h4 className="text-sm font-bold text-zinc-200">
                       Aún no se ha seleccionado una imágen
                     </h4>
-                    <p className="text-xs text-stone-500 mt-1 max-w-xs leading-relaxed">
+                    <p className="text-xs text-zinc-400 mt-1 max-w-xs leading-relaxed">
                       Para publicar la receta es obligatorio cargar una foto de tu plato.
                     </p>
 
                     <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
-                      <label className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#e09f3e] hover:bg-[#835500] text-white text-xs font-bold rounded-xl cursor-pointer transition-colors shadow-2xs">
+                      <label className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-bold rounded-xl cursor-pointer transition-colors shadow-sm">
                         <Upload className="w-4 h-4" />
                         <span>Subir desde mi equipo</span>
                         <input
@@ -474,7 +472,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                       <button
                         type="button"
                         onClick={() => setShowUrlInput(!showUrlInput)}
-                        className="px-3.5 py-2 bg-white border border-stone-300 hover:bg-stone-100 text-stone-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                        className="px-3.5 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 text-xs font-bold rounded-xl transition-colors cursor-pointer"
                       >
                         Ingresar enlace web
                       </button>
@@ -487,12 +485,12 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                           placeholder="https://images.unsplash.com/..."
                           value={urlInputText}
                           onChange={(e) => setUrlInputText(e.target.value)}
-                          className="flex-1 px-3 py-1.5 bg-white rounded-lg border border-stone-300 text-xs"
+                          className="flex-1 px-3 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-xs text-zinc-100"
                         />
                         <button
                           type="button"
                           onClick={handleApplyUrlImage}
-                          className="px-3 py-1.5 bg-stone-900 text-white rounded-lg text-xs font-bold"
+                          className="px-3 py-1.5 bg-amber-500 text-zinc-950 rounded-lg text-xs font-bold"
                         >
                           Usar
                         </button>
@@ -500,16 +498,15 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     )}
                   </div>
                 ) : (
-                  /* IMAGE PREVIEW WITH CHANGE / DELETE OPTIONS */
                   <div className="space-y-2">
-                    <div className="relative h-56 rounded-2xl overflow-hidden border border-stone-200 shadow-inner group">
+                    <div className="relative h-56 rounded-2xl overflow-hidden border border-zinc-800 shadow-inner group">
                       <img
                         src={coverImage}
                         alt="Foto de la receta"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                        <label className="px-3 py-1.5 bg-white/90 hover:bg-white text-stone-900 rounded-xl text-xs font-bold cursor-pointer transition-colors">
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                        <label className="px-3 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold cursor-pointer transition-colors">
                           Cambiar imagen
                           <input
                             type="file"
@@ -521,18 +518,18 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                         <button
                           type="button"
                           onClick={() => setCoverImage('')}
-                          className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                          className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
                         >
                           Eliminar
                         </button>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center text-[11px] text-stone-500">
+                    <div className="flex justify-between items-center text-[11px] text-zinc-400">
                       <span>Foto asignada</span>
                       <button
                         type="button"
                         onClick={() => setCoverImage('')}
-                        className="text-red-600 hover:underline cursor-pointer"
+                        className="text-rose-400 hover:underline cursor-pointer"
                       >
                         Quitar y seleccionar otra
                       </button>
@@ -543,25 +540,24 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
 
               {/* CO-AUTHORS WITH AUTOCOMPLETE FROM ALL REGISTERED USERS */}
               <div className="relative">
-                <label className="block text-xs font-bold text-stone-700 uppercase mb-1 flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-[#e09f3e]" />
+                <label className="block text-xs font-bold text-zinc-300 uppercase mb-1 flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-amber-400" />
                   <span>Añadir Colaboradores / Co-autores</span>
                 </label>
 
-                {/* Display added co-author chips */}
                 {coAuthorsList.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mb-2">
                     {coAuthorsList.map((authorName) => (
                       <span
                         key={authorName}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#ffddb9] text-[#714500]"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30"
                       >
                         <UserCheck className="w-3.5 h-3.5" />
                         <span>{authorName}</span>
                         <button
                           type="button"
                           onClick={() => handleRemoveCoAuthor(authorName)}
-                          className="hover:text-red-700 cursor-pointer ml-1"
+                          className="hover:text-rose-400 cursor-pointer ml-1"
                           title="Eliminar colaborador"
                         >
                           ×
@@ -571,7 +567,6 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                   </div>
                 )}
 
-                {/* Input with autocomplete trigger */}
                 <div className="flex gap-2">
                   <div className="relative flex-1">
                     <input
@@ -593,45 +588,44 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                           }
                         }
                       }}
-                      className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                      className="w-full px-3.5 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden placeholder-zinc-600"
                     />
 
-                    {/* Autocomplete suggestion dropdown */}
                     {showUserSuggestions && coAuthorInput.trim().length > 0 && (
-                      <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl shadow-xl border border-stone-200 z-30 max-h-48 overflow-y-auto divide-y divide-stone-100">
+                      <div className="absolute left-0 right-0 top-full mt-1 bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-800 z-30 max-h-48 overflow-y-auto divide-y divide-zinc-800">
                         {matchingUsers.length > 0 ? (
                           matchingUsers.map((user) => (
                             <button
                               key={user.id}
                               type="button"
                               onClick={() => handleAddCoAuthor(user.name)}
-                              className="w-full px-3 py-2 text-left hover:bg-[#fff8f0] flex items-center gap-2.5 transition-colors cursor-pointer"
+                              className="w-full px-3 py-2 text-left hover:bg-zinc-800/80 flex items-center gap-2.5 transition-colors cursor-pointer"
                             >
                               <img
                                 src={user.avatar}
                                 alt={user.name}
-                                className="w-7 h-7 rounded-full object-cover ring-1 ring-amber-300"
+                                className="w-7 h-7 rounded-full object-cover ring-1 ring-amber-500/40"
                               />
                               <div className="min-w-0 flex-1">
-                                <div className="text-xs font-bold text-stone-800 truncate">
+                                <div className="text-xs font-bold text-zinc-100 truncate">
                                   {user.name}
                                 </div>
-                                <div className="text-[10px] text-[#835500]">
+                                <div className="text-[10px] text-amber-400">
                                   @{user.username} • {user.role}
                                 </div>
                               </div>
-                              <span className="text-[11px] font-bold text-[#e09f3e] shrink-0">
+                              <span className="text-[11px] font-bold text-amber-400 shrink-0">
                                 Etiquetar +
                               </span>
                             </button>
                           ))
                         ) : (
-                          <div className="p-3 text-xs text-stone-400 flex items-center justify-between">
+                          <div className="p-3 text-xs text-zinc-400 flex items-center justify-between">
                             <span>No coincide con un chef registrado.</span>
                             <button
                               type="button"
                               onClick={() => handleAddCoAuthor(coAuthorInput)}
-                              className="text-xs text-[#835500] font-bold hover:underline cursor-pointer"
+                              className="text-xs text-amber-400 font-bold hover:underline cursor-pointer"
                             >
                               Agregar como texto
                             </button>
@@ -644,20 +638,20 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleAddCoAuthor(coAuthorInput)}
-                    className="px-3.5 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold rounded-xl transition-colors cursor-pointer shrink-0"
+                    className="px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold rounded-xl transition-colors cursor-pointer shrink-0 border border-zinc-700"
                   >
                     Añadir
                   </button>
                 </div>
-                <p className="text-[10px] text-stone-400 mt-1">
+                <p className="text-[10px] text-zinc-500 mt-1">
                   Reconoce la autoría compartida vinculando cuentas registradas en la comunidad.
                 </p>
               </div>
 
               {/* Video URL */}
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase mb-1 flex items-center gap-1.5">
-                  <Video className="w-3.5 h-3.5 text-red-600" />
+                <label className="block text-xs font-bold text-zinc-300 uppercase mb-1 flex items-center gap-1.5">
+                  <Video className="w-3.5 h-3.5 text-rose-400" />
                   <span>Video Explicativo YouTube / TikTok (Opcional)</span>
                 </label>
                 <input
@@ -665,7 +659,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                   placeholder="https://www.youtube.com/watch?v=..."
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                  className="w-full px-3 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden placeholder-zinc-600"
                 />
               </div>
 
@@ -673,19 +667,19 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
           </div>
 
           {/* Dietary Tags */}
-          <div className="p-4 rounded-2xl bg-[#ffddb9]/30 border border-[#e09f3e]/40">
-            <label className="block text-xs font-bold text-[#714500] uppercase mb-2">
+          <div className="p-4 rounded-2xl bg-zinc-950 border border-zinc-800">
+            <label className="block text-xs font-bold text-amber-400 uppercase mb-2">
               Etiquetas Dietéticas y Alérgenos
             </label>
             <div className="flex flex-wrap gap-2">
               {[
-                { id: 'celiaco' as DietaryTag, label: '🌾 Sin TACC / Celíacos' },
-                { id: 'vegano' as DietaryTag, label: '🌱 Vegano' },
-                { id: 'vegetariano' as DietaryTag, label: '🧀 Vegetariano' },
-                { id: 'diabetico' as DietaryTag, label: '🩺 Apto Diabéticos' },
-                { id: 'keto' as DietaryTag, label: '🥑 Dieta Keto' },
-                { id: 'sin_lactosa' as DietaryTag, label: '🥛 Sin Lactosa' },
-                { id: 'bajo_sodio' as DietaryTag, label: '🧂 Bajo en Sodio' },
+                { id: 'celiaco' as DietaryTag, label: 'Sin TACC / Celíacos' },
+                { id: 'vegano' as DietaryTag, label: 'Vegano' },
+                { id: 'vegetariano' as DietaryTag, label: 'Vegetariano' },
+                { id: 'diabetico' as DietaryTag, label: 'Apto Diabéticos' },
+                { id: 'keto' as DietaryTag, label: 'Dieta Keto' },
+                { id: 'sin_lactosa' as DietaryTag, label: 'Sin Lactosa' },
+                { id: 'bajo_sodio' as DietaryTag, label: 'Bajo en Sodio' },
               ].map((item) => {
                 const isSelected = tags.includes(item.id);
                 return (
@@ -695,8 +689,8 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     onClick={() => toggleTag(item.id)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                       isSelected
-                        ? 'bg-[#e09f3e] text-white border-[#e09f3e] shadow-2xs'
-                        : 'bg-white text-stone-700 border-amber-200 hover:bg-[#fff8f0]'
+                        ? 'bg-amber-500 text-zinc-950 border-amber-500 shadow-xs'
+                        : 'bg-zinc-900 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
                     }`}
                   >
                     {item.label}
@@ -710,17 +704,17 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">
+                <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-wide">
                   Ingredientes & Tiendas Vinculadas
                 </h3>
-                <p className="text-xs text-stone-500">
+                <p className="text-xs text-zinc-400">
                   Cantidades, precios estimados y comercio para adquisición
                 </p>
               </div>
               <button
                 type="button"
                 onClick={handleAddIngredient}
-                className="flex items-center gap-1 px-3 py-1.5 bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 rounded-xl text-xs font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Agregar Ingrediente
@@ -731,7 +725,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
               {ingredients.map((ing, idx) => (
                 <div
                   key={ing.id}
-                  className="grid grid-cols-12 gap-2 items-center p-2.5 rounded-xl bg-stone-50 border border-stone-200"
+                  className="grid grid-cols-12 gap-2 items-center p-2.5 rounded-xl bg-zinc-950 border border-zinc-800"
                 >
                   <div className="col-span-4">
                     <input
@@ -740,7 +734,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                       placeholder="Nombre (ej. Harina de Almendras)"
                       value={ing.name}
                       onChange={(e) => handleUpdateIngredient(idx, 'name', e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-white rounded-lg border border-stone-300 text-xs font-semibold focus:ring-1 focus:ring-[#e09f3e]"
+                      className="w-full px-2.5 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-zinc-100 text-xs font-semibold focus:ring-1 focus:ring-amber-500"
                     />
                   </div>
 
@@ -752,7 +746,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                       placeholder="Cant"
                       value={ing.quantity}
                       onChange={(e) => handleUpdateIngredient(idx, 'quantity', Number(e.target.value))}
-                      className="w-full px-2.5 py-1.5 bg-white rounded-lg border border-stone-300 text-xs focus:ring-1 focus:ring-[#e09f3e]"
+                      className="w-full px-2.5 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-zinc-100 text-xs focus:ring-1 focus:ring-amber-500"
                     />
                   </div>
 
@@ -762,7 +756,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                       placeholder="Unidad (g, ml, u)"
                       value={ing.unit}
                       onChange={(e) => handleUpdateIngredient(idx, 'unit', e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-white rounded-lg border border-stone-300 text-xs focus:ring-1 focus:ring-[#e09f3e]"
+                      className="w-full px-2.5 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-zinc-100 text-xs focus:ring-1 focus:ring-amber-500"
                     />
                   </div>
 
@@ -770,7 +764,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     <select
                       value={ing.storeName}
                       onChange={(e) => handleUpdateIngredient(idx, 'storeName', e.target.value)}
-                      className="w-full px-2 py-1.5 bg-white rounded-lg border border-stone-300 text-[11px] focus:ring-1 focus:ring-[#e09f3e] truncate"
+                      className="w-full px-2 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-zinc-200 text-[11px] focus:ring-1 focus:ring-amber-500 truncate"
                     >
                       <option value="Supermercado Central Gourmet">Supermercado Central</option>
                       <option value="Dietética El Trébol Verde">Dietética El Trébol</option>
@@ -784,7 +778,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                       type="button"
                       onClick={() => handleRemoveIngredient(idx)}
                       disabled={ingredients.length <= 1}
-                      className="p-1 text-stone-400 hover:text-red-600 disabled:opacity-30 cursor-pointer"
+                      className="p-1 text-zinc-500 hover:text-rose-400 disabled:opacity-30 cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -798,17 +792,17 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-stone-900 uppercase tracking-wide">
+                <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-wide">
                   Paso a Paso de la Elaboración
                 </h3>
-                <p className="text-xs text-stone-500">
+                <p className="text-xs text-zinc-400">
                   Instrucciones detalladas con tiempos de preparación
                 </p>
               </div>
               <button
                 type="button"
                 onClick={handleAddStep}
-                className="flex items-center gap-1 px-3 py-1.5 bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 rounded-xl text-xs font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Agregar Paso
@@ -817,28 +811,28 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
 
             <div className="space-y-3">
               {steps.map((step, idx) => (
-                <div key={idx} className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+                <div key={idx} className="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-[#e09f3e] text-white">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-amber-500 text-zinc-950">
                       Paso {step.stepNumber}
                     </span>
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-1 text-xs">
-                        <Clock className="w-3.5 h-3.5 text-stone-400" />
+                        <Clock className="w-3.5 h-3.5 text-zinc-400" />
                         <input
                           type="number"
                           min="1"
                           value={step.durationMinutes}
                           onChange={(e) => handleUpdateStep(idx, 'durationMinutes', Number(e.target.value))}
-                          className="w-14 px-2 py-1 bg-white rounded-lg border border-stone-300 text-xs text-center"
+                          className="w-14 px-2 py-1 bg-zinc-900 rounded-lg border border-zinc-800 text-xs text-center text-zinc-100"
                         />
-                        <span className="text-stone-500">min</span>
+                        <span className="text-zinc-400">min</span>
                       </div>
                       <button
                         type="button"
                         onClick={() => handleRemoveStep(idx)}
                         disabled={steps.length <= 1}
-                        className="p-1 text-stone-400 hover:text-red-600 disabled:opacity-30 cursor-pointer"
+                        className="p-1 text-zinc-500 hover:text-rose-400 disabled:opacity-30 cursor-pointer"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -851,7 +845,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     placeholder="Título breve del paso (ej. Amasado y reposo)"
                     value={step.title}
                     onChange={(e) => handleUpdateStep(idx, 'title', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-white rounded-xl border border-stone-300 text-xs font-semibold focus:ring-1 focus:ring-[#e09f3e]"
+                    className="w-full px-3 py-1.5 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-100 text-xs font-semibold focus:ring-1 focus:ring-amber-500"
                   />
 
                   <textarea
@@ -860,7 +854,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     placeholder="Instrucciones detalladas de este paso..."
                     value={step.description}
                     onChange={(e) => handleUpdateStep(idx, 'description', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-white rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#e09f3e] resize-none"
+                    className="w-full px-3 py-1.5 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-100 text-xs focus:ring-1 focus:ring-amber-500 resize-none"
                   />
 
                   <input
@@ -868,7 +862,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     placeholder="Consejo o truco opcional para el paso (ej. Humedece tus manos con agua)"
                     value={step.tip || ''}
                     onChange={(e) => handleUpdateStep(idx, 'tip', e.target.value)}
-                    className="w-full px-3 py-1 bg-amber-50/60 rounded-xl border border-amber-200/80 text-xs text-amber-900 focus:ring-1 focus:ring-[#e09f3e]"
+                    className="w-full px-3 py-1 bg-amber-500/10 rounded-xl border border-amber-500/30 text-xs text-amber-300 placeholder-amber-400/50 focus:ring-1 focus:ring-amber-500"
                   />
                 </div>
               ))}
@@ -876,63 +870,63 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
           </div>
 
           {/* Nutritional Info Estimation */}
-          <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200">
-            <h4 className="text-xs font-bold text-stone-700 uppercase mb-2">
+          <div className="p-4 rounded-2xl bg-zinc-950 border border-zinc-800">
+            <h4 className="text-xs font-bold text-zinc-300 uppercase mb-2">
               Información Nutricional por Porción
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
               <div>
-                <label className="text-[10px] text-stone-500 block mb-0.5">Calorías (kcal)</label>
+                <label className="text-[10px] text-zinc-400 block mb-0.5">Calorías (kcal)</label>
                 <input
                   type="number"
                   value={calories}
                   onChange={(e) => setCalories(Number(e.target.value))}
-                  className="w-full px-2 py-1.5 bg-white rounded-lg border border-stone-300 text-xs font-bold"
+                  className="w-full px-2 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-xs font-bold text-zinc-100"
                 />
               </div>
               <div>
-                <label className="text-[10px] text-stone-500 block mb-0.5">Proteínas (g)</label>
+                <label className="text-[10px] text-zinc-400 block mb-0.5">Proteínas (g)</label>
                 <input
                   type="number"
                   value={proteinG}
                   onChange={(e) => setProteinG(Number(e.target.value))}
-                  className="w-full px-2 py-1.5 bg-white rounded-lg border border-stone-300 text-xs"
+                  className="w-full px-2 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-xs text-zinc-100"
                 />
               </div>
               <div>
-                <label className="text-[10px] text-stone-500 block mb-0.5">Carbohidratos (g)</label>
+                <label className="text-[10px] text-zinc-400 block mb-0.5">Carbohidratos (g)</label>
                 <input
                   type="number"
                   value={carbsG}
                   onChange={(e) => setCarbsG(Number(e.target.value))}
-                  className="w-full px-2 py-1.5 bg-white rounded-lg border border-stone-300 text-xs"
+                  className="w-full px-2 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-xs text-zinc-100"
                 />
               </div>
               <div>
-                <label className="text-[10px] text-stone-500 block mb-0.5">Grasas (g)</label>
+                <label className="text-[10px] text-zinc-400 block mb-0.5">Grasas (g)</label>
                 <input
                   type="number"
                   value={fatG}
                   onChange={(e) => setFatG(Number(e.target.value))}
-                  className="w-full px-2 py-1.5 bg-white rounded-lg border border-stone-300 text-xs"
+                  className="w-full px-2 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-xs text-zinc-100"
                 />
               </div>
               <div>
-                <label className="text-[10px] text-stone-500 block mb-0.5">Fibra (g)</label>
+                <label className="text-[10px] text-zinc-400 block mb-0.5">Fibra (g)</label>
                 <input
                   type="number"
                   value={fiberG}
                   onChange={(e) => setFiberG(Number(e.target.value))}
-                  className="w-full px-2 py-1.5 bg-white rounded-lg border border-stone-300 text-xs"
+                  className="w-full px-2 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 text-xs text-zinc-100"
                 />
               </div>
             </div>
           </div>
 
           {/* PROGRAMMING & PUBLICATION: Draft vs Publish Now vs Schedule */}
-          <div className="p-5 rounded-2xl bg-[#fff8f0] border border-[#e09f3e]/40 space-y-3">
-            <h4 className="text-xs font-bold text-[#835500] uppercase flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-[#835500]" />
+          <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-3">
+            <h4 className="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-amber-400" />
               <span>Modalidad de Publicación & Programación</span>
             </h4>
 
@@ -940,8 +934,8 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
               <label
                 className={`flex items-center gap-2.5 p-3 rounded-2xl border cursor-pointer transition-all ${
                   status === 'published'
-                    ? 'bg-[#e09f3e] text-white border-[#e09f3e] shadow-sm'
-                    : 'bg-white text-stone-700 border-amber-200 hover:bg-amber-50/50'
+                    ? 'bg-amber-500 text-zinc-950 border-amber-500 shadow-sm font-bold'
+                    : 'bg-zinc-900 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
                 <input
@@ -955,7 +949,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                 <CheckCircle className="w-4 h-4 shrink-0" />
                 <div className="text-xs">
                   <div className="font-bold">Publicar Ahora</div>
-                  <div className={`text-[10px] ${status === 'published' ? 'text-amber-100' : 'text-stone-500'}`}>
+                  <div className={`text-[10px] ${status === 'published' ? 'text-zinc-900' : 'text-zinc-500'}`}>
                     Visible en el catálogo público
                   </div>
                 </div>
@@ -964,8 +958,8 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
               <label
                 className={`flex items-center gap-2.5 p-3 rounded-2xl border cursor-pointer transition-all ${
                   status === 'draft'
-                    ? 'bg-[#e09f3e] text-white border-[#e09f3e] shadow-sm'
-                    : 'bg-white text-stone-700 border-amber-200 hover:bg-amber-50/50'
+                    ? 'bg-amber-500 text-zinc-950 border-amber-500 shadow-sm font-bold'
+                    : 'bg-zinc-900 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
                 <input
@@ -979,8 +973,8 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                 <Save className="w-4 h-4 shrink-0" />
                 <div className="text-xs">
                   <div className="font-bold">Guardar Borrador</div>
-                  <div className={`text-[10px] ${status === 'draft' ? 'text-amber-100' : 'text-stone-500'}`}>
-                    Privado en tu espacio personal
+                  <div className={`text-[10px] ${status === 'draft' ? 'text-zinc-900' : 'text-zinc-500'}`}>
+                    Privado en tu perfil personal
                   </div>
                 </div>
               </label>
@@ -988,8 +982,8 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
               <label
                 className={`flex items-center gap-2.5 p-3 rounded-2xl border cursor-pointer transition-all ${
                   status === 'scheduled'
-                    ? 'bg-[#835500] text-white border-[#835500] shadow-sm'
-                    : 'bg-white text-stone-700 border-amber-200 hover:bg-amber-50/50'
+                    ? 'bg-amber-500 text-zinc-950 border-amber-500 shadow-sm font-bold'
+                    : 'bg-zinc-900 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
                 }`}
               >
                 <input
@@ -1003,7 +997,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                 <Calendar className="w-4 h-4 shrink-0" />
                 <div className="text-xs">
                   <div className="font-bold">Programar Lanzamiento</div>
-                  <div className={`text-[10px] ${status === 'scheduled' ? 'text-amber-100' : 'text-stone-500'}`}>
+                  <div className={`text-[10px] ${status === 'scheduled' ? 'text-zinc-900' : 'text-zinc-500'}`}>
                     Fecha y hora exacta
                   </div>
                 </div>
@@ -1012,13 +1006,13 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
 
             {/* Exact Date & Time Picker for Scheduled Publishing */}
             {status === 'scheduled' && (
-              <div className="p-4 bg-white rounded-2xl border border-[#e09f3e] space-y-2 animate-in fade-in duration-200">
+              <div className="p-4 bg-zinc-900 rounded-2xl border border-amber-500/40 space-y-2 animate-in fade-in duration-200">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <span className="text-xs font-bold text-stone-800 block">
+                    <span className="text-xs font-bold text-zinc-100 block">
                       Fecha y Hora de Publicación Automática:
                     </span>
-                    <span className="text-[11px] text-stone-500">
+                    <span className="text-[11px] text-zinc-400">
                       El sistema publicará la receta automáticamente al alcanzar el momento programado.
                     </span>
                   </div>
@@ -1027,7 +1021,7 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
                     required
                     value={scheduledDate}
                     onChange={(e) => setScheduledDate(e.target.value)}
-                    className="px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-stone-900 focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                    className="px-3.5 py-2 rounded-xl border border-zinc-800 bg-zinc-950 text-xs font-semibold text-zinc-100 focus:ring-2 focus:ring-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -1035,17 +1029,17 @@ export const RecipeEditorModal: React.FC<RecipeEditorModalProps> = ({
           </div>
 
           {/* Footer Submit Buttons */}
-          <div className="sticky bottom-0 bg-white/95 backdrop-blur-md pt-3 border-t border-stone-200 flex items-center justify-end gap-3">
+          <div className="sticky bottom-0 bg-zinc-900/95 backdrop-blur-md pt-3 border-t border-zinc-800 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-stone-600 hover:text-stone-800 text-xs font-semibold rounded-xl hover:bg-stone-100 cursor-pointer"
+              className="px-4 py-2 text-zinc-400 hover:text-zinc-100 text-xs font-semibold rounded-xl hover:bg-zinc-800 cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#e09f3e] hover:bg-[#835500] text-white text-xs sm:text-sm font-bold rounded-full shadow-md transition-colors flex items-center gap-2 cursor-pointer"
+              className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs sm:text-sm font-bold rounded-full shadow-md shadow-amber-500/20 transition-all flex items-center gap-2 cursor-pointer"
             >
               <Save className="w-4 h-4" />
               {recipeToEdit ? 'Guardar Cambios' : 'Confirmar y Guardar Receta'}

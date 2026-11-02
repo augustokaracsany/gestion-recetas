@@ -136,6 +136,13 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
             <span className="text-zinc-500 text-[11px] uppercase tracking-wider">{recipe.category}</span>
           </div>
 
+          {recipe.lastEditedBy && (
+            <div className="mb-2 inline-flex items-center gap-1 text-[10px] font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md">
+              <span className="material-symbols-outlined text-[12px]">verified</span>
+              <span>Revisado por {recipe.lastEditedBy.editorName}</span>
+            </div>
+          )}
+
           <h2
             onClick={() => onOpenDetail(recipe)}
             className="font-display text-lg sm:text-xl font-bold text-zinc-100 tracking-tight mb-2 group-hover:text-amber-400 transition-colors leading-tight cursor-pointer line-clamp-1"

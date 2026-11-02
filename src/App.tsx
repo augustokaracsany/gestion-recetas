@@ -23,6 +23,8 @@ import { AuthModals } from './components/AuthModals';
 import { ReportModal } from './components/ReportModal';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { PublicProfileModal } from './components/PublicProfileModal';
+import { MealPlannerView } from './components/MealPlannerView';
+import { GuidedCookingModal } from './components/GuidedCookingModal';
 import {
   Sparkles,
   ChefHat,
@@ -58,6 +60,7 @@ function AppContent() {
   // Modals state
   const [selectedRecipeDetail, setSelectedRecipeDetail] = useState<Recipe | null>(null);
   const [selectedPublicAuthorId, setSelectedPublicAuthorId] = useState<string | null>(null);
+  const [guidedCookingRecipe, setGuidedCookingRecipe] = useState<Recipe | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [recipeToEdit, setRecipeToEdit] = useState<Recipe | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -331,7 +334,16 @@ function AppContent() {
           />
         )}
 
-        {/* VIEW 4: Comparador de Recetas */}
+        {/* VIEW 4: Planificador Semanal con IA (PRO) */}
+        {activeView === 'planificador' && (
+          <MealPlannerView
+            onOpenDetail={(r) => setSelectedRecipeDetail(r)}
+            onOpenSubscription={() => setIsSubscriptionOpen(true)}
+            onOpenGuidedCooking={(r) => setGuidedCookingRecipe(r)}
+          />
+        )}
+
+        {/* VIEW 5: Comparador de Recetas */}
         {activeView === 'comparar' && (
           <RecipeCompareView
             onOpenDetail={(r) => setSelectedRecipeDetail(r)}
@@ -353,16 +365,16 @@ function AppContent() {
           />
         )}
 
-        {/* VIEW 6: Panel de Moderación */}
+        {/* VIEW 6: Panel de Moderación y Revisión Editorial */}
         {activeView === 'moderacion' && (
-          currentUser?.role === 'admin' ? (
-            <ModerationAdminPanel />
+          (currentUser?.role === 'admin' || currentUser?.role === 'editor') ? (
+            <ModerationAdminPanel onEditRecipe={handleEditRecipe} />
           ) : (
             <div className="bg-zinc-900 rounded-3xl p-12 text-center border border-zinc-800 space-y-4 max-w-lg mx-auto my-12 shadow-2xl">
               <ShieldCheck className="w-12 h-12 text-amber-500 mx-auto" />
               <h3 className="font-bold text-zinc-100 text-lg">Acceso Restringido</h3>
               <p className="text-xs text-zinc-400">
-                La sección de moderación está reservada exclusivamente para administradores de la plataforma.
+                La sección de moderación y revisión editorial está reservada exclusivamente para editores y administradores de la plataforma.
               </p>
               <button
                 type="button"
@@ -412,7 +424,13 @@ function AppContent() {
         onClose={() => setSelectedRecipeDetail(null)}
         onEditRecipe={handleEditRecipe}
         onOpenAuthorProfile={(id) => setSelectedPublicAuthorId(id)}
+        onOpenGuidedCooking={(r) => setGuidedCookingRecipe(r)}
         onOpenReport={(r) => handleOpenReport('recipe', r.id, r.title)}
+      />
+
+      <GuidedCookingModal
+        recipe={guidedCookingRecipe}
+        onClose={() => setGuidedCookingRecipe(null)}
       />
 
       <PublicProfileModal

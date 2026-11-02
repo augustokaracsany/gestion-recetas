@@ -489,9 +489,26 @@ export const UserProfileView: React.FC<UserProfileViewProps> = ({
                 <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-100 tracking-tight">
                   {currentUser.name}
                 </h1>
-                <span className="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
-                  Rol {currentUser.role}
-                </span>
+                {currentUser.role === 'admin' && (
+                  <span className="bg-amber-500/20 text-amber-400 border border-amber-500/40 text-xs font-bold px-3 py-0.5 rounded-full">
+                    Admin
+                  </span>
+                )}
+                {currentUser.role === 'editor' && (
+                  <span className="bg-purple-950/80 text-purple-300 border border-purple-800/60 text-xs font-bold px-3 py-0.5 rounded-full">
+                    Editor
+                  </span>
+                )}
+                {currentUser.role === 'premium' && (
+                  <span className="bg-amber-950/80 text-amber-300 border border-amber-800/60 text-xs font-bold px-3 py-0.5 rounded-full">
+                    Premium
+                  </span>
+                )}
+                {currentUser.role === 'usuario' && (
+                  <span className="bg-zinc-800 text-zinc-300 border border-zinc-700 text-xs font-medium px-3 py-0.5 rounded-full">
+                    Comensal
+                  </span>
+                )}
                 {currentUser.activeSubProfileId && (
                   <span className="bg-sky-950 text-sky-300 border border-sky-800 text-xs font-bold px-2.5 py-0.5 rounded-full">
                     Subperfil Activo
@@ -1049,7 +1066,7 @@ export const UserProfileView: React.FC<UserProfileViewProps> = ({
             <p className="text-sm font-bold text-zinc-100 truncate">
               {myCollections.length} Colecciones creadas
             </p>
-            <span className="text-xs text-zinc-400 font-medium">Exportación JSON / PDF</span>
+            <span className="text-xs text-zinc-400 font-medium">Exportación en PDF</span>
           </div>
         </div>
 
@@ -1426,10 +1443,10 @@ export const UserProfileView: React.FC<UserProfileViewProps> = ({
                         type="button"
                         onClick={() => exportCollectionPackage(col)}
                         className="text-[11px] font-semibold text-amber-400 hover:underline flex items-center gap-1 cursor-pointer"
-                        title="Exportar colección completa en JSON"
+                        title="Exportar recetas como PDF"
                       >
-                        <span className="material-symbols-outlined text-[16px]">download</span>
-                        Exportar
+                        <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                        Exportar (PDF)
                       </button>
                     </div>
                     <h4 className="font-bold text-base text-zinc-100">{col.name}</h4>

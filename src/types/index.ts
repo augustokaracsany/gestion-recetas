@@ -158,6 +158,16 @@ export interface RecipeComment {
 }
 
 export type RecipeStatus = 'draft' | 'published' | 'scheduled';
+export type RecipeApprovalStatus = 'pending' | 'approved' | 'rejected';
+
+export interface RecipeModerationLog {
+  id: string;
+  editorId: string;
+  editorName: string;
+  action: 'approved' | 'rejected' | 'edited' | 'reviewed';
+  timestamp: string;
+  note?: string;
+}
 
 export interface Recipe {
   id: string;
@@ -169,6 +179,7 @@ export interface Recipe {
   authorAvatar: string;
   coAuthors: string[]; // List of user display names
   status: RecipeStatus;
+  approvalStatus?: RecipeApprovalStatus;
   scheduledPublishDate?: string; // ISO string
   createdAt: string;
   updatedAt: string;
@@ -191,6 +202,14 @@ export interface Recipe {
   isFeaturedMonth?: boolean;
   isPinned?: boolean;
   videoUrl?: string;
+  moderationHistory?: RecipeModerationLog[];
+  lastEditedBy?: {
+    editorId: string;
+    editorName: string;
+    action: 'approved' | 'rejected' | 'edited' | 'reviewed';
+    timestamp: string;
+    note?: string;
+  };
 }
 
 export interface CartItemSource {
