@@ -245,22 +245,22 @@ export const AuthModals: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-800 overflow-hidden my-auto max-h-[92vh] flex flex-col text-zinc-100">
         {/* Modal Top Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-[#E09F3E] to-[#835500] text-white flex items-center justify-between shrink-0">
+        <div className="px-6 py-4 bg-zinc-950 border-b border-zinc-800 text-zinc-100 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <ChefHat className="w-5 h-5 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+              <ChefHat className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <h3 className="font-bold text-base sm:text-lg leading-tight font-display">
+              <h3 className="font-bold text-base sm:text-lg leading-tight font-display text-zinc-100">
                 {mode === 'login' && 'Iniciar Sesión en Gusto'}
                 {mode === 'register' && 'Crear Nueva Cuenta'}
                 {mode === 'recovery' && 'Recuperar Contraseña'}
                 {mode === 'new_password' && 'Establecer Nueva Contraseña'}
               </h3>
-              <p className="text-[11px] text-amber-100/90">
+              <p className="text-[11px] text-amber-400/90 font-medium">
                 Gestión Integral de Recetas & Comunidad Gastronómica
               </p>
             </div>
@@ -268,14 +268,14 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           <button
             onClick={onClose}
             aria-label="Cerrar modal"
-            className="text-amber-100 hover:text-white p-1 rounded-xl hover:bg-white/10 transition-colors cursor-pointer"
+            className="text-zinc-400 hover:text-zinc-100 p-1.5 rounded-xl hover:bg-zinc-800 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Toggle Navigation */}
-        <div className="flex border-b border-stone-200 bg-[#F6F3F2] px-6 pt-3 gap-2 shrink-0">
+        <div className="flex border-b border-zinc-800 bg-zinc-950/60 px-6 pt-3 gap-2 shrink-0">
           <button
             type="button"
             onClick={() => {
@@ -284,8 +284,8 @@ export const AuthModals: React.FC<AuthModalProps> = ({
             }}
             className={`pb-2.5 px-3 text-xs font-bold transition-all border-b-2 cursor-pointer ${
               mode === 'login'
-                ? 'border-[#E09F3E] text-[#835500]'
-                : 'border-transparent text-stone-500 hover:text-stone-800'
+                ? 'border-amber-500 text-amber-400'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             Iniciar Sesión
@@ -298,8 +298,8 @@ export const AuthModals: React.FC<AuthModalProps> = ({
             }}
             className={`pb-2.5 px-3 text-xs font-bold transition-all border-b-2 cursor-pointer ${
               mode === 'register'
-                ? 'border-[#E09F3E] text-[#835500]'
-                : 'border-transparent text-stone-500 hover:text-stone-800'
+                ? 'border-amber-500 text-amber-400'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             Registrarse
@@ -312,8 +312,8 @@ export const AuthModals: React.FC<AuthModalProps> = ({
             }}
             className={`pb-2.5 px-3 text-xs font-bold transition-all border-b-2 cursor-pointer ${
               mode === 'recovery' || mode === 'new_password'
-                ? 'border-[#E09F3E] text-[#835500]'
-                : 'border-transparent text-stone-500 hover:text-stone-800'
+                ? 'border-amber-500 text-amber-400'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             Recuperar Clave
@@ -332,7 +332,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                   await loginWithProvider('google');
                   onClose();
                 }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 border border-stone-300 rounded-xl bg-white hover:bg-stone-50 text-xs font-semibold text-stone-700 shadow-xs transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-2.5 py-2.5 px-4 border border-zinc-700 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-xs font-semibold text-zinc-200 shadow-sm transition-colors cursor-pointer"
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -344,8 +344,8 @@ export const AuthModals: React.FC<AuthModalProps> = ({
               </button>
 
               <div className="relative flex items-center justify-center my-3">
-                <div className="border-t border-stone-200 w-full"></div>
-                <span className="bg-white px-3 text-[11px] uppercase tracking-wider text-stone-400 font-semibold absolute">
+                <div className="border-t border-zinc-800 w-full"></div>
+                <span className="bg-zinc-900 px-3 text-[11px] uppercase tracking-wider text-zinc-500 font-semibold absolute">
                   o con tu correo
                 </span>
               </div>
@@ -356,70 +356,70 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           {mode === 'login' && (
             <form onSubmit={handleLoginSubmit} className="space-y-3.5">
               {loginError && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                <div className="p-3 bg-red-950/60 border border-red-800 rounded-xl text-xs text-red-300 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
                   <span>{loginError}</span>
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">
+                <label className="block text-xs font-bold text-zinc-200 mb-1">
                   Correo Electrónico
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
+                  <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="email"
                     required
                     placeholder="ej. mateo.rossi@gusto.app"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="text-xs font-bold text-stone-700">Contraseña</label>
+                  <label className="text-xs font-bold text-zinc-200">Contraseña</label>
                   <button
                     type="button"
                     onClick={() => {
                       setMode('recovery');
                       setResetError('');
                     }}
-                    className="text-xs font-semibold text-[#835500] hover:underline cursor-pointer"
+                    className="text-xs font-semibold text-amber-400 hover:text-amber-300 hover:underline cursor-pointer"
                   >
                     ¿Olvidaste tu contraseña?
                   </button>
                 </div>
                 <div className="relative">
-                  <KeyRound className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
+                  <KeyRound className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="password"
                     required
                     placeholder="••••••••"
                     value={loginPass}
                     onChange={(e) => setLoginPass(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-xl shadow-sm transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2"
               >
                 <span>Ingresar a Gusto</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <div className="text-center text-xs text-stone-600 pt-2 border-t border-stone-100">
+              <div className="text-center text-xs text-zinc-400 pt-2 border-t border-zinc-800">
                 ¿No tienes cuenta aún?{' '}
                 <button
                   type="button"
                   onClick={() => setMode('register')}
-                  className="font-bold text-[#835500] hover:underline cursor-pointer"
+                  className="font-bold text-amber-400 hover:underline cursor-pointer"
                 >
                   Crear una nueva cuenta
                 </button>
@@ -431,118 +431,118 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           {mode === 'register' && (
             <form onSubmit={handleRegisterSubmit} className="space-y-3">
               {regError && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                <div className="p-3 bg-red-950/60 border border-red-800 rounded-xl text-xs text-red-300 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
                   <span>{regError}</span>
                 </div>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 mb-1">Nombre Completo</label>
+                  <label className="block text-xs font-bold text-zinc-200 mb-1">Nombre Completo</label>
                   <div className="relative">
-                    <User className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+                    <User className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
                     <input
                       type="text"
                       required
                       placeholder="Ej. Sofía Martínez"
                       value={regName}
                       onChange={(e) => setRegName(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 mb-1">Alias / Username</label>
+                  <label className="block text-xs font-bold text-zinc-200 mb-1">Alias / Username</label>
                   <div className="relative">
-                    <AtSign className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+                    <AtSign className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
                     <input
                       type="text"
                       required
                       placeholder="sofia_chef"
                       value={regUsername}
                       onChange={(e) => setRegUsername(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">Correo Electrónico</label>
+                <label className="block text-xs font-bold text-zinc-200 mb-1">Correo Electrónico</label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+                  <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
                   <input
                     type="email"
                     required
                     placeholder="sofia@ejemplo.com"
                     value={regEmail}
                     onChange={(e) => setRegEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 mb-1">Contraseña</label>
+                  <label className="block text-xs font-bold text-zinc-200 mb-1">Contraseña</label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+                    <Lock className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
                     <input
                       type="password"
                       required
                       placeholder="Mínimo 6 caracteres"
                       value={regPass}
                       onChange={(e) => setRegPass(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 mb-1">Confirmar Contraseña</label>
+                  <label className="block text-xs font-bold text-zinc-200 mb-1">Confirmar Contraseña</label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
+                    <Lock className="w-4 h-4 text-zinc-400 absolute left-3 top-2.5" />
                     <input
                       type="password"
                       required
                       placeholder="Repetir contraseña"
                       value={regPassConfirm}
                       onChange={(e) => setRegPassConfirm(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-2xl flex items-start gap-2.5">
-                <ChefHat className="w-5 h-5 text-[#835500] shrink-0 mt-0.5" />
+              <div className="p-3 bg-zinc-950 border border-amber-500/30 rounded-2xl flex items-start gap-2.5">
+                <ChefHat className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <div className="font-bold text-stone-800 flex items-center gap-2">
+                  <div className="font-bold text-zinc-100 flex items-center gap-2">
                     <span>Nivel de Cuenta: Básico</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 bg-stone-200 text-stone-700 rounded-full">
+                    <span className="text-[10px] font-bold px-2 py-0.5 bg-zinc-800 text-amber-400 border border-zinc-700 rounded-full">
                       Gratuito
                     </span>
                   </div>
-                  <p className="text-[11px] text-stone-600 mt-0.5 leading-snug">
-                    Tu cuenta se creará en el nivel básico. Para subir a <strong>Chef Premium</strong> podrás ingresar tus datos de pago en cualquier momento desde tu perfil o barra superior.
+                  <p className="text-[11px] text-zinc-400 mt-0.5 leading-snug">
+                    Tu cuenta se creará en el nivel básico. Para subir a <strong className="text-amber-400">Chef Premium</strong> podrás ingresar tus datos de pago en cualquier momento desde tu perfil o barra superior.
                   </p>
                 </div>
               </div>
 
               {/* Photo Upload & Presets */}
-              <div className="space-y-1.5 p-3 rounded-2xl bg-stone-50 border border-stone-200">
-                <label className="block text-xs font-bold text-stone-700">Foto de Perfil</label>
+              <div className="space-y-1.5 p-3 rounded-2xl bg-zinc-950 border border-zinc-800">
+                <label className="block text-xs font-bold text-zinc-200">Foto de Perfil</label>
                 <div className="flex items-center gap-3">
                   <img
                     src={regAvatar}
                     alt="Preview"
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-[#E09F3E]"
+                    className="w-12 h-12 rounded-full object-cover ring-2 ring-amber-500"
                   />
                   <div className="flex-1 space-y-1">
-                    <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-700 hover:bg-stone-50 cursor-pointer shadow-2xs">
-                      <Upload className="w-3.5 h-3.5 text-[#835500]" />
+                    <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded-xl text-xs font-semibold text-zinc-200 hover:bg-zinc-800 cursor-pointer shadow-xs">
+                      <Upload className="w-3.5 h-3.5 text-amber-400" />
                       <span>Subir foto de mi equipo</span>
                       <input
                         type="file"
@@ -558,7 +558,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                           type="button"
                           onClick={() => setRegAvatar(p.url)}
                           className={`w-7 h-7 rounded-full overflow-hidden border-2 cursor-pointer transition-transform ${
-                            regAvatar === p.url ? 'border-[#E09F3E] scale-110' : 'border-transparent opacity-70'
+                            regAvatar === p.url ? 'border-amber-400 scale-110' : 'border-transparent opacity-60'
                           }`}
                           title={p.label}
                         >
@@ -571,23 +571,23 @@ export const AuthModals: React.FC<AuthModalProps> = ({
               </div>
 
               {/* Argentine Delivery Address Section */}
-              <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-2.5">
+              <div className="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-stone-800 flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4 text-[#E09F3E]" />
+                  <label className="text-xs font-bold text-zinc-100 flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4 text-amber-400" />
                     <span>Dirección Principal de Entrega</span>
                   </label>
-                  <span className="text-[10px] font-medium text-[#835500] bg-amber-100 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-medium text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-full">
                     Obligatoria para envíos
                   </span>
                 </div>
-                <p className="text-[11px] text-stone-600 leading-snug">
-                  Configura tu domicilio para calcular stock real en supermercados cercanos y tarifas de entrega en pesos argentinos ($ ARS).
+                <p className="text-[11px] text-zinc-400 leading-snug">
+                  Configura tu domicilio para calcular stock real y envíos en pesos argentinos ($ ARS).
                 </p>
 
                 {/* Quick Presets */}
                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                  <span className="text-[10px] font-bold text-stone-500">Ejemplos:</span>
+                  <span className="text-[10px] font-bold text-zinc-500">Ejemplos:</span>
                   {[
                     { label: 'Palermo, CABA', street: 'Av. Santa Fe', number: '3420', apt: '4B', city: 'Palermo, CABA', prov: 'CABA', cp: '1414' },
                     { label: 'Belgrano, CABA', street: 'Av. Cabildo', number: '2150', apt: '8A', city: 'Belgrano, CABA', prov: 'CABA', cp: '1428' },
@@ -605,7 +605,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                         setRegProvince(p.prov);
                         setRegPostalCode(p.cp);
                       }}
-                      className="text-[10px] bg-white hover:bg-amber-100 text-[#835500] font-semibold px-2 py-0.5 rounded-lg border border-amber-200 transition-colors cursor-pointer"
+                      className="text-[10px] bg-zinc-900 hover:bg-zinc-800 text-amber-400 font-semibold px-2 py-0.5 rounded-lg border border-zinc-700 transition-colors cursor-pointer"
                     >
                       {p.label}
                     </button>
@@ -614,79 +614,79 @@ export const AuthModals: React.FC<AuthModalProps> = ({
 
                 <div className="grid grid-cols-12 gap-2">
                   <div className="col-span-8">
-                    <label className="block text-[11px] font-bold text-stone-700 mb-0.5">Calle / Avenida</label>
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-0.5">Calle / Avenida</label>
                     <input
                       type="text"
                       required
                       placeholder="Ej: Av. Santa Fe"
                       value={regStreet}
                       onChange={(e) => setRegStreet(e.target.value)}
-                      className="w-full px-2.5 py-1.5 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-2.5 py-1.5 rounded-xl border border-zinc-800 text-xs bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                   <div className="col-span-4">
-                    <label className="block text-[11px] font-bold text-stone-700 mb-0.5">Número</label>
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-0.5">Número</label>
                     <input
                       type="text"
                       required
                       placeholder="3420"
                       value={regNumber}
                       onChange={(e) => setRegNumber(e.target.value)}
-                      className="w-full px-2.5 py-1.5 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-2.5 py-1.5 rounded-xl border border-zinc-800 text-xs bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-12 gap-2">
                   <div className="col-span-4">
-                    <label className="block text-[11px] font-bold text-stone-700 mb-0.5">Piso / Depto</label>
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-0.5">Piso / Depto</label>
                     <input
                       type="text"
                       placeholder="4B (opcional)"
                       value={regApartment}
                       onChange={(e) => setRegApartment(e.target.value)}
-                      className="w-full px-2.5 py-1.5 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-2.5 py-1.5 rounded-xl border border-zinc-800 text-xs bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                   <div className="col-span-5">
-                    <label className="block text-[11px] font-bold text-stone-700 mb-0.5">Ciudad / Barrio</label>
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-0.5">Ciudad / Barrio</label>
                     <input
                       type="text"
                       required
                       placeholder="Palermo, CABA"
                       value={regCity}
                       onChange={(e) => setRegCity(e.target.value)}
-                      className="w-full px-2.5 py-1.5 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-2.5 py-1.5 rounded-xl border border-zinc-800 text-xs bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                   <div className="col-span-3">
-                    <label className="block text-[11px] font-bold text-stone-700 mb-0.5">C. Postal (CP)</label>
+                    <label className="block text-[11px] font-bold text-zinc-300 mb-0.5">C. Postal (CP)</label>
                     <input
                       type="text"
                       required
                       placeholder="1414"
                       value={regPostalCode}
                       onChange={(e) => setRegPostalCode(e.target.value)}
-                      className="w-full px-2.5 py-1.5 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                      className="w-full px-2.5 py-1.5 rounded-xl border border-zinc-800 text-xs bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-700 mb-0.5">Aclaraciones de entrega (opcional)</label>
+                  <label className="block text-[11px] font-bold text-zinc-300 mb-0.5">Aclaraciones de entrega (opcional)</label>
                   <input
                     type="text"
                     placeholder="Timbre, piso, entre calles, o dejar en portería"
                     value={regAddressNotes}
                     onChange={(e) => setRegAddressNotes(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-stone-300 text-xs bg-white focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full px-2.5 py-1.5 rounded-xl border border-zinc-800 text-xs bg-zinc-900 text-zinc-100 placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
 
               {/* Initial Dietary Preferences */}
               <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">
+                <label className="block text-xs font-bold text-zinc-200 mb-1">
                   Preferencias Dietéticas Iniciales:
                 </label>
                 <div className="flex flex-wrap gap-1.5">
@@ -697,8 +697,8 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                       onClick={() => toggleDietTag(opt.id)}
                       className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer ${
                         regDietary.includes(opt.id)
-                          ? 'bg-[#835500] text-white shadow-2xs'
-                          : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-50'
+                          ? 'bg-amber-500 text-zinc-950 font-bold shadow-sm'
+                          : 'bg-zinc-950 text-zinc-300 border border-zinc-800 hover:border-zinc-700'
                       }`}
                     >
                       {regDietary.includes(opt.id) ? '✓ ' : '+ '}
@@ -710,18 +710,18 @@ export const AuthModals: React.FC<AuthModalProps> = ({
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-xl shadow-sm transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2 mt-2"
+                className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2 mt-2"
               >
                 <span>Completar Registro & Empezar a Cocinar</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <div className="text-center text-xs text-stone-600 pt-2 border-t border-stone-100">
+              <div className="text-center text-xs text-zinc-400 pt-2 border-t border-zinc-800">
                 ¿Ya tienes una cuenta?{' '}
                 <button
                   type="button"
                   onClick={() => setMode('login')}
-                  className="font-bold text-[#835500] hover:underline cursor-pointer"
+                  className="font-bold text-amber-400 hover:underline cursor-pointer"
                 >
                   Inicia sesión aquí
                 </button>
@@ -733,30 +733,30 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           {mode === 'recovery' && (
             <div className="space-y-4">
               {resetSimulation ? (
-                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-3">
-                  <div className="flex items-center gap-2 text-emerald-800">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div className="p-4 bg-zinc-950 rounded-2xl border border-emerald-500/40 space-y-3">
+                  <div className="flex items-center gap-2 text-emerald-400">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                     <span className="font-bold text-sm">¡Enlace seguro generado exitosamente!</span>
                   </div>
                   
-                  <p className="text-xs text-emerald-900 leading-relaxed">
-                    Hemos generado el enlace de un solo uso para blanquear la contraseña de la cuenta <strong className="font-bold">{resetSimulation.email}</strong> perteneciente a <strong>{resetSimulation.userName}</strong>.
+                  <p className="text-xs text-zinc-300 leading-relaxed">
+                    Hemos generado el enlace de un solo uso para blanquear la contraseña de la cuenta <strong className="font-bold text-amber-400">{resetSimulation.email}</strong> perteneciente a <strong>{resetSimulation.userName}</strong>.
                   </p>
 
                   {/* Interactive simulated email inbox */}
-                  <div className="bg-white p-3.5 rounded-xl border border-emerald-300 shadow-xs space-y-2 text-xs">
-                    <div className="flex items-center justify-between text-stone-500 text-[10px] pb-1 border-b border-stone-100">
-                      <span>De: <strong>seguridad@gusto.app</strong></span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-[#E09F3E]" /> Expira a las {resetSimulation.expiresAt}
+                  <div className="bg-zinc-900 p-3.5 rounded-xl border border-zinc-800 shadow-md space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-zinc-400 text-[10px] pb-1 border-b border-zinc-800">
+                      <span>De: <strong className="text-zinc-200">seguridad@gusto.app</strong></span>
+                      <span className="flex items-center gap-1 text-amber-400">
+                        <Clock className="w-3 h-3 text-amber-400" /> Expira a las {resetSimulation.expiresAt}
                       </span>
                     </div>
                     <div>
-                      <span className="font-bold text-stone-800 block text-xs">
+                      <span className="font-bold text-zinc-100 block text-xs">
                         Restablecimiento de credenciales para Gusto
                       </span>
-                      <p className="text-stone-600 text-[11px] mt-0.5">
-                        Token temporal: <code className="bg-stone-100 px-1.5 py-0.5 rounded text-stone-800 font-mono">{resetSimulation.token}</code>
+                      <p className="text-zinc-400 text-[11px] mt-0.5">
+                        Token temporal: <code className="bg-zinc-950 px-1.5 py-0.5 rounded text-amber-400 font-mono border border-zinc-800">{resetSimulation.token}</code>
                       </p>
                     </div>
 
@@ -766,7 +766,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                         setMode('new_password');
                         setResetError('');
                       }}
-                      className="w-full mt-2 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+                      className="w-full mt-2 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>Hacer clic en el enlace y cambiar contraseña ahora</span>
@@ -780,14 +780,14 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                         clearResetSimulation();
                         setRecoveryEmail('');
                       }}
-                      className="text-stone-500 hover:text-stone-800 underline cursor-pointer"
+                      className="text-zinc-400 hover:text-zinc-200 underline cursor-pointer"
                     >
                       Solicitar para otro correo
                     </button>
                     <button
                       type="button"
                       onClick={() => setMode('login')}
-                      className="text-[#835500] font-bold hover:underline cursor-pointer"
+                      className="text-amber-400 font-bold hover:underline cursor-pointer"
                     >
                       Volver a iniciar sesión
                     </button>
@@ -796,36 +796,36 @@ export const AuthModals: React.FC<AuthModalProps> = ({
               ) : (
                 <form onSubmit={handleRecoverySubmit} className="space-y-4">
                   {resetError && (
-                    <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                    <div className="p-3 bg-red-950/60 border border-red-800 rounded-xl text-xs text-red-300 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
                       <span>{resetError}</span>
                     </div>
                   )}
 
-                  <p className="text-xs text-stone-600 leading-relaxed">
+                  <p className="text-xs text-zinc-300 leading-relaxed">
                     Ingresa el correo electrónico asociado a tu cuenta de Gusto. Generaremos un enlace temporal seguro con token de recuperación para que puedas restablecer tu clave inmediatamente.
                   </p>
 
                   <div>
-                    <label className="block text-xs font-bold text-stone-700 mb-1">
+                    <label className="block text-xs font-bold text-zinc-200 mb-1">
                       Correo Electrónico Registrado
                     </label>
                     <div className="relative">
-                      <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
+                      <Mail className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
                       <input
                         type="email"
                         required
                         placeholder="ej. mateo.rossi@gusto.app"
                         value={recoveryEmail}
                         onChange={(e) => setRecoveryEmail(e.target.value)}
-                        className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                        className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                       />
                     </div>
                   </div>
 
-                  <div className="bg-stone-50 p-2.5 rounded-xl border border-stone-200 text-[11px] text-stone-600 space-y-1">
-                    <span className="font-bold text-stone-800 block">Correos demo disponibles:</span>
-                    <ul className="list-disc list-inside space-y-0.5 text-stone-600">
+                  <div className="bg-zinc-950 p-2.5 rounded-xl border border-zinc-800 text-[11px] text-zinc-400 space-y-1">
+                    <span className="font-bold text-zinc-200 block">Correos demo disponibles:</span>
+                    <ul className="list-disc list-inside space-y-0.5 text-zinc-400">
                       <li><code>mateo.rossi@gusto.app</code></li>
                       <li><code>lucia.valenzuela@gusto.app</code></li>
                       <li><code>camila.rios@gusto.app</code></li>
@@ -835,7 +835,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
 
                   <button
                     type="submit"
-                    className="w-full py-2.5 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-xl shadow-sm transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-xl shadow-md shadow-amber-500/20 transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2"
                   >
                     <span>Generar Enlace de Recuperación</span>
                     <ArrowRight className="w-4 h-4" />
@@ -845,7 +845,7 @@ export const AuthModals: React.FC<AuthModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setMode('login')}
-                      className="text-xs text-stone-500 hover:text-stone-800 underline cursor-pointer"
+                      className="text-xs text-zinc-400 hover:text-zinc-200 underline cursor-pointer"
                     >
                       Cancelar y volver a login
                     </button>
@@ -859,74 +859,74 @@ export const AuthModals: React.FC<AuthModalProps> = ({
           {mode === 'new_password' && (
             <form onSubmit={handleNewPasswordSubmit} className="space-y-4">
               {resetError && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                <div className="p-3 bg-red-950/60 border border-red-800 rounded-xl text-xs text-red-300 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
                   <span>{resetError}</span>
                 </div>
               )}
 
-              <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
-                <span className="font-bold block">Restableciendo contraseña para:</span>
-                <span className="font-medium">{resetSimulation?.userName || 'Usuario Gusto'} ({resetSimulation?.email || recoveryEmail || 'correo verificado'})</span>
+              <div className="p-3 bg-zinc-950 rounded-xl border border-amber-500/30 text-xs text-zinc-300 space-y-1">
+                <span className="font-bold text-amber-400 block">Restableciendo contraseña para:</span>
+                <span className="font-medium text-zinc-100">{resetSimulation?.userName || 'Usuario Gusto'} ({resetSimulation?.email || recoveryEmail || 'correo verificado'})</span>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">
+                <label className="block text-xs font-bold text-zinc-200 mb-1">
                   Código de Seguridad / Token Temporal
                 </label>
                 <div className="relative">
-                  <ShieldCheck className="w-4 h-4 text-[#E09F3E] absolute left-3 top-3" />
+                  <ShieldCheck className="w-4 h-4 text-amber-400 absolute left-3 top-3" />
                   <input
                     type="text"
                     required
                     placeholder="Ej: GST-84920"
                     value={tokenInput}
                     onChange={(e) => setTokenInput(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
-                <p className="text-[10px] text-stone-500 mt-1">
+                <p className="text-[10px] text-zinc-500 mt-1">
                   Código de 6 caracteres enviado a tu casilla o autocompletado desde el enlace.
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">
+                <label className="block text-xs font-bold text-zinc-200 mb-1">
                   Nueva Contraseña
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
+                  <Lock className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="password"
                     required
                     placeholder="Mínimo 6 caracteres"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 mb-1">
+                <label className="block text-xs font-bold text-zinc-200 mb-1">
                   Confirmar Nueva Contraseña
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
+                  <Lock className="w-4 h-4 text-zinc-400 absolute left-3 top-3" />
                   <input
                     type="password"
                     required
                     placeholder="Repite la nueva contraseña"
                     value={newPasswordConfirm}
                     onChange={(e) => setNewPasswordConfirm(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-[#E09F3E] focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-sm transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-md transition-all cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Actualizar Contraseña e Iniciar Sesión</span>

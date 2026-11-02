@@ -58,7 +58,8 @@ import {
   subscribeToUserOrders,
   saveOrderToFirestore,
   seedInitialRecipesIfEmpty,
-  seedInitialUsersToFirestore
+  seedInitialUsersToFirestore,
+  addCommentToFirestore
 } from '../firebase/firestoreService';
 
 interface AppContextType {
@@ -389,96 +390,109 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     // Listen to Firebase Auth state
     const unsubAuth = onAuthStateChanged(auth, async (fbUser) => {
-      if (unsubProfileDoc) {
-        unsubProfileDoc();
-        unsubProfileDoc = null;
-      }
+      try {
+        if (unsubProfileDoc) {
+          unsubProfileDoc();
+          unsubProfileDoc = null;
+        }
 
-      if (fbUser) {
-        setCurrentUserId(fbUser.uid);
+        if (fbUser) {
+          setCurrentUserId(fbUser.uid);
 
-        // Fetch live user profile document from Firestore to ensure role and permissions are updated
-        const remoteProfile = await fetchUserProfile(fbUser.uid);
-
-        setUsers((prev) => {
-          const cleanEmail = (fbUser.email || '').toLowerCase();
-          const existing = prev.find(
-            (u) => u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail)
-          );
-
-          if (remoteProfile) {
-            const merged: UserProfile = {
-              ...(existing || {}),
-              ...remoteProfile,
-              id: fbUser.uid,
-              role: remoteProfile.role || existing?.role || 'usuario',
-            };
-            syncUserProfile(merged).catch(console.warn);
-            if (existing) {
-              return prev.map((u) => (u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail) ? merged : u));
-            } else {
-              return [merged, ...prev];
-            }
+          // Fetch live user profile document from Firestore to ensure role and permissions are updated
+          let remoteProfile: UserProfile | null = null;
+          try {
+            remoteProfile = await fetchUserProfile(fbUser.uid);
+          } catch (err) {
+            console.warn('[onAuthStateChanged] Could not fetch remote user profile (handled):', err);
           }
 
-          if (existing) {
-            syncUserProfile(existing).catch(console.warn);
-            return prev;
-          }
+          setUsers((prev) => {
+            const cleanEmail = (fbUser.email || '').toLowerCase();
+            const existing = prev.find(
+              (u) => u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail)
+            );
 
-          const newUser: UserProfile = {
-            id: fbUser.uid,
-            name: fbUser.displayName || 'Chef Gusto',
-            username: (cleanEmail ? cleanEmail.split('@')[0] : `chef_${fbUser.uid.slice(0, 5)}`)
-              .toLowerCase()
-              .replace(/[^a-z0-9_]/g, '_'),
-            email: cleanEmail || `${fbUser.uid}@gusto.app`,
-            avatar:
-              fbUser.photoURL ||
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
-            role: 'usuario',
-            bio: 'Perfil autenticado en Firebase.',
-            specialties: ['Cocina Casera'],
-            dietaryPreferences: [],
-            subprofiles: [],
-            addresses: [
-              {
-                id: `addr-${fbUser.uid}`,
-                alias: 'Principal',
-                street: 'Av. Corrientes',
-                number: '1450',
-                city: 'CABA',
-                province: 'Buenos Aires',
-                postalCode: '1042',
-                isDefault: true,
-                createdAt: new Date().toISOString(),
-              },
-            ],
-            followersCount: 0,
-            followingUserIds: ['user-mateo'],
-            wishlistRecipeIds: [],
-            location: 'Buenos Aires, CABA',
-          };
-
-          syncUserProfile(newUser).catch(console.warn);
-          return [newUser, ...prev];
-        });
-
-        // Real-time listener for current user document in Firestore (updates role dynamically when changed in Firestore)
-        unsubProfileDoc = subscribeToUserProfile(fbUser.uid, (updatedProfile) => {
-          setUsers((prev) =>
-            prev.map((u) => {
-              if (u.id === fbUser.uid) {
-                return {
-                  ...u,
-                  ...updatedProfile,
-                  role: updatedProfile.role || u.role,
-                };
+            if (remoteProfile) {
+              const merged: UserProfile = {
+                ...(existing || {}),
+                ...remoteProfile,
+                id: fbUser.uid,
+                role: remoteProfile.role || existing?.role || 'usuario',
+              };
+              syncUserProfile(merged).catch(console.warn);
+              if (existing) {
+                return prev.map((u) => (u.id === fbUser.uid || (cleanEmail && u.email.toLowerCase() === cleanEmail) ? merged : u));
+              } else {
+                return [merged, ...prev];
               }
-              return u;
-            })
-          );
-        });
+            }
+
+            if (existing) {
+              syncUserProfile(existing).catch(console.warn);
+              return prev;
+            }
+
+            const newUser: UserProfile = {
+              id: fbUser.uid,
+              name: fbUser.displayName || 'Chef Gusto',
+              username: (cleanEmail ? cleanEmail.split('@')[0] : `chef_${fbUser.uid.slice(0, 5)}`)
+                .toLowerCase()
+                .replace(/[^a-z0-9_]/g, '_'),
+              email: cleanEmail || `${fbUser.uid}@gusto.app`,
+              avatar:
+                fbUser.photoURL ||
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+              role: 'usuario',
+              bio: 'Perfil autenticado en Firebase.',
+              specialties: ['Cocina Casera'],
+              dietaryPreferences: [],
+              subprofiles: [],
+              addresses: [
+                {
+                  id: `addr-${fbUser.uid}`,
+                  alias: 'Principal',
+                  street: 'Av. Corrientes',
+                  number: '1450',
+                  city: 'CABA',
+                  province: 'Buenos Aires',
+                  postalCode: '1042',
+                  isDefault: true,
+                  createdAt: new Date().toISOString(),
+                },
+              ],
+              followersCount: 0,
+              followingUserIds: ['user-mateo'],
+              wishlistRecipeIds: [],
+              location: 'Buenos Aires, CABA',
+            };
+
+            syncUserProfile(newUser).catch(console.warn);
+            return [newUser, ...prev];
+          });
+
+          // Real-time listener for current user document in Firestore (updates role dynamically when changed in Firestore)
+          try {
+            unsubProfileDoc = subscribeToUserProfile(fbUser.uid, (updatedProfile) => {
+              setUsers((prev) =>
+                prev.map((u) => {
+                  if (u.id === fbUser.uid) {
+                    return {
+                      ...u,
+                      ...updatedProfile,
+                      role: updatedProfile.role || u.role,
+                    };
+                  }
+                  return u;
+                })
+              );
+            });
+          } catch (subErr) {
+            console.warn('[onAuthStateChanged] Profile subscription notice:', subErr);
+          }
+        }
+      } catch (authListenerErr) {
+        console.warn('[onAuthStateChanged] Error in auth state callback:', authListenerErr);
       }
     });
 
@@ -1494,7 +1508,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       parentCommentId
     };
     setComments(prev => [...prev, newComment]);
-    setRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, commentsCount: r.commentsCount + 1 } : r));
+    setRecipes(prev => prev.map(r => r.id === recipeId ? { ...r, commentsCount: (r.commentsCount || 0) + 1 } : r));
+    addCommentToFirestore(recipeId, newComment).catch(console.warn);
     showToast('Comentario publicado en la receta.');
   };
 

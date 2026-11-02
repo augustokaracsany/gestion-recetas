@@ -4,7 +4,7 @@ import { db } from '../firebase/config';
 import { collection, doc, writeBatch } from 'firebase/firestore';
 import { UserProfile, Recipe, DietaryTag } from '../types';
 import { INITIAL_RECIPES } from '../data/seedData';
-import { seedCommentsForRecipes, seedMassiveRecipesWithComments } from '../firebase/firestoreService';
+import { seedCommentsForRecipes, seedMassiveRecipesWithComments, fixAllRecipesCommentsCount } from '../firebase/firestoreService';
 import {
   ShieldCheck,
   Database,
@@ -17,7 +17,8 @@ import {
   Server,
   Lock,
   MessageSquare,
-  ChefHat
+  ChefHat,
+  RefreshCw
 } from 'lucide-react';
 
 const FIRST_NAMES = ['Sofía', 'Mateo', 'Lucía', 'Lucas', 'Valentina', 'Benjamín', 'Martina', 'Joaquín', 'Catalina', 'Thiago', 'Emma', 'Santino', 'Juana', 'Bautista', 'Olivia', 'Felipe'];
@@ -46,6 +47,7 @@ export const AdminSeederPanel: React.FC = () => {
   const [isSeeding, setIsSeeding] = useState(false);
   const [isSeedingComments, setIsSeedingComments] = useState(false);
   const [isSeedingMassive, setIsSeedingMassive] = useState(false);
+  const [isFixingCommentsCount, setIsFixingCommentsCount] = useState(false);
   const [progressText, setProgressText] = useState('');
   const [stats, setStats] = useState<{ usersCreated: number; recipesCreated: number } | null>(null);
 
@@ -53,6 +55,20 @@ export const AdminSeederPanel: React.FC = () => {
   if (!currentUser || currentUser.role !== 'admin') {
     return null;
   }
+
+  const handleFixComments = async () => {
+    setIsFixingCommentsCount(true);
+    setProgressText('Recalculando e inscribiendo el total real de comentarios en cada receta...');
+    try {
+      const res = await fixAllRecipesCommentsCount((msg) => setProgressText(msg));
+      setIsFixingCommentsCount(false);
+      showToast(res.message);
+    } catch (err: any) {
+      console.error('Error fixing comments count:', err);
+      setIsFixingCommentsCount(false);
+      showToast('Error al corregir contadores de comentarios en Firestore.');
+    }
+  };
 
   const handleSeedComments = async () => {
     setIsSeedingComments(true);
@@ -336,115 +352,130 @@ export const AdminSeederPanel: React.FC = () => {
     }
   };
 
-  const isAnySeeding = isSeeding || isSeedingComments || isSeedingMassive;
+  const isAnySeeding = isSeeding || isSeedingComments || isSeedingMassive || isFixingCommentsCount;
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 via-white to-orange-50 border border-amber-200/80 rounded-3xl p-6 shadow-sm space-y-5 my-6">
-      <div className="flex items-center justify-between border-b border-amber-200/60 pb-4">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-sm space-y-5 my-6">
+      <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#E09F3E] text-white flex items-center justify-center shadow-md">
-            <Server className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-2xl bg-amber-500 text-zinc-950 flex items-center justify-center shadow-md">
+            <Server className="w-5 h-5 text-zinc-950" />
           </div>
           <div>
-            <h3 className="font-display font-bold text-lg text-stone-900">
+            <h3 className="font-display font-bold text-lg text-zinc-100">
               Panel de Administración y Seeder Avanzado
             </h3>
-            <p className="text-xs text-stone-600">
-              Herramienta exclusiva para administradores (Role: <span className="font-mono font-bold text-[#835500]">admin</span>)
+            <p className="text-xs text-zinc-400">
+              Herramienta exclusiva para administradores (Role: <span className="font-mono font-bold text-amber-400">admin</span>)
             </p>
           </div>
         </div>
-        <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-extrabold flex items-center gap-1">
+        <span className="px-3 py-1 bg-red-950/80 border border-red-800 text-red-300 rounded-full text-xs font-bold flex items-center gap-1">
           <Lock className="w-3.5 h-3.5" />
           <span>Acceso Restringido Admin</span>
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-        <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-2xs flex items-center gap-3">
-          <Users className="w-8 h-8 text-[#E09F3E]" />
+        <div className="p-3.5 bg-zinc-950 rounded-2xl border border-zinc-800 shadow-2xs flex items-center gap-3">
+          <Users className="w-8 h-8 text-amber-400" />
           <div>
-            <div className="font-bold text-stone-800">100 Cuentas de Usuario</div>
-            <div className="text-stone-500 text-[11px]">Básicas, Premium, Editors & Admin</div>
+            <div className="font-bold text-zinc-200">100 Cuentas de Usuario</div>
+            <div className="text-zinc-500 text-[11px]">Básicas, Premium, Editors y Admin</div>
           </div>
         </div>
 
-        <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-2xs flex items-center gap-3">
-          <UtensilsCrossed className="w-8 h-8 text-[#E09F3E]" />
+        <div className="p-3.5 bg-zinc-950 rounded-2xl border border-zinc-800 shadow-2xs flex items-center gap-3">
+          <UtensilsCrossed className="w-8 h-8 text-amber-400" />
           <div>
-            <div className="font-bold text-stone-800">500 Recetas de Autor</div>
-            <div className="text-stone-500 text-[11px]">Vinculadas aleatoriamente a los autores</div>
+            <div className="font-bold text-zinc-200">500 Recetas de Autor</div>
+            <div className="text-zinc-500 text-[11px]">Vinculadas aleatoriamente a los autores</div>
           </div>
         </div>
 
-        <div className="p-3.5 bg-white rounded-2xl border border-stone-200 shadow-2xs flex items-center gap-3">
-          <MessageSquare className="w-8 h-8 text-[#E09F3E]" />
+        <div className="p-3.5 bg-zinc-950 rounded-2xl border border-zinc-800 shadow-2xs flex items-center gap-3">
+          <MessageSquare className="w-8 h-8 text-amber-400" />
           <div>
-            <div className="font-bold text-stone-800">Subcolección de Comentarios</div>
-            <div className="text-stone-500 text-[11px]">comentarios de prueba en subcolecciones</div>
+            <div className="font-bold text-zinc-200">10-20 Comentarios por Receta</div>
+            <div className="text-zinc-500 text-[11px]">Subcolección con fechas, likes y conteo sinc</div>
           </div>
         </div>
       </div>
 
       {isAnySeeding && (
-        <div className="p-3 bg-amber-100/70 border border-amber-300 rounded-2xl text-xs font-bold text-[#835500] flex items-center gap-2">
-          <Loader2 className="w-4 h-4 animate-spin text-[#E09F3E]" />
+        <div className="p-3 bg-amber-950/40 border border-amber-800/80 rounded-2xl text-xs font-bold text-amber-300 flex items-center gap-2">
+          <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
           <span>{progressText}</span>
         </div>
       )}
 
       {stats && !isAnySeeding && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-bold text-emerald-800 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-          <span>¡Se inyectaron con éxito {stats.usersCreated} usuarios y {stats.recipesCreated} recetas en Firestore!</span>
+        <div className="p-3 bg-emerald-950/40 border border-emerald-800/80 rounded-2xl text-xs font-bold text-emerald-300 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <span>Se inyectaron con éxito {stats.usersCreated} usuarios y {stats.recipesCreated} recetas en Firestore.</span>
         </div>
       )}
 
       {/* Buttons Grid for Seeder Actions */}
-      <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Button 1: Inyectar 100 Usuarios y 500 Recetas */}
         <button
           type="button"
           disabled={isAnySeeding}
           onClick={handleRunSeeder}
-          className="px-4 py-3 rounded-2xl bg-gradient-to-r from-[#E09F3E] to-[#835500] hover:from-[#d58e2d] hover:to-[#704800] text-white font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+          className="px-4 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {isSeeding ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin text-zinc-950" />
           ) : (
-            <Sparkles className="w-4 h-4 text-amber-200" />
+            <Sparkles className="w-4 h-4 text-zinc-950" />
           )}
           <span>Inyectar 100 usuarios y 500 recetas</span>
         </button>
 
-        {/* Button 2: 💬 Inyectar Comentarios de Prueba */}
+        {/* Button 2: Inyectar 10-20 Comentarios por Receta */}
         <button
           type="button"
           disabled={isAnySeeding}
           onClick={handleSeedComments}
-          className="px-4 py-3 rounded-2xl bg-white border border-amber-300 hover:bg-amber-50 text-[#835500] font-bold text-xs shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+          className="px-4 py-3 rounded-2xl bg-zinc-950 border border-amber-500/40 hover:bg-zinc-800 text-amber-400 font-bold text-xs shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {isSeedingComments ? (
-            <Loader2 className="w-4 h-4 animate-spin text-[#E09F3E]" />
+            <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
           ) : (
-            <MessageSquare className="w-4 h-4 text-[#E09F3E]" />
+            <MessageSquare className="w-4 h-4 text-amber-400" />
           )}
-          <span>💬 Inyectar Comentarios de Prueba</span>
+          <span>Inyectar 10 a 20 Comentarios por Receta</span>
         </button>
 
-        {/* Button 3: 🍳 Generar Recetas Masivas con Comentarios */}
+        {/* Button 3: Generar Recetas Masivas con Comentarios */}
         <button
           type="button"
           disabled={isAnySeeding}
           onClick={handleSeedMassive}
-          className="px-4 py-3 rounded-2xl bg-amber-950 hover:bg-black text-amber-100 font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+          className="px-4 py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {isSeedingMassive ? (
             <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
           ) : (
             <ChefHat className="w-4 h-4 text-amber-400" />
           )}
-          <span>🍳 Generar Recetas Masivas con Comentarios</span>
+          <span>Generar Recetas Masivas con Comentarios</span>
+        </button>
+
+        {/* Button 4: Corregir Contador 'commentsCount' en Firestore */}
+        <button
+          type="button"
+          disabled={isAnySeeding}
+          onClick={handleFixComments}
+          className="px-4 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {isFixingCommentsCount ? (
+            <Loader2 className="w-4 h-4 animate-spin text-white" />
+          ) : (
+            <RefreshCw className="w-4 h-4 text-emerald-200" />
+          )}
+          <span>Sincronizar Contador 'commentsCount'</span>
         </button>
       </div>
     </div>

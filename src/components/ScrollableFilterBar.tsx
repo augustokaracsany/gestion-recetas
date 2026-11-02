@@ -3,13 +3,13 @@ import React, { useRef, useState, useEffect } from 'react';
 interface ScrollableFilterBarProps {
   children: React.ReactNode;
   className?: string;
-  gradientBg?: string; // custom gradient background color e.g. from-[#F3F3F3] or from-white
+  gradientBg?: string; // custom gradient background color
 }
 
 export const ScrollableFilterBar: React.FC<ScrollableFilterBarProps> = ({
   children,
   className = '',
-  gradientBg = 'from-white via-white/95',
+  gradientBg = 'from-zinc-900 via-zinc-900/90',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -56,7 +56,7 @@ export const ScrollableFilterBar: React.FC<ScrollableFilterBarProps> = ({
   };
 
   return (
-    <div className={`relative flex items-center min-w-0 ${className}`}>
+    <div className={`relative flex items-center min-w-0 overflow-hidden ${className}`}>
       {/* Left Scroll Arrow */}
       {canScrollLeft && (
         <div className={`absolute left-0 z-20 flex items-center h-full pr-3 bg-gradient-to-r ${gradientBg} to-transparent rounded-l-2xl`}>
@@ -64,7 +64,7 @@ export const ScrollableFilterBar: React.FC<ScrollableFilterBarProps> = ({
             type="button"
             onClick={() => handleScroll('left')}
             aria-label="Desplazar filtros hacia la izquierda"
-            className="w-8 h-8 rounded-full bg-white text-[#835500] shadow-md border border-stone-200/90 flex items-center justify-center hover:bg-[#FFDDB9] hover:text-[#5A3900] transition-all cursor-pointer hover:scale-105"
+            className="w-8 h-8 rounded-full bg-zinc-800 text-amber-400 shadow-lg border border-zinc-700/80 flex items-center justify-center hover:bg-amber-500 hover:text-zinc-950 transition-all cursor-pointer hover:scale-105"
           >
             <span className="material-symbols-outlined text-[20px]">chevron_left</span>
           </button>
@@ -87,7 +87,7 @@ export const ScrollableFilterBar: React.FC<ScrollableFilterBarProps> = ({
             type="button"
             onClick={() => handleScroll('right')}
             aria-label="Desplazar filtros hacia la derecha"
-            className="w-8 h-8 rounded-full bg-white text-[#835500] shadow-md border border-stone-200/90 flex items-center justify-center hover:bg-[#FFDDB9] hover:text-[#5A3900] transition-all cursor-pointer hover:scale-105"
+            className="w-8 h-8 rounded-full bg-zinc-800 text-amber-400 shadow-lg border border-zinc-700/80 flex items-center justify-center hover:bg-amber-500 hover:text-zinc-950 transition-all cursor-pointer hover:scale-105"
           >
             <span className="material-symbols-outlined text-[20px]">chevron_right</span>
           </button>

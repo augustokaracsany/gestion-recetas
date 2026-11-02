@@ -26,15 +26,19 @@ export async function syncUserProfile(user: UserProfile): Promise<UserProfile> {
   const path = `users/${user.id}`;
   try {
     const userDocRef = doc(db, 'users', user.id);
-    const snap = await getDoc(userDocRef);
     let effectiveRole: UserRole = user.role || 'usuario';
 
-    if (snap.exists()) {
-      const remote = snap.data() as UserProfile;
-      // If remote user document already has a defined role, respect remote role
-      if (remote.role) {
-        effectiveRole = remote.role;
+    try {
+      const snap = await getDoc(userDocRef);
+      if (snap.exists()) {
+        const remote = snap.data() as UserProfile;
+        // If remote user document already has a defined role, respect remote role
+        if (remote.role) {
+          effectiveRole = remote.role;
+        }
       }
+    } catch (readErr) {
+      console.warn(`[syncUserProfile] Could not verify remote profile for ${path} (offline mode):`, readErr);
     }
 
     const dataToSave = {
@@ -62,16 +66,30 @@ export async function syncUserProfile(user: UserProfile): Promise<UserProfile> {
 
     // If user has admin role, also sync to admins collection for security rules
     if (effectiveRole === 'admin') {
-      await setDoc(doc(db, 'admins', user.id), {
-        userId: user.id,
-        email: user.email || '',
-        role: 'admin',
-        updatedAt: new Date().toISOString()
-      }, { merge: true });
+      try {
+        await setDoc(doc(db, 'admins', user.id), {
+          userId: user.id,
+          email: user.email || '',
+          role: 'admin',
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (adminErr) {
+        console.warn(`[syncUserProfile] Admin collection sync notice for ${user.id}:`, adminErr);
+      }
     }
 
     return { ...user, ...dataToSave, role: effectiveRole };
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn(`[syncUserProfile] Offline/network note for ${path}:`, msg);
+      return user;
+    }
     handleFirestoreError(error, OperationType.WRITE, path);
     return user;
   }
@@ -91,15 +109,29 @@ export async function fetchUserProfile(userId: string): Promise<UserProfile | nu
       const userData = snap.data() as UserProfile;
       // Double check admins collection if role is not set
       if (userData.role !== 'admin') {
-        const adminSnap = await getDoc(doc(db, 'admins', userId));
-        if (adminSnap.exists()) {
-          userData.role = 'admin';
+        try {
+          const adminSnap = await getDoc(doc(db, 'admins', userId));
+          if (adminSnap.exists()) {
+            userData.role = 'admin';
+          }
+        } catch {
+          // ignore offline / permission check
         }
       }
       return userData;
     }
     return null;
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn(`[fetchUserProfile] Offline/network notice for ${path}:`, msg);
+      return null;
+    }
     handleFirestoreError(error, OperationType.GET, path);
     return null;
   }
@@ -218,6 +250,16 @@ export async function saveRecipeToFirestore(recipe: Recipe): Promise<void> {
     console.log(`[saveRecipeToFirestore] Recipe "${recipe.title}" (${recipe.id}) saved to Firestore successfully.`);
   } catch (error) {
     console.error(`[saveRecipeToFirestore Error] Failed to persist recipe ${recipe.id}:`, error);
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn(`[saveRecipeToFirestore] Offline/network notice for ${path}:`, msg);
+      return;
+    }
     handleFirestoreError(error, OperationType.WRITE, path);
   }
 }
@@ -233,6 +275,16 @@ export async function deleteRecipeFromFirestore(recipeId: string): Promise<void>
   try {
     await deleteDoc(doc(db, 'recipes', recipeId));
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn(`[deleteRecipeFromFirestore] Offline notice for ${path}:`, msg);
+      return;
+    }
     handleFirestoreError(error, OperationType.DELETE, path);
   }
 }
@@ -286,6 +338,16 @@ export async function saveOrderToFirestore(order: PurchaseOrder): Promise<void> 
     const orderRef = doc(db, 'orders', order.id);
     await setDoc(orderRef, order, { merge: true });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn(`[saveOrderToFirestore] Offline notice for ${path}:`, msg);
+      return;
+    }
     handleFirestoreError(error, OperationType.WRITE, path);
   }
 }
@@ -301,14 +363,127 @@ export async function addCommentToFirestore(recipeId: string, comment: RecipeCom
   try {
     const commentRef = doc(db, 'recipes', recipeId, 'comments', comment.id);
     await setDoc(commentRef, comment);
-    const recipeRef = doc(db, 'recipes', recipeId);
-    const rSnap = await getDoc(recipeRef);
-    if (rSnap.exists()) {
-      const current = rSnap.data().commentsCount || 0;
-      await updateDoc(recipeRef, { commentsCount: current + 1 });
+
+    // Count actual comments in subcollection and update parent recipe doc atomically
+    try {
+      const commentsSnap = await getDocs(collection(db, 'recipes', recipeId, 'comments'));
+      const actualCount = commentsSnap.size;
+
+      const recipeRef = doc(db, 'recipes', recipeId);
+      await updateDoc(recipeRef, { commentsCount: actualCount });
+      console.log(`[addCommentToFirestore] Comment ${comment.id} added. Recipe ${recipeId} commentsCount updated to ${actualCount}.`);
+    } catch (countErr) {
+      console.warn('[addCommentToFirestore] Subcollection count notice (offline mode):', countErr);
     }
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn(`[addCommentToFirestore] Offline notice for ${path}:`, msg);
+      return;
+    }
     handleFirestoreError(error, OperationType.WRITE, path);
+  }
+}
+
+/**
+ * Subscribe to real-time comments from Firestore subcollection recipes/{recipeId}/comments
+ */
+export function subscribeToRecipeComments(
+  recipeId: string,
+  onUpdate: (comments: RecipeComment[]) => void
+): () => void {
+  try {
+    const colRef = collection(db, 'recipes', recipeId, 'comments');
+    return onSnapshot(
+      colRef,
+      (snapshot) => {
+        const list: RecipeComment[] = [];
+        snapshot.forEach((docSnap) => {
+          list.push(docSnap.data() as RecipeComment);
+        });
+        if (list.length > 0) {
+          onUpdate(list);
+        }
+      },
+      (err) => console.warn('subscribeToRecipeComments notice:', err)
+    );
+  } catch (err) {
+    console.warn('subscribeToRecipeComments error:', err);
+    return () => {};
+  }
+}
+
+/**
+ * Migration & Fix script: Recalculates exact subcollection comments count
+ * for every recipe in Firestore and updates commentsCount on the recipe document.
+ */
+export async function fixAllRecipesCommentsCount(
+  onProgress?: (msg: string) => void
+): Promise<{ success: boolean; fixedCount: number; message: string }> {
+  if (!auth.currentUser) {
+    return { success: false, fixedCount: 0, message: 'Usuario no autenticado en Firebase.' };
+  }
+
+  try {
+    if (onProgress) onProgress('Buscando todas las recetas en Firestore...');
+    const recipesSnap = await getDocs(collection(db, 'recipes'));
+    if (recipesSnap.empty) {
+      return { success: true, fixedCount: 0, message: 'No hay recetas en Firestore para corregir.' };
+    }
+
+    let batch = writeBatch(db);
+    let opsInBatch = 0;
+    let totalFixed = 0;
+
+    for (let index = 0; index < recipesSnap.docs.length; index++) {
+      const recipeDoc = recipesSnap.docs[index];
+      const recipeId = recipeDoc.id;
+
+      if (onProgress && index % 5 === 0) {
+        onProgress(`Auditando y contando comentarios (${index + 1}/${recipesSnap.size})...`);
+      }
+
+      const commentsSnap = await getDocs(collection(db, 'recipes', recipeId, 'comments'));
+      const realCount = commentsSnap.size;
+
+      const recipeRef = doc(db, 'recipes', recipeId);
+      batch.update(recipeRef, { commentsCount: realCount });
+      opsInBatch++;
+      totalFixed++;
+
+      if (opsInBatch >= 400) {
+        await batch.commit();
+        batch = writeBatch(db);
+        opsInBatch = 0;
+      }
+    }
+
+    if (opsInBatch > 0) {
+      await batch.commit();
+    }
+
+    const msg = `Se sincronizó con éxito el contador 'commentsCount' en ${totalFixed} recetas de Firestore.`;
+    if (onProgress) onProgress(msg);
+    return { success: true, fixedCount: totalFixed, message: msg };
+  } catch (error) {
+    console.error('Error in fixAllRecipesCommentsCount:', error);
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn('[fixAllRecipesCommentsCount] Offline note:', msg);
+      return { success: false, fixedCount: 0, message: 'Operación no disponible sin conexión a internet.' };
+    }
+    handleFirestoreError(error, OperationType.WRITE, 'recipes');
+    return { success: false, fixedCount: 0, message: 'Error al corregir contadores de comentarios.' };
   }
 }
 
@@ -392,7 +567,7 @@ export async function seedInitialUsersToFirestore(initialUsers: UserProfile[]): 
 }
 
 /**
- * Seed realistic test comments for all existing recipes in Firestore
+ * Seed 10 to 20 realistic test comments for all existing recipes in Firestore
  */
 export async function seedCommentsForRecipes(
   onProgress?: (msg: string) => void
@@ -405,16 +580,38 @@ export async function seedCommentsForRecipes(
     { id: 'user-camila', name: 'Camila Ríos', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&auto=format&fit=crop&q=80' },
     { id: 'user-mateo', name: 'Mateo Rossi', avatar: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=160&auto=format&fit=crop&q=80' },
     { id: 'user-lucia', name: 'Lucía Valenzuela', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80' },
-    { id: 'user-ignacio', name: 'Ignacio Gómez', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80' }
+    { id: 'user-ignacio', name: 'Ignacio Gómez', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-valentina', name: 'Valentina Torres', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-benjamin', name: 'Benjamín Romero', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-sofia', name: 'Sofía Fernández', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-joaquin', name: 'Joaquín Martínez', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-martina', name: 'Martina Sánchez', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-lucas', name: 'Lucas Álvarez', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-catalina', name: 'Catalina Benítez', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&auto=format&fit=crop&q=80' },
+    { id: 'user-felipe', name: 'Felipe Pérez', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&auto=format&fit=crop&q=80' }
   ];
 
   const SAMPLE_COMMENT_TEXTS = [
-    '¡Excelente receta! Me quedó increíble en el primer intento. Recomiendo agregar un toque de orégano fresco.',
-    'Muy bien explicados los pasos. A mi familia le encantó el sabor y la textura final.',
-    'Reemplacé un ingrediente por opciones integrales y quedó deliciosa de todas formas. ¡Gracias por compartir!',
+    'Excelente receta. Me quedó increíble en el primer intento, recomiendo agregar un toque de orégano fresco.',
+    'Muy bien explicados los pasos. A toda la familia le encantó el sabor y la textura final.',
+    'Reemplacé uno de los ingredientes por una opción integral y quedó espectacular de todas formas. ¡Muchas gracias por compartir!',
     'Punto justo de cocción y sabor riquísimo. Se convirtió en mi plato favorito para los fines de semana.',
-    'Super práctica para hacer entre semana. El tiempo indicado fue exacto.',
-    'Una maravilla gastronómica. Guardada inmediatamente en mis colecciones personales.'
+    'Super práctica para hacer entre semana. El tiempo indicado en el paso a paso fue exacto.',
+    'Una maravilla gastronómica. La acabo de guardar inmediatamente en mis colecciones personales.',
+    'El maridaje que sugiere con vino tinto es un acierto total. Repetiremos la receta muy pronto.',
+    'Hice el doble de porciones para una reunión de amigos y no sobró absolutamente nada.',
+    'La clave está en no apurar el fuego durante la cocción previa. Queda súper tierna.',
+    'Genial el balance de condimentos, no queda nada pesada. Un 10 de 10.',
+    'La presentación en plato hondo queda de restaurante gourmet. Gracias por los consejos de emplatado.',
+    'Seguí las medidas en gramos al pie de la letra y la masa levó a la perfección.',
+    'Me encantó la sugerencia de comprar los ingredientes en el supermercado sugerido, los encontré todos frescos.',
+    'Una versión moderna de un clásico infalible. Felicitaciones al chef por la receta.',
+    '¿Se puede conservar en el freezer una vez cocido? Por cierto, el aroma durante la preparación fue alucinante.',
+    'Ideal para los días fríos. Da una sensación de confort hogareño inigualable.',
+    'La salsa quedó en su punto justo de reducción, espesa y con un brillo hermoso.',
+    'Probé sustituir la manteca por aceite de oliva extra virgen y el resultado fue súper liviano.',
+    'Muy didáctica la explicación de los tiempos de reposo. Eso marca la diferencia entre un plato común y uno memorable.',
+    'Espectacular. Ya la compartí en el grupo familiar para que la preparen este domingo.'
   ];
 
   try {
@@ -429,15 +626,30 @@ export async function seedCommentsForRecipes(
     let batch = writeBatch(db);
     let batchOpCount = 0;
 
-    for (const recipeDoc of recipesSnap.docs) {
+    for (let rIdx = 0; rIdx < recipesSnap.docs.length; rIdx++) {
+      const recipeDoc = recipesSnap.docs[rIdx];
       const recipeId = recipeDoc.id;
-      const countForThisRecipe = 2 + Math.floor(Math.random() * 3); // 2 to 4 comments per recipe
+      // Generate between 10 and 20 comments per recipe
+      const countForThisRecipe = 10 + Math.floor(Math.random() * 11);
+
+      if (onProgress) {
+        onProgress(`Inyectando ${countForThisRecipe} comentarios en receta ${rIdx + 1} de ${recipesSnap.docs.length}...`);
+      }
+
+      // Query current subcollection comments count
+      const existingCommentsSnap = await getDocs(collection(db, 'recipes', recipeId, 'comments'));
+      const previousCount = existingCommentsSnap.size;
+      const newTotalCount = previousCount + countForThisRecipe;
 
       for (let i = 0; i < countForThisRecipe; i++) {
-        const commentId = `cmt-${recipeId}-${Date.now().toString(36)}-${i}`;
+        const commentId = `cmt-${recipeId}-${Date.now().toString(36)}-${i}-${Math.random().toString(36).substring(2, 6)}`;
         const author = SAMPLE_AUTHORS[(totalCreated + i) % SAMPLE_AUTHORS.length];
         const contentText = SAMPLE_COMMENT_TEXTS[(totalCreated + i) % SAMPLE_COMMENT_TEXTS.length];
         const commentRef = doc(db, 'recipes', recipeId, 'comments', commentId);
+
+        // Calculate credible staggered creation dates
+        const hoursAgo = (countForThisRecipe - i) * 3 + Math.floor(Math.random() * 5);
+        const createdAtDate = new Date(Date.now() - hoursAgo * 3600000).toISOString();
 
         const commentDoc: RecipeComment = {
           id: commentId,
@@ -446,8 +658,8 @@ export async function seedCommentsForRecipes(
           authorName: author.name,
           authorAvatar: author.avatar,
           content: contentText,
-          createdAt: new Date(Date.now() - (i * 3600000 + Math.random() * 86400000)).toISOString(),
-          likes: Math.floor(Math.random() * 15),
+          createdAt: createdAtDate,
+          likes: Math.floor(Math.random() * 18),
           likedUserIds: [author.id],
           dislikedUserIds: []
         };
@@ -456,16 +668,22 @@ export async function seedCommentsForRecipes(
         totalCreated++;
         batchOpCount++;
 
-        // Update commentsCount on parent recipe doc
-        const recipeRef = doc(db, 'recipes', recipeId);
-        batch.update(recipeRef, { commentsCount: (recipeDoc.data().commentsCount || 0) + countForThisRecipe });
-        batchOpCount++;
-
         if (batchOpCount >= 400) {
           await batch.commit();
           batch = writeBatch(db);
           batchOpCount = 0;
         }
+      }
+
+      // Atomically update main recipe doc with updated commentsCount
+      const recipeRef = doc(db, 'recipes', recipeId);
+      batch.update(recipeRef, { commentsCount: newTotalCount });
+      batchOpCount++;
+
+      if (batchOpCount >= 400) {
+        await batch.commit();
+        batch = writeBatch(db);
+        batchOpCount = 0;
       }
     }
 
@@ -473,7 +691,7 @@ export async function seedCommentsForRecipes(
       await batch.commit();
     }
 
-    const msg = `Se inyectaron con éxito ${totalCreated} comentarios de prueba en ${recipesSnap.size} recetas.`;
+    const msg = `Se inyectaron con éxito ${totalCreated} comentarios de prueba (10-20 por receta) en ${recipesSnap.size} recetas de Firestore.`;
     if (onProgress) onProgress(msg);
     return { success: true, commentsCount: totalCreated, message: msg };
   } catch (error) {
@@ -622,6 +840,16 @@ export async function seedMassiveRecipesWithComments(
     return { success: true, recipesCreated: totalRecipes, commentsCreated: totalComments, message: finalMsg };
   } catch (error) {
     console.error('Error in seedMassiveRecipesWithComments:', error);
+    const msg = error instanceof Error ? error.message : String(error);
+    if (
+      msg.includes('offline') ||
+      msg.includes('unavailable') ||
+      msg.includes('token-service') ||
+      msg.includes('network')
+    ) {
+      console.warn('[seedMassiveRecipesWithComments] Offline note:', msg);
+      return { success: false, recipesCreated: 0, commentsCreated: 0, message: 'Operación no disponible sin conexión a internet.' };
+    }
     handleFirestoreError(error, OperationType.WRITE, 'recipes');
     return { success: false, recipesCreated: 0, commentsCreated: 0, message: 'Error en la generación masiva de recetas.' };
   }

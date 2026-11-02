@@ -12,8 +12,8 @@ interface RecipeFilterBarProps {
   setSelectedDifficulty: (diff: string) => void;
   maxTime: number;
   setMaxTime: (t: number) => void;
-  sortBy: 'popular' | 'recent' | 'time' | 'calories';
-  setSortBy: (sort: 'popular' | 'recent' | 'time' | 'calories') => void;
+  sortBy: 'popular' | 'recent' | 'time' | 'calories' | 'comentarios';
+  setSortBy: (sort: 'popular' | 'recent' | 'time' | 'calories' | 'comentarios') => void;
   activeFilterCount: number;
   onClearFilters: () => void;
 }
@@ -28,14 +28,14 @@ const CATEGORIES = [
   { id: 'desayunos', label: 'Bebidas & Desayunos' },
 ];
 
-const DIETARY_OPTIONS: { id: DietaryTag; label: string; icon: string }[] = [
-  { id: 'vegetariano', label: 'Vegetariano', icon: '🧀' },
-  { id: 'vegano', label: 'Vegano', icon: '🌱' },
-  { id: 'celiaco', label: 'Sin gluten (Celíacos)', icon: '🌾' },
-  { id: 'diabetico', label: 'Apto Diabéticos', icon: '🩺' },
-  { id: 'keto', label: 'Dieta Keto', icon: '🥑' },
-  { id: 'sin_lactosa', label: 'Sin lactosa', icon: '🥛' },
-  { id: 'bajo_sodio', label: 'Bajo en sodio', icon: '🧂' },
+const DIETARY_OPTIONS: { id: DietaryTag; label: string }[] = [
+  { id: 'vegetariano', label: 'Vegetariano' },
+  { id: 'vegano', label: 'Vegano' },
+  { id: 'celiaco', label: 'Sin gluten (Celíacos)' },
+  { id: 'diabetico', label: 'Apto Diabéticos' },
+  { id: 'keto', label: 'Dieta Keto' },
+  { id: 'sin_lactosa', label: 'Sin lactosa' },
+  { id: 'bajo_sodio', label: 'Bajo en sodio' },
 ];
 
 export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
@@ -81,10 +81,10 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
   };
 
   return (
-    <section className="bg-white rounded-3xl p-4 sm:p-6 shadow-[0_4px_24px_-4px_rgba(197,130,38,0.08)] mb-8 border border-stone-200/60 transition-all">
+    <section className="bg-zinc-900/90 rounded-2xl p-4 sm:p-5 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)] mb-8 border border-zinc-800 transition-all">
       {/* Search Bar with integrated Chevron Toggle Arrow */}
       <div className="relative w-full flex items-center">
-        <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none text-[#835500]">
+        <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none text-amber-400">
           <span className="material-symbols-outlined text-[24px]">search</span>
         </div>
 
@@ -94,7 +94,7 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Buscar recetas por nombre, ingrediente, técnica o autor..."
-          className="w-full h-13 sm:h-14 pl-12 sm:pl-14 pr-28 sm:pr-32 rounded-full bg-[#f6f3f2] text-[#000000] placeholder:text-[#333333]/70 text-xs sm:text-sm focus:bg-white focus:ring-2 focus:ring-[#e09f3e] outline-none transition-all shadow-inner"
+          className="w-full h-12 sm:h-13 pl-12 sm:pl-14 pr-28 sm:pr-32 rounded-xl bg-zinc-950 text-zinc-100 placeholder:text-zinc-500 text-xs sm:text-sm border border-zinc-800 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/80 outline-none transition-all shadow-inner"
         />
 
         {/* Right side controls: Clear input button + Toggle arrow with counter */}
@@ -105,7 +105,7 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
               onClick={() => setSearchQuery('')}
               aria-label="Limpiar búsqueda"
               title="Borrar texto"
-              className="p-1.5 text-stone-400 hover:text-stone-700 transition-colors cursor-pointer"
+              className="p-1.5 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px]">cancel</span>
             </button>
@@ -117,19 +117,19 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
             onClick={() => setIsOpen((prev) => !prev)}
             aria-label={isOpen ? 'Ocultar filtros avanzados' : 'Desplegar filtros avanzados'}
             title={isOpen ? 'Ocultar filtros' : 'Mostrar filtros'}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               isOpen
-                ? 'bg-[#e09f3e] text-white shadow-sm'
+                ? 'bg-amber-500 text-zinc-950 shadow-sm'
                 : activeFilterCount > 0
-                ? 'bg-[#ffddb9] text-[#714500] hover:bg-[#fdb252]'
-                : 'bg-stone-200/80 hover:bg-stone-300 text-stone-700'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30'
+                : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700/80'
             }`}
           >
             <span className="hidden sm:inline">Filtros</span>
             {activeFilterCount > 0 && (
               <span
                 className={`w-5 h-5 rounded-full text-[11px] font-bold flex items-center justify-center ${
-                  isOpen ? 'bg-white text-[#835500]' : 'bg-[#835500] text-white'
+                  isOpen ? 'bg-zinc-950 text-amber-400' : 'bg-amber-500 text-zinc-950'
                 }`}
               >
                 {activeFilterCount}
@@ -148,12 +148,12 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
 
       {/* Collapsible Filters Container */}
       {isOpen && (
-        <div className="mt-5 pt-4 border-t border-stone-200/70 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="mt-5 pt-4 border-t border-zinc-800/80 space-y-4 animate-fade-in">
           
           {/* CATEGORIES with lateral overflow navigation arrows */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-stone-700 shrink-0 hidden md:flex items-center gap-1 w-24">
-              <span className="material-symbols-outlined text-[16px] text-[#835500]">dinner_dining</span>
+            <span className="text-xs font-bold text-zinc-300 shrink-0 hidden md:flex items-center gap-1.5 w-24">
+              <span className="material-symbols-outlined text-[16px] text-amber-400">dinner_dining</span>
               Categoría:
             </span>
 
@@ -162,7 +162,7 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
               type="button"
               onClick={() => scrollCategories('left')}
               aria-label="Desplazar categorías hacia la izquierda"
-              className="w-8 h-8 rounded-full bg-stone-100 hover:bg-[#ffddb9] text-stone-700 hover:text-[#835500] flex items-center justify-center shrink-0 transition-colors shadow-2xs cursor-pointer"
+              className="w-8 h-8 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-amber-400 border border-zinc-700/60 flex items-center justify-center shrink-0 transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px]">chevron_left</span>
             </button>
@@ -177,10 +177,10 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
                   key={cat.id}
                   type="button"
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                  className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer border ${
                     selectedCategory === cat.id
-                      ? 'bg-[#e09f3e] text-white shadow-sm font-bold'
-                      : 'bg-[#f6f3f2] text-stone-700 hover:bg-[#ffddb9] hover:text-[#2b1700]'
+                      ? 'bg-amber-500 text-zinc-950 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.25)] font-bold'
+                      : 'bg-zinc-800/60 border-zinc-700/60 text-zinc-300 hover:text-amber-300 hover:bg-zinc-800 hover:border-zinc-600'
                   }`}
                 >
                   {cat.label}
@@ -193,7 +193,7 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
               type="button"
               onClick={() => scrollCategories('right')}
               aria-label="Desplazar categorías hacia la derecha"
-              className="w-8 h-8 rounded-full bg-stone-100 hover:bg-[#ffddb9] text-stone-700 hover:text-[#835500] flex items-center justify-center shrink-0 transition-colors shadow-2xs cursor-pointer"
+              className="w-8 h-8 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-amber-400 border border-zinc-700/60 flex items-center justify-center shrink-0 transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px]">chevron_right</span>
             </button>
@@ -204,20 +204,20 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
             
             {/* 1. Restricción Dietética Dropdown */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-stone-600 uppercase flex items-center gap-1">
-                <span className="material-symbols-outlined text-[14px] text-[#835500]">eco</span>
+              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px] text-amber-400">eco</span>
                 Restricción Dietética:
               </label>
               <select
                 onChange={handleDietSelectChange}
                 value=""
-                className="w-full h-10 px-3 rounded-2xl bg-[#f6f3f2] text-xs text-stone-800 border border-stone-200 outline-none focus:ring-2 focus:ring-[#e09f3e] cursor-pointer font-medium"
+                className="w-full h-10 px-3 rounded-xl bg-zinc-950 text-xs text-zinc-200 border border-zinc-800 outline-none focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/80 cursor-pointer font-medium"
               >
                 <option value="" disabled>Seleccionar dieta / alérgeno...</option>
                 <option value="all">Todas las dietas (Limpiar)</option>
                 {DIETARY_OPTIONS.map((opt) => (
                   <option key={opt.id} value={opt.id}>
-                    {opt.icon} {opt.label}
+                    {opt.label}
                   </option>
                 ))}
               </select>
@@ -225,14 +225,14 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
 
             {/* 2. Tiempo Máximo Dropdown */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-stone-600 uppercase flex items-center gap-1">
-                <span className="material-symbols-outlined text-[14px] text-[#835500]">schedule</span>
+              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px] text-amber-400">schedule</span>
                 Tiempo de Cocina:
               </label>
               <select
                 value={maxTime}
                 onChange={(e) => setMaxTime(Number(e.target.value))}
-                className="w-full h-10 px-3 rounded-2xl bg-[#f6f3f2] text-xs text-stone-800 border border-stone-200 outline-none focus:ring-2 focus:ring-[#e09f3e] cursor-pointer font-medium"
+                className="w-full h-10 px-3 rounded-xl bg-zinc-950 text-xs text-zinc-200 border border-zinc-800 outline-none focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/80 cursor-pointer font-medium"
               >
                 <option value={180}>Cualquier duración</option>
                 <option value={30}>Rápido (&lt; 30 min)</option>
@@ -244,14 +244,14 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
 
             {/* 3. Dificultad Dropdown */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-stone-600 uppercase flex items-center gap-1">
-                <span className="material-symbols-outlined text-[14px] text-[#835500]">hotel_class</span>
+              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px] text-amber-400">hotel_class</span>
                 Dificultad:
               </label>
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="w-full h-10 px-3 rounded-2xl bg-[#f6f3f2] text-xs text-stone-800 border border-stone-200 outline-none focus:ring-2 focus:ring-[#e09f3e] cursor-pointer font-medium"
+                className="w-full h-10 px-3 rounded-xl bg-zinc-950 text-xs text-zinc-200 border border-zinc-800 outline-none focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/80 cursor-pointer font-medium"
               >
                 <option value="todas">Todas las dificultades</option>
                 <option value="facil">Fácil (Principiante)</option>
@@ -262,16 +262,17 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
 
             {/* 4. Ordenar Dropdown */}
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-stone-600 uppercase flex items-center gap-1">
-                <span className="material-symbols-outlined text-[14px] text-[#835500]">swap_vert</span>
+              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px] text-amber-400">swap_vert</span>
                 Ordenar por:
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="w-full h-10 px-3 rounded-2xl bg-[#f6f3f2] text-xs text-stone-800 border border-stone-200 outline-none focus:ring-2 focus:ring-[#e09f3e] cursor-pointer font-medium"
+                className="w-full h-10 px-3 rounded-xl bg-zinc-950 text-xs text-zinc-200 border border-zinc-800 outline-none focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/80 cursor-pointer font-medium"
               >
                 <option value="popular">Más populares (Votos)</option>
+                <option value="comentarios">Más comentadas (Interacción)</option>
                 <option value="recent">Más recientes</option>
                 <option value="time">Menor tiempo total</option>
                 <option value="calories">Menos calorías</option>
@@ -286,19 +287,19 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
             <div className="flex flex-wrap items-center gap-1.5">
               {selectedTags.length > 0 ? (
                 <>
-                  <span className="text-[11px] font-semibold text-stone-500 mr-1">Filtros aplicados:</span>
+                  <span className="text-[11px] font-semibold text-zinc-400 mr-1">Filtros aplicados:</span>
                   {selectedTags.map((tag) => {
                     const found = DIETARY_OPTIONS.find((d) => d.id === tag);
                     return (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#ffddb9] text-[#714500]"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-amber-500/15 border border-amber-500/30 text-amber-300"
                       >
-                        <span>{found?.icon} {found?.label || tag}</span>
+                        <span>{found?.label || tag}</span>
                         <button
                           type="button"
                           onClick={() => removeDietTag(tag)}
-                          className="hover:text-red-700 cursor-pointer text-xs"
+                          className="hover:text-red-400 cursor-pointer text-xs font-bold"
                           title="Quitar filtro"
                         >
                           ×
@@ -308,7 +309,7 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
                   })}
                 </>
               ) : (
-                <span className="text-[11px] text-stone-400">Sin restricciones dietéticas activas</span>
+                <span className="text-[11px] text-zinc-500">Sin restricciones dietéticas activas</span>
               )}
             </div>
 
@@ -317,7 +318,7 @@ export const RecipeFilterBar: React.FC<RecipeFilterBarProps> = ({
               <button
                 type="button"
                 onClick={onClearFilters}
-                className="inline-flex items-center gap-1.5 text-[#ab3333] hover:text-[#801318] text-xs px-3 py-1.5 rounded-full hover:bg-red-50 transition-colors font-medium cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-red-400 hover:text-red-300 text-xs px-3 py-1.5 rounded-lg hover:bg-red-950/40 border border-red-900/40 transition-colors font-medium cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[16px]">restart_alt</span>
                 <span>Restablecer todo ({activeFilterCount})</span>

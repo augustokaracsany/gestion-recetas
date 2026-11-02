@@ -30,12 +30,14 @@ import {
   BookmarkCheck
 } from 'lucide-react';
 import { formatARS } from '../utils/currency';
+import { formatRelativeDate, formatFullDateTime } from '../utils/dateUtils';
 
 interface RecipeDetailModalProps {
   recipe: Recipe | null;
   onClose: () => void;
   onEditRecipe: (recipe: Recipe) => void;
   onOpenReport: (recipe: Recipe) => void;
+  onOpenAuthorProfile?: (authorId: string) => void;
 }
 
 export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
@@ -43,6 +45,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
   onClose,
   onEditRecipe,
   onOpenReport,
+  onOpenAuthorProfile,
 }) => {
   const {
     currentUser,
@@ -163,21 +166,21 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-auto max-h-[92vh] flex flex-col cursor-default"
+        className="relative w-full max-w-4xl bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-800 overflow-hidden my-auto max-h-[92vh] flex flex-col cursor-default text-zinc-100"
       >
         {/* Top Header Bar */}
-        <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-6 py-3 border-b border-stone-200 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-            <span>{recipe.category}</span>
+        <div className="sticky top-0 z-20 bg-zinc-900/95 backdrop-blur-md px-6 py-3 border-b border-zinc-800 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+            <span className="text-amber-400">{recipe.category}</span>
             <span>•</span>
             <span className="capitalize">{recipe.difficulty}</span>
             {recipe.status === 'scheduled' && (
-              <span className="px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-300">
+              <span className="px-2 py-0.5 rounded-full bg-sky-950 text-sky-400 border border-sky-800">
                 Programada
               </span>
             )}
             {recipe.status === 'draft' && (
-              <span className="px-2 py-0.5 rounded-full bg-stone-100 text-stone-800 border border-stone-300">
+              <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700">
                 Borrador
               </span>
             )}
@@ -188,7 +191,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               onClick={() => toggleWishlist(recipe.id)}
               title={isInWishlist ? 'Quitar de lista de deseos' : 'Guardar en deseos'}
               className={`p-2 rounded-xl transition-colors cursor-pointer ${
-                isInWishlist ? 'bg-amber-100 text-amber-800' : 'text-stone-600 hover:bg-stone-100'
+                isInWishlist ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
               }`}
             >
               <Bookmark className={`w-4 h-4 ${isInWishlist ? 'fill-current' : ''}`} />
@@ -198,7 +201,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               onClick={() => toggleCompareRecipe(recipe.id)}
               title={isComparing ? 'Remover de comparación' : 'Comparar receta'}
               className={`p-2 rounded-xl transition-colors cursor-pointer ${
-                isComparing ? 'bg-sky-100 text-sky-800' : 'text-stone-600 hover:bg-stone-100'
+                isComparing ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
               }`}
             >
               <Scale className="w-4 h-4" />
@@ -207,7 +210,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             <button
               onClick={() => setPrintableRecipe(recipe)}
               title="Vista de impresión limpia"
-              className="p-2 text-stone-600 hover:bg-stone-100 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors cursor-pointer"
             >
               <Printer className="w-4 h-4" />
             </button>
@@ -215,7 +218,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             <button
               onClick={() => exportRecipeJson(recipe)}
               title="Exportar receta JSON"
-              className="p-2 text-stone-600 hover:bg-stone-100 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 rounded-xl transition-colors cursor-pointer"
             >
               <Download className="w-4 h-4" />
             </button>
@@ -227,7 +230,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                   onEditRecipe(recipe);
                 }}
                 title="Editar receta"
-                className="p-2 text-amber-700 hover:bg-amber-50 rounded-xl transition-colors cursor-pointer"
+                className="p-2 text-amber-400 hover:bg-amber-500/10 rounded-xl transition-colors cursor-pointer"
               >
                 <Edit3 className="w-4 h-4" />
               </button>
@@ -237,7 +240,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               <button
                 onClick={handleDelete}
                 title="Eliminar receta"
-                className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
+                className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-xl transition-colors cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -246,14 +249,14 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             <button
               onClick={() => onOpenReport(recipe)}
               title="Denunciar receta"
-              className="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-colors cursor-pointer"
             >
               <AlertTriangle className="w-4 h-4" />
             </button>
 
             <button
               onClick={onClose}
-              className="p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-xl transition-colors ml-1"
+              className="p-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 rounded-xl transition-colors ml-1 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -322,23 +325,26 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
           )}
 
           {/* Author, Co-authors & Follow bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-[#FFDDB9]/30 border border-[#E09F3E]/30">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-3xl bg-zinc-950/80 border border-zinc-800">
+            <div 
+              onClick={() => onOpenAuthorProfile?.(recipe.authorId)}
+              className="flex items-center gap-3 cursor-pointer group hover:opacity-90 transition-opacity"
+            >
               <img
                 src={recipe.authorAvatar}
                 alt={recipe.authorName}
-                className="w-12 h-12 rounded-full object-cover border-2 border-[#E09F3E]"
+                className="w-12 h-12 rounded-full object-cover border-2 border-amber-500/60 group-hover:border-amber-400 transition-colors"
               />
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-stone-900 text-base">{recipe.authorName}</span>
-                  <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#FFDDB9] text-[#714500] font-bold">
+                  <span className="font-bold text-zinc-100 text-base group-hover:text-amber-400 transition-colors">{recipe.authorName}</span>
+                  <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold">
                     Autor
                   </span>
                 </div>
                 {recipe.coAuthors.length > 0 && (
-                  <div className="text-xs text-stone-600 mt-0.5">
-                    Co-autoría con: <span className="font-semibold text-stone-800">{recipe.coAuthors.join(', ')}</span>
+                  <div className="text-xs text-zinc-400 mt-0.5">
+                    Co-autoría con: <span className="font-semibold text-zinc-200">{recipe.coAuthors.join(', ')}</span>
                   </div>
                 )}
               </div>
@@ -350,8 +356,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                   onClick={() => followUserToggle(recipe.authorId)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     isFollowingAuthor
-                      ? 'bg-stone-200 text-stone-800 hover:bg-stone-300'
-                      : 'bg-[#835500] text-white hover:bg-[#865300] shadow-xs'
+                      ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
+                      : 'bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold shadow-md shadow-amber-500/20'
                   }`}
                 >
                   {isFollowingAuthor ? (
@@ -369,25 +375,25 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               )}
 
               {/* Likes / Dislikes buttons */}
-              <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-stone-200">
+              <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-zinc-800">
                 <button
                   onClick={() => toggleLikeRecipe(recipe.id)}
                   className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                     isLiked
-                      ? 'bg-amber-100 text-amber-900'
-                      : 'text-stone-600 hover:bg-stone-100'
+                      ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
+                      : 'text-zinc-400 hover:text-amber-400 hover:bg-zinc-800'
                   }`}
                 >
                   <ThumbsUp className={`w-3.5 h-3.5 ${isLiked ? 'fill-current' : ''}`} />
                   <span>{recipe.likesCount}</span>
                 </button>
-                <div className="h-4 w-px bg-stone-200" />
+                <div className="h-4 w-px bg-zinc-800" />
                 <button
                   onClick={() => toggleDislikeRecipe(recipe.id)}
                   className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                     isDisliked
-                      ? 'bg-rose-100 text-rose-900'
-                      : 'text-stone-400 hover:bg-stone-100'
+                      ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
+                      : 'text-zinc-500 hover:text-rose-400 hover:bg-zinc-800'
                   }`}
                 >
                   <ThumbsDown className={`w-3.5 h-3.5 ${isDisliked ? 'fill-current' : ''}`} />
@@ -399,45 +405,45 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
 
           {/* Quick Metrics Bar & Nutrition */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200/80 flex items-center gap-3">
-              <Clock className="w-5 h-5 text-amber-600 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 flex items-center gap-3">
+              <Clock className="w-5 h-5 text-amber-400 shrink-0" />
               <div>
-                <div className="text-[11px] font-semibold text-stone-500 uppercase">Tiempo Total</div>
-                <div className="text-sm font-bold text-stone-900">
+                <div className="text-[11px] font-semibold text-zinc-500 uppercase">Tiempo Total</div>
+                <div className="text-sm font-bold text-zinc-100">
                   {recipe.prepTimeMin + recipe.cookTimeMin} min
                 </div>
-                <div className="text-[10px] text-stone-500">
+                <div className="text-[10px] text-zinc-400">
                   Prep: {recipe.prepTimeMin}m | Cocción: {recipe.cookTimeMin}m
                 </div>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200/80 flex items-center gap-3">
-              <Users className="w-5 h-5 text-amber-600 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 flex items-center gap-3">
+              <Users className="w-5 h-5 text-amber-400 shrink-0" />
               <div>
-                <div className="text-[11px] font-semibold text-stone-500 uppercase">Raciones</div>
-                <div className="text-sm font-bold text-stone-900">{recipe.servings} porciones</div>
-                <div className="text-[10px] text-stone-500">Ajustable en cocina</div>
+                <div className="text-[11px] font-semibold text-zinc-500 uppercase">Raciones</div>
+                <div className="text-sm font-bold text-zinc-100">{recipe.servings} porciones</div>
+                <div className="text-[10px] text-zinc-400">Ajustable en cocina</div>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200/80 flex items-center gap-3">
-              <Flame className="w-5 h-5 text-orange-600 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 flex items-center gap-3">
+              <Flame className="w-5 h-5 text-amber-500 shrink-0" />
               <div>
-                <div className="text-[11px] font-semibold text-stone-500 uppercase">Calorías / Porción</div>
-                <div className="text-sm font-bold text-stone-900">{recipe.nutrition.calories} kcal</div>
-                <div className="text-[10px] text-stone-500">
+                <div className="text-[11px] font-semibold text-zinc-500 uppercase">Calorías / Porción</div>
+                <div className="text-sm font-bold text-zinc-100">{recipe.nutrition.calories} kcal</div>
+                <div className="text-[10px] text-zinc-400">
                   P: {recipe.nutrition.proteinG}g | C: {recipe.nutrition.carbsG}g
                 </div>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200/80 flex items-center gap-3">
-              <Store className="w-5 h-5 text-emerald-600 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 flex items-center gap-3">
+              <Store className="w-5 h-5 text-emerald-400 shrink-0" />
               <div>
-                <div className="text-[11px] font-semibold text-stone-500 uppercase">Costo Estimado</div>
-                <div className="text-sm font-bold text-emerald-700">{formatARS(totalIngredientsCost)}</div>
-                <div className="text-[10px] text-stone-500">Tiendas locales</div>
+                <div className="text-[11px] font-semibold text-zinc-500 uppercase">Costo Estimado</div>
+                <div className="text-sm font-bold text-emerald-400">{formatARS(totalIngredientsCost)}</div>
+                <div className="text-[10px] text-zinc-400">Tiendas locales</div>
               </div>
             </div>
           </div>
@@ -481,15 +487,15 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-bold text-lg text-stone-900">Ingredientes</h3>
-                  <p className="text-xs text-stone-500">
+                  <h3 className="font-bold text-lg text-zinc-100">Ingredientes</h3>
+                  <p className="text-xs text-zinc-400">
                     Disponibilidad y tiendas asociadas
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={handleSelectAllIngredients}
-                  className="text-xs text-amber-700 hover:underline font-semibold"
+                  className="text-xs text-amber-400 hover:text-amber-300 font-semibold cursor-pointer"
                 >
                   {selectedIngredientIds.length === recipe.ingredients.length ? 'Deseleccionar' : 'Marcar todos'}
                 </button>
@@ -505,8 +511,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                       onClick={() => handleToggleIngredientSelect(ing.id)}
                       className={`p-3 rounded-2xl border transition-all cursor-pointer ${
                         isChecked
-                          ? 'bg-amber-50/70 border-amber-300'
-                          : 'bg-white border-stone-200 hover:border-stone-300'
+                          ? 'bg-amber-500/10 border-amber-500/40 text-zinc-100'
+                          : 'bg-zinc-950/80 border-zinc-800 hover:border-zinc-700 text-zinc-300'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -518,17 +524,17 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             type="checkbox"
                             checked={isChecked}
                             onChange={() => {}}
-                            className="mt-1 h-4 w-4 rounded-md text-amber-600 border-stone-300 focus:ring-amber-500"
+                            className="mt-1 h-4 w-4 rounded-md text-amber-500 border-zinc-700 focus:ring-amber-500/20 bg-zinc-900"
                           />
                           <div>
-                            <div className="text-sm font-semibold text-stone-800">
-                              {ing.quantity} {ing.unit} <span className="font-bold">{ing.name}</span>
+                            <div className="text-sm font-semibold text-zinc-200">
+                              {ing.quantity} {ing.unit} <span className="font-bold text-zinc-100">{ing.name}</span>
                             </div>
-                            <div className="text-xs text-stone-500 flex items-center gap-1 mt-0.5">
-                              <Store className="w-3 h-3 text-stone-400" />
+                            <div className="text-xs text-zinc-400 flex items-center gap-1 mt-0.5">
+                              <Store className="w-3 h-3 text-zinc-500" />
                               <span>{ing.storeName}</span>
                               <span>•</span>
-                              <span className="font-medium text-emerald-700">{formatARS(ing.estimatedPrice)}</span>
+                              <span className="font-medium text-emerald-400">{formatARS(ing.estimatedPrice)}</span>
                             </div>
                           </div>
                         </div>
@@ -536,17 +542,17 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                         {/* Stock badge & Wishlist button */}
                         <div className="flex items-center gap-1.5 shrink-0">
                           {ing.stockLevel === 'alto' && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
                               Stock Alto
                             </span>
                           )}
                           {ing.stockLevel === 'medio' && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950 text-amber-400 border border-amber-800">
                               Stock Medio
                             </span>
                           )}
                           {ing.stockLevel === 'agotado' && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-950 text-rose-400 border border-rose-800">
                               Agotado
                             </span>
                           )}
@@ -558,7 +564,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                               toggleWishlistIngredient(ing, recipe.id, recipe.title);
                             }}
                             title="Guardar en lista de deseos"
-                            className="p-1.5 rounded-lg text-stone-400 hover:text-amber-700 hover:bg-stone-100 transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg text-zinc-500 hover:text-amber-400 hover:bg-zinc-800 transition-colors cursor-pointer"
                           >
                             <Bookmark className="w-3.5 h-3.5" />
                           </button>
@@ -566,9 +572,9 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                       </div>
 
                       {ing.suggestedSubstitute && (
-                        <div className="mt-2 text-[11px] p-1.5 rounded-lg bg-stone-100 text-stone-600 flex items-center gap-1">
-                          <Sparkles className="w-3 h-3 text-amber-600 shrink-0" />
-                          <span>Sustituto sugerido: <strong>{ing.suggestedSubstitute}</strong></span>
+                        <div className="mt-2 text-[11px] p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
+                          <span>Sustituto sugerido: <strong className="text-zinc-200">{ing.suggestedSubstitute}</strong></span>
                         </div>
                       )}
                     </div>
@@ -580,7 +586,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               <button
                 type="button"
                 onClick={handleAddSelectedToCart}
-                className="w-full py-3 px-4 bg-[#E09F3E] hover:bg-[#835500] text-white font-bold rounded-full shadow-sm flex items-center justify-center gap-2 text-sm transition-all cursor-pointer"
+                className="w-full py-3 px-4 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-full shadow-md shadow-amber-500/20 flex items-center justify-center gap-2 text-sm transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px]">shopping_cart</span>
                 {selectedIngredientIds.length > 0
@@ -592,8 +598,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
             {/* Steps Right Column (7 cols) */}
             <div className="lg:col-span-7 space-y-4">
               <div>
-                <h3 className="font-bold text-lg text-stone-900">Instrucciones y Paso a Paso</h3>
-                <p className="text-xs text-stone-500">
+                <h3 className="font-bold text-lg text-zinc-100">Instrucciones y Paso a Paso</h3>
+                <p className="text-xs text-zinc-400">
                   Marca los pasos completados a medida que cocinas (Modo Asistente de Cocina)
                 </p>
               </div>
@@ -606,18 +612,18 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                       key={step.stepNumber}
                       className={`p-4 rounded-2xl border transition-all ${
                         isDone
-                          ? 'bg-emerald-50/40 border-emerald-200'
-                          : 'bg-white border-stone-200'
+                          ? 'bg-emerald-950/20 border-emerald-800/50'
+                          : 'bg-zinc-950/80 border-zinc-800'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <button
                           type="button"
                           onClick={() => toggleStepDone(step.stepNumber)}
-                          className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-colors ${
+                          className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-colors cursor-pointer ${
                             isDone
                               ? 'bg-emerald-600 text-white'
-                              : 'bg-stone-100 text-stone-700 hover:bg-amber-100 hover:text-amber-800'
+                              : 'bg-zinc-900 text-amber-400 border border-zinc-800 hover:bg-amber-500 hover:text-zinc-950'
                           }`}
                         >
                           {isDone ? <Check className="w-4 h-4" /> : step.stepNumber}
@@ -627,20 +633,20 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                           <div className="flex items-center justify-between">
                             <h4
                               className={`text-sm font-bold ${
-                                isDone ? 'text-stone-400 line-through' : 'text-stone-900'
+                                isDone ? 'text-zinc-600 line-through' : 'text-zinc-100'
                               }`}
                             >
                               {step.title}
                             </h4>
-                            <span className="text-xs font-medium text-stone-500 flex items-center gap-1">
-                              <Clock className="w-3 h-3 text-stone-400" />
+                            <span className="text-xs font-medium text-zinc-500 flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-zinc-500" />
                               {step.durationMinutes} min
                             </span>
                           </div>
 
                           <p
                             className={`text-xs sm:text-sm leading-relaxed ${
-                              isDone ? 'text-stone-400' : 'text-stone-700'
+                              isDone ? 'text-zinc-600' : 'text-zinc-300'
                             }`}
                           >
                             {step.description}
@@ -650,13 +656,13 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             <img
                               src={step.imageUrl}
                               alt={step.title}
-                              className="rounded-xl w-full max-h-48 object-cover border border-stone-200 mt-2"
+                              className="rounded-xl w-full max-h-48 object-cover border border-zinc-800 mt-2"
                             />
                           )}
 
                           {step.tip && (
-                            <div className="p-2.5 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2">
-                              <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                            <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 flex items-start gap-2">
+                              <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                               <div>
                                 <span className="font-bold">Consejo del Chef: </span>
                                 {step.tip}
@@ -673,18 +679,18 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
           </div>
 
           {/* Comments and Reviews Section */}
-          <div className="border-t border-stone-200 pt-8 space-y-6">
+          <div className="border-t border-zinc-800 pt-8 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-lg text-stone-900 flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-amber-600" />
+                <h3 className="font-bold text-lg text-zinc-100 flex items-center gap-2">
+                  <MessageSquare className="w-5 h-5 text-amber-400" />
                   Comentarios y Preguntas Culinarias
                 </h3>
-                <p className="text-xs text-stone-500">
+                <p className="text-xs text-zinc-400">
                   Comparte tus resultados, consejos o dudas con el autor y la comunidad
                 </p>
               </div>
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-stone-100 text-stone-700">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-amber-400">
                 {recipeComments.length} comentarios
               </span>
             </div>
@@ -694,7 +700,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
               <img
                 src={currentUser ? currentUser.avatar : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160&auto=format&fit=crop&q=80'}
                 alt={currentUser ? currentUser.name : 'Usuario'}
-                className="w-9 h-9 rounded-full object-cover shrink-0"
+                className="w-9 h-9 rounded-full object-cover shrink-0 border border-zinc-800"
               />
               <div className="flex-1 space-y-2">
                 <textarea
@@ -703,12 +709,12 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                   placeholder={currentUser ? `Escribe un comentario como ${currentUser.name}...` : 'Inicia sesión para dejar un comentario en esta receta...'}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-2xl border border-stone-300 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500 focus:outline-hidden resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-2xl bg-zinc-950 border border-zinc-800 text-zinc-100 text-xs sm:text-sm placeholder-zinc-500 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden resize-none"
                 />
                 <div className="flex justify-end">
                   <button
                     type="submit"
-                    className="px-4 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl text-xs transition-colors shadow-xs"
+                    className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold rounded-xl text-xs transition-colors shadow-sm cursor-pointer"
                   >
                     Publicar Comentario
                   </button>
@@ -733,41 +739,38 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                   const canDelete = currentUser ? (isAuthor || currentUser.role === 'admin' || currentUser.role === 'editor') : false;
                   const isEditingThis = editingCommentId === comment.id;
 
-                  // Format date and time
-                  const commentDate = new Date(comment.createdAt);
-                  const formattedDateTime = commentDate.toLocaleDateString('es-ES', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                  }) + ' a las ' + commentDate.toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  });
+                  // Format date and time relative & full
+                  const relativeDateStr = formatRelativeDate(comment.createdAt);
+                  const fullDateTimeStr = formatFullDateTime(comment.createdAt);
 
                   return (
-                    <div key={comment.id} className="p-4 sm:p-5 rounded-2xl bg-stone-50/90 border border-stone-200 space-y-3">
+                    <div key={comment.id} className="p-4 sm:p-5 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-3">
                       <div className="flex items-start justify-between gap-3">
                         {/* Author info & Date/Time */}
-                        <div className="flex items-center gap-3">
+                        <div 
+                          onClick={() => onOpenAuthorProfile?.(comment.authorId)}
+                          className="flex items-center gap-3 cursor-pointer group hover:opacity-90 transition-opacity"
+                        >
                           <img
                             src={comment.authorAvatar}
                             alt={comment.authorName}
-                            className="w-8 h-8 rounded-full object-cover ring-1 ring-amber-300"
+                            className="w-8 h-8 rounded-full object-cover ring-1 ring-amber-500/40 group-hover:ring-amber-400 transition-all"
                           />
                           <div>
-                            <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
+                            <div className="text-xs font-bold text-zinc-100 flex items-center gap-1.5 group-hover:text-amber-400 transition-colors">
                               <span>{comment.authorName}</span>
                               {recipe.authorId === comment.authorId && (
-                                <span className="text-[10px] bg-[#ffddb9] text-[#714500] font-bold px-1.5 py-0.2 rounded-md">
+                                <span className="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold px-1.5 py-0.2 rounded-md">
                                   Autor
                                 </span>
                               )}
                             </div>
-                            <div className="text-[11px] text-stone-500 flex items-center gap-1">
-                              <span className="material-symbols-outlined text-[13px] text-stone-400">schedule</span>
-                              <span>{formattedDateTime}</span>
+                            <div className="text-[11px] text-zinc-400 flex items-center gap-1">
+                              <span className="material-symbols-outlined text-[13px] text-zinc-500">schedule</span>
+                              <span className="font-semibold text-zinc-300">{relativeDateStr}</span>
+                              <span className="text-zinc-500">({fullDateTimeStr})</span>
                               {comment.updatedAt && (
-                                <span className="text-stone-400 italic font-normal">(editado)</span>
+                                <span className="text-zinc-500 italic font-normal">(editado)</span>
                               )}
                             </div>
                           </div>
@@ -779,7 +782,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             <button
                               type="button"
                               onClick={() => handleStartEditComment(comment.id, comment.content)}
-                              className="text-stone-400 hover:text-amber-700 text-xs font-medium transition-colors cursor-pointer"
+                              className="text-zinc-500 hover:text-amber-400 text-xs font-medium transition-colors cursor-pointer"
                               title="Editar comentario"
                             >
                               Editar
@@ -789,7 +792,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             <button
                               type="button"
                               onClick={() => handleDeleteComment(comment.id)}
-                              className="text-stone-400 hover:text-red-600 text-xs font-medium transition-colors cursor-pointer"
+                              className="text-zinc-500 hover:text-rose-400 text-xs font-medium transition-colors cursor-pointer"
                               title="Eliminar comentario"
                             >
                               Eliminar
@@ -805,27 +808,27 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             rows={3}
                             value={editingContent}
                             onChange={(e) => setEditingContent(e.target.value)}
-                            className="w-full px-3 py-2 text-xs sm:text-sm bg-white rounded-xl border border-amber-300 focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                            className="w-full px-3 py-2 text-xs sm:text-sm bg-zinc-900 text-zinc-100 rounded-xl border border-amber-500/40 focus:ring-2 focus:ring-amber-500/20 focus:outline-hidden"
                           />
                           <div className="flex items-center justify-end gap-2">
                             <button
                               type="button"
                               onClick={() => setEditingCommentId(null)}
-                              className="px-3 py-1 text-xs text-stone-600 hover:bg-stone-200 rounded-lg cursor-pointer"
+                              className="px-3 py-1 text-xs text-zinc-400 hover:bg-zinc-800 rounded-lg cursor-pointer"
                             >
                               Cancelar
                             </button>
                             <button
                               type="button"
                               onClick={() => handleSaveEditComment(comment.id)}
-                              className="px-3.5 py-1 bg-[#e09f3e] text-white text-xs font-bold rounded-lg hover:bg-[#835500] cursor-pointer"
+                              className="px-3.5 py-1 bg-amber-500 text-zinc-950 text-xs font-bold rounded-lg hover:bg-amber-400 cursor-pointer"
                             >
                               Guardar cambios
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <p className="text-xs sm:text-sm text-stone-700 leading-relaxed pl-11">
+                        <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed pl-11">
                           {comment.content}
                         </p>
                       )}
@@ -833,7 +836,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                       {/* REDDIT-STYLE VOTING & REPLY BUTTON */}
                       <div className="flex items-center justify-between pl-11 pt-1">
                         {/* Upvote, Net Score, Downvote */}
-                        <div className="inline-flex items-center bg-white rounded-full border border-stone-200 px-1 py-0.5 shadow-2xs">
+                        <div className="inline-flex items-center bg-zinc-900 rounded-full border border-zinc-800 px-1 py-0.5 shadow-xs">
                           {/* Upvote button */}
                           <button
                             type="button"
@@ -842,8 +845,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             title="Voto positivo (Like)"
                             className={`p-1 rounded-full transition-colors cursor-pointer ${
                               userLiked
-                                ? 'text-emerald-700 bg-emerald-100 font-bold'
-                                : 'text-stone-500 hover:text-emerald-700 hover:bg-stone-100'
+                                ? 'text-emerald-400 bg-emerald-950/60 font-bold'
+                                : 'text-zinc-500 hover:text-emerald-400 hover:bg-zinc-800'
                             }`}
                           >
                             <span className="material-symbols-outlined text-[18px]">thumb_up</span>
@@ -853,10 +856,10 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                           <span
                             className={`px-2 py-0.5 text-xs font-bold ${
                               netScore > 0
-                                ? 'text-emerald-700'
+                                ? 'text-emerald-400'
                                 : netScore < 0
-                                ? 'text-rose-700'
-                                : 'text-stone-500'
+                                ? 'text-rose-400'
+                                : 'text-zinc-500'
                             }`}
                             title={`Votos positivos: ${comment.likedUserIds?.length || 0} | Votos negativos: ${comment.dislikedUserIds?.length || 0}`}
                           >
@@ -871,8 +874,8 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             title="Voto negativo (Dislike)"
                             className={`p-1 rounded-full transition-colors cursor-pointer ${
                               userDisliked
-                                ? 'text-rose-700 bg-rose-100 font-bold'
-                                : 'text-stone-500 hover:text-rose-700 hover:bg-stone-100'
+                                ? 'text-rose-400 bg-rose-950/60 font-bold'
+                                : 'text-zinc-500 hover:text-rose-400 hover:bg-zinc-800'
                             }`}
                           >
                             <span className="material-symbols-outlined text-[18px]">thumb_down</span>
@@ -883,7 +886,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                         <button
                           type="button"
                           onClick={() => setReplyingToId(replyingToId === comment.id ? null : comment.id)}
-                          className="text-xs text-[#835500] hover:underline font-bold flex items-center gap-1 cursor-pointer"
+                          className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 cursor-pointer"
                         >
                           <span className="material-symbols-outlined text-[16px]">reply</span>
                           <span>Responder</span>
@@ -898,12 +901,12 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             placeholder="Escribe tu respuesta..."
                             value={replyText}
                             onChange={(e) => setReplyText(e.target.value)}
-                            className="flex-1 px-3.5 py-1.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-[#e09f3e] focus:outline-hidden"
+                            className="flex-1 px-3.5 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-100 text-xs focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-hidden"
                           />
                           <button
                             type="button"
                             onClick={() => handleReplySubmit(comment.id)}
-                            className="px-4 py-1.5 bg-[#e09f3e] hover:bg-[#835500] text-white rounded-xl text-xs font-semibold cursor-pointer transition-colors"
+                            className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 rounded-xl text-xs font-bold cursor-pointer transition-colors"
                           >
                             Enviar
                           </button>
@@ -912,7 +915,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
 
                       {/* Nested replies */}
                       {replies.length > 0 && (
-                        <div className="pl-6 sm:pl-11 space-y-3 pt-3 border-l-2 border-amber-200 ml-4">
+                        <div className="pl-6 sm:pl-11 space-y-3 pt-3 border-l-2 border-amber-500/30 ml-4">
                           {replies.map((reply) => {
                             const replyNetScore = (reply.likedUserIds?.length || 0) - (reply.dislikedUserIds?.length || 0);
                             const replyUserLiked = currentUser && reply.likedUserIds?.includes(currentUser.id);
@@ -921,31 +924,24 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                             const canDeleteReply = currentUser ? (reply.authorId === currentUser.id || currentUser.role === 'admin' || currentUser.role === 'editor') : false;
                             const isEditingReply = editingCommentId === reply.id;
 
-                            const replyDate = new Date(reply.createdAt);
-                            const formattedReplyDateTime = replyDate.toLocaleDateString('es-ES', {
-                              day: '2-digit',
-                              month: 'short',
-                              year: 'numeric'
-                            }) + ' a las ' + replyDate.toLocaleTimeString('es-ES', {
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            });
+                            const replyRelativeDate = formatRelativeDate(reply.createdAt);
+                            const replyFullDateTime = formatFullDateTime(reply.createdAt);
 
                             return (
-                              <div key={reply.id} className="bg-white p-3.5 rounded-xl border border-stone-200 space-y-2">
+                              <div key={reply.id} className="bg-zinc-900 p-3.5 rounded-xl border border-zinc-800 space-y-2">
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center gap-2">
                                     <img
                                       src={reply.authorAvatar}
                                       alt={reply.authorName}
-                                      className="w-6 h-6 rounded-full object-cover ring-1 ring-amber-300"
+                                      className="w-6 h-6 rounded-full object-cover ring-1 ring-amber-500/30"
                                     />
-                                    <span className="text-xs font-bold text-stone-800">{reply.authorName}</span>
-                                    <span className="text-[10px] text-stone-500">
-                                      {formattedReplyDateTime}
+                                    <span className="text-xs font-bold text-zinc-200">{reply.authorName}</span>
+                                    <span className="text-[10px] text-zinc-400 font-semibold" title={replyFullDateTime}>
+                                      {replyRelativeDate}
                                     </span>
                                     {reply.updatedAt && (
-                                      <span className="text-[10px] text-stone-400 italic">(editado)</span>
+                                      <span className="text-[10px] text-zinc-500 italic">(editado)</span>
                                     )}
                                   </div>
 
@@ -954,7 +950,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                                       <button
                                         type="button"
                                         onClick={() => handleStartEditComment(reply.id, reply.content)}
-                                        className="text-stone-400 hover:text-amber-700 text-[11px] cursor-pointer"
+                                        className="text-zinc-500 hover:text-amber-400 text-[11px] cursor-pointer"
                                       >
                                         Editar
                                       </button>
@@ -963,7 +959,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                                       <button
                                         type="button"
                                         onClick={() => handleDeleteComment(reply.id)}
-                                        className="text-stone-400 hover:text-red-600 text-[11px] cursor-pointer"
+                                        className="text-zinc-500 hover:text-rose-400 text-[11px] cursor-pointer"
                                       >
                                         Eliminar
                                       </button>
@@ -977,37 +973,37 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                                       rows={2}
                                       value={editingContent}
                                       onChange={(e) => setEditingContent(e.target.value)}
-                                      className="w-full px-2.5 py-1.5 text-xs bg-white rounded-lg border border-amber-300"
+                                      className="w-full px-2.5 py-1.5 text-xs bg-zinc-950 text-zinc-100 rounded-lg border border-amber-500/40"
                                     />
                                     <div className="flex items-center justify-end gap-1.5">
                                       <button
                                         type="button"
                                         onClick={() => setEditingCommentId(null)}
-                                        className="px-2 py-0.5 text-xs text-stone-500 hover:bg-stone-100 rounded"
+                                        className="px-2 py-0.5 text-xs text-zinc-400 hover:bg-zinc-800 rounded cursor-pointer"
                                       >
                                         Cancelar
                                       </button>
                                       <button
                                         type="button"
                                         onClick={() => handleSaveEditComment(reply.id)}
-                                        className="px-2.5 py-0.5 bg-[#e09f3e] text-white text-xs font-bold rounded"
+                                        className="px-2.5 py-0.5 bg-amber-500 text-zinc-950 text-xs font-bold rounded hover:bg-amber-400 cursor-pointer"
                                       >
                                         Guardar
                                       </button>
                                     </div>
                                   </div>
                                 ) : (
-                                  <p className="text-xs text-stone-700 pl-8 leading-relaxed">{reply.content}</p>
+                                  <p className="text-xs text-zinc-300 pl-8 leading-relaxed">{reply.content}</p>
                                 )}
 
                                 {/* Reply Reddit Score bar */}
                                 <div className="pl-8 pt-1 flex items-center">
-                                  <div className="inline-flex items-center bg-stone-50 rounded-full border border-stone-200 px-1 py-0.2">
+                                  <div className="inline-flex items-center bg-zinc-950 rounded-full border border-zinc-800 px-1 py-0.2">
                                     <button
                                       type="button"
                                       onClick={() => voteComment(reply.id, 'like')}
                                       className={`p-0.5 rounded-full transition-colors cursor-pointer ${
-                                        replyUserLiked ? 'text-emerald-700' : 'text-stone-400 hover:text-emerald-700'
+                                        replyUserLiked ? 'text-emerald-400' : 'text-zinc-500 hover:text-emerald-400'
                                       }`}
                                     >
                                       <span className="material-symbols-outlined text-[15px]">thumb_up</span>
@@ -1015,10 +1011,10 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                                     <span
                                       className={`px-1.5 text-[11px] font-bold ${
                                         replyNetScore > 0
-                                          ? 'text-emerald-700'
+                                          ? 'text-emerald-400'
                                           : replyNetScore < 0
-                                          ? 'text-rose-700'
-                                          : 'text-stone-500'
+                                          ? 'text-rose-400'
+                                          : 'text-zinc-500'
                                       }`}
                                     >
                                       {replyNetScore > 0 ? `+${replyNetScore}` : replyNetScore}
@@ -1027,7 +1023,7 @@ export const RecipeDetailModal: React.FC<RecipeDetailModalProps> = ({
                                       type="button"
                                       onClick={() => voteComment(reply.id, 'dislike')}
                                       className={`p-0.5 rounded-full transition-colors cursor-pointer ${
-                                        replyUserDisliked ? 'text-rose-700' : 'text-stone-400 hover:text-rose-700'
+                                        replyUserDisliked ? 'text-rose-400' : 'text-zinc-500 hover:text-rose-400'
                                       }`}
                                     >
                                       <span className="material-symbols-outlined text-[15px]">thumb_down</span>

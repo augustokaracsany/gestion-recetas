@@ -22,6 +22,7 @@ import { PrintRecipeView } from './components/PrintRecipeView';
 import { AuthModals } from './components/AuthModals';
 import { ReportModal } from './components/ReportModal';
 import { SubscriptionModal } from './components/SubscriptionModal';
+import { PublicProfileModal } from './components/PublicProfileModal';
 import {
   Sparkles,
   ChefHat,
@@ -52,10 +53,11 @@ function AppContent() {
   const [selectedTags, setSelectedTags] = useState<DietaryTag[]>([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState('todas');
   const [maxTime, setMaxTime] = useState(180);
-  const [sortBy, setSortBy] = useState<'popular' | 'recent' | 'time' | 'calories'>('popular');
+  const [sortBy, setSortBy] = useState<'popular' | 'recent' | 'time' | 'calories' | 'comentarios'>('popular');
 
   // Modals state
   const [selectedRecipeDetail, setSelectedRecipeDetail] = useState<Recipe | null>(null);
+  const [selectedPublicAuthorId, setSelectedPublicAuthorId] = useState<string | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [recipeToEdit, setRecipeToEdit] = useState<Recipe | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -137,6 +139,7 @@ function AppContent() {
       return true;
     }).sort((a, b) => {
       if (sortBy === 'popular') return b.likesCount - a.likesCount;
+      if (sortBy === 'comentarios') return (b.commentsCount || 0) - (a.commentsCount || 0);
       if (sortBy === 'recent') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       if (sortBy === 'time') return (a.prepTimeMin + a.cookTimeMin) - (b.prepTimeMin + b.cookTimeMin);
       if (sortBy === 'calories') return a.nutrition.calories - b.nutrition.calories;
@@ -180,8 +183,8 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3F3F3] text-[#333333] flex flex-col justify-between">
-      {/* Navbar with role switcher, notifications, cart badge - exactly based on Recetas Destacadas */}
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-between selection:bg-amber-500 selection:text-zinc-950">
+      {/* Navbar with role switcher, notifications, cart badge */}
       <Navbar
         activeView={activeView}
         setActiveView={setActiveView}
@@ -195,29 +198,33 @@ function AppContent() {
       />
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 flex-1 w-full animate-fade-in">
         {/* VIEW 1: Explorar Recetas (Catálogo con filtros avanzados) */}
         {activeView === 'explorar' && (
           <div className="space-y-6">
-            {/* Hero / Title Header from Stitch */}
+            {/* Hero / Title Header with Gourmet Dark Aesthetic */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
               <div className="space-y-2">
-                <h1 className="font-display text-3xl sm:text-4xl tracking-tight text-[#000000] font-bold">
-                  Explorar Recetas de Autor
+                <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-widest">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span>Colección Culinaria Exclusiva</span>
+                </div>
+                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl tracking-tight text-zinc-100 font-bold">
+                  Explorar Recetas <span className="text-amber-400 font-serif-display italic font-normal">de Autor</span>
                 </h1>
-                <p className="text-sm sm:text-base text-[#333333] max-w-2xl leading-relaxed">
+                <p className="text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
                   Descubre creaciones gastronómicas minuciosamente detalladas por chefs independientes y apasionados del buen comer.
                 </p>
               </div>
 
               {/* Quick Metrics Counter Badge */}
-              <div className="flex items-center gap-4 bg-white px-5 py-3 rounded-2xl shadow-sm self-start md:self-auto border border-stone-200/60">
-                <div className="w-10 h-10 rounded-xl bg-[#FFDDB9] flex items-center justify-center text-[#835500]">
+              <div className="flex items-center gap-4 bg-zinc-900/90 px-5 py-3.5 rounded-2xl border border-zinc-800 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)] self-start md:self-auto glow-amber-hover">
+                <div className="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-sm">
                   <span className="material-symbols-outlined text-[24px]">soup_kitchen</span>
                 </div>
                 <div>
-                  <span className="block text-xl font-bold text-[#000000] leading-none">2,840+</span>
-                  <span className="text-xs text-[#333333]">Recetas verificadas</span>
+                  <span className="block text-xl font-bold text-zinc-100 leading-none">2,840+</span>
+                  <span className="text-xs text-zinc-400">Recetas verificadas</span>
                 </div>
               </div>
             </div>
@@ -242,23 +249,24 @@ function AppContent() {
 
             {/* Recipe Grid */}
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <h2 className="text-xs font-bold text-stone-600 uppercase tracking-wider">
-                  Catálogo Gastronómico ({filteredRecipes.length} recetas disponibles)
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                  <span>Catálogo Gastronómico ({filteredRecipes.length} recetas disponibles)</span>
                 </h2>
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => setIsMultiRecipeOpen(true)}
-                    className="text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 px-3.5 py-1.5 rounded-full transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    className="text-xs font-bold text-zinc-950 bg-amber-500 hover:bg-amber-400 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(245,158,11,0.25)] hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] transform hover:-translate-y-0.5"
                   >
-                    <ShoppingBag className="w-3.5 h-3.5 text-amber-700" />
+                    <ShoppingBag className="w-3.5 h-3.5 text-zinc-950" />
                     <span>Compra Multi-Receta Consolidada</span>
                   </button>
                   {activeFilterCount > 0 && (
                     <button
                       onClick={handleClearFilters}
-                      className="text-xs text-[#835500] hover:underline font-semibold cursor-pointer"
+                      className="text-xs text-amber-400 hover:text-amber-300 hover:underline font-semibold cursor-pointer"
                     >
                       Restablecer filtros
                     </button>
@@ -267,15 +275,15 @@ function AppContent() {
               </div>
 
               {filteredRecipes.length === 0 ? (
-                <div className="bg-white rounded-3xl p-12 text-center border border-stone-200/90 space-y-3">
-                  <span className="material-symbols-outlined text-[48px] text-stone-300">dinner_dining</span>
-                  <h3 className="font-bold text-stone-800 text-base">No se encontraron recetas</h3>
-                  <p className="text-xs text-stone-500 max-w-sm mx-auto">
+                <div className="bg-zinc-900/80 rounded-3xl p-12 text-center border border-zinc-800 space-y-4">
+                  <span className="material-symbols-outlined text-[48px] text-zinc-600">dinner_dining</span>
+                  <h3 className="font-bold text-zinc-200 text-lg">No se encontraron recetas</h3>
+                  <p className="text-xs sm:text-sm text-zinc-400 max-w-sm mx-auto">
                     Prueba ajustando los filtros dietéticos, ampliando el tiempo de cocción o buscando otros ingredientes.
                   </p>
                   <button
                     onClick={handleClearFilters}
-                    className="mt-2 px-5 py-2 bg-[#E09F3E] text-white rounded-full text-xs font-bold transition-colors cursor-pointer"
+                    className="mt-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md"
                   >
                     Limpiar todos los filtros
                   </button>
@@ -287,6 +295,7 @@ function AppContent() {
                       key={recipe.id}
                       recipe={recipe}
                       onOpenDetail={(r) => setSelectedRecipeDetail(r)}
+                      onOpenAuthorProfile={(id) => setSelectedPublicAuthorId(id)}
                       onOpenReport={(r) => handleOpenReport('recipe', r.id, r.title)}
                     />
                   ))}
@@ -294,12 +303,12 @@ function AppContent() {
               )}
 
               {/* Bottom Pagination Info */}
-              <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 py-6 border-t border-stone-200/60">
-                <div className="flex items-center gap-2 text-[#333333] text-xs sm:text-sm">
-                  <span>Mostrando <strong>1 - {filteredRecipes.length}</strong> de <strong>{recipes.length}</strong> recetas</span>
+              <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 py-6 border-t border-zinc-800/80">
+                <div className="flex items-center gap-2 text-zinc-400 text-xs sm:text-sm">
+                  <span>Mostrando <strong className="text-zinc-200">1 - {filteredRecipes.length}</strong> de <strong className="text-zinc-200">{recipes.length}</strong> recetas</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#714500] font-semibold">Gusto • Cocina de Autor</span>
+                  <span className="text-xs text-amber-400 font-semibold tracking-wider">Gusto · Cocina de Autor</span>
                 </div>
               </div>
             </div>
@@ -310,13 +319,16 @@ function AppContent() {
         {activeView === 'destacadas' && (
           <FeaturedRecipesPanel
             onOpenDetail={(r) => setSelectedRecipeDetail(r)}
+            onOpenAuthorProfile={(id) => setSelectedPublicAuthorId(id)}
             onCreateRecipe={handleCreateNewRecipe}
           />
         )}
 
         {/* VIEW 3: Sistema de Foros de la Comunidad */}
         {activeView === 'foro' && (
-          <CommunityForumView />
+          <CommunityForumView
+            onOpenAuthorProfile={(id) => setSelectedPublicAuthorId(id)}
+          />
         )}
 
         {/* VIEW 4: Comparador de Recetas */}
@@ -346,16 +358,16 @@ function AppContent() {
           currentUser?.role === 'admin' ? (
             <ModerationAdminPanel />
           ) : (
-            <div className="bg-white rounded-3xl p-12 text-center border border-stone-200/90 space-y-3 max-w-lg mx-auto my-12 shadow-2xs">
-              <ShieldCheck className="w-12 h-12 text-red-600 mx-auto" />
-              <h3 className="font-bold text-stone-900 text-lg">Acceso Restringido</h3>
-              <p className="text-xs text-stone-500">
+            <div className="bg-zinc-900 rounded-3xl p-12 text-center border border-zinc-800 space-y-4 max-w-lg mx-auto my-12 shadow-2xl">
+              <ShieldCheck className="w-12 h-12 text-amber-500 mx-auto" />
+              <h3 className="font-bold text-zinc-100 text-lg">Acceso Restringido</h3>
+              <p className="text-xs text-zinc-400">
                 La sección de moderación está reservada exclusivamente para administradores de la plataforma.
               </p>
               <button
                 type="button"
                 onClick={() => setActiveView('explorar')}
-                className="px-6 py-2.5 bg-stone-900 text-white rounded-full text-xs font-bold transition-colors cursor-pointer"
+                className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-zinc-950 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md"
               >
                 Volver a Explorar
               </button>
@@ -364,30 +376,30 @@ function AppContent() {
         )}
       </main>
 
-      {/* Footer from Stitch */}
-      <footer className="w-full bg-[#F6F3F2] border-t border-stone-200/80 py-10 mt-16">
+      {/* Footer in Gourmet Dark */}
+      <footer className="w-full bg-zinc-950 border-t border-zinc-900 py-10 mt-16 text-zinc-400">
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <span
-                className="material-symbols-outlined text-[#835500] text-[28px]"
+                className="material-symbols-outlined text-amber-400 text-[28px] drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 room_service
               </span>
-              <h2 className="font-display text-xl font-bold text-[#000000] tracking-tight">Gusto</h2>
+              <h2 className="font-display text-xl font-bold text-zinc-100 tracking-tight">Gusto</h2>
             </div>
-            <p className="text-xs text-[#333333] mt-1">
+            <p className="text-xs text-zinc-500 mt-1">
               Sistema integral de gestión de recetas & Comunidad gastronómica
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs">
-            <span className="text-[#514536]">Plataforma Gastronómica de Recetas</span>
+            <span className="text-zinc-500">Plataforma Gastronómica de Recetas</span>
             <button
               onClick={() => setActiveView('moderacion')}
-              className="inline-flex items-center gap-1.5 text-xs text-[#333333] hover:text-[#000000] font-medium transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-amber-400 font-medium transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[#835500] text-[18px]">verified_user</span>
+              <span className="material-symbols-outlined text-amber-400 text-[18px]">verified_user</span>
               <span>Políticas de seguridad</span>
             </button>
           </div>
@@ -399,7 +411,15 @@ function AppContent() {
         recipe={selectedRecipeDetail}
         onClose={() => setSelectedRecipeDetail(null)}
         onEditRecipe={handleEditRecipe}
+        onOpenAuthorProfile={(id) => setSelectedPublicAuthorId(id)}
         onOpenReport={(r) => handleOpenReport('recipe', r.id, r.title)}
+      />
+
+      <PublicProfileModal
+        authorId={selectedPublicAuthorId}
+        onClose={() => setSelectedPublicAuthorId(null)}
+        onOpenRecipeDetail={(r) => setSelectedRecipeDetail(r)}
+        onOpenReport={handleOpenReport}
       />
 
       <RecipeEditorModal
